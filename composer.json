@@ -1,0 +1,22 @@
+{
+  "name": "wenprise/theme-helper",
+  "description": "Most used helper functions to develop WordPress theme.",
+  "require": {
+    "php": ">=5.6"
+  },
+  "autoload": {
+    "psr-4": {
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Amos Lee",
+      "email": "iwillhappy1314@gmail.com"
+    }
+  ],
+  "minimum-stability": "stable"
+}
