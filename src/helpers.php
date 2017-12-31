@@ -7,37 +7,37 @@
  * @param $params   array 模版数据
  * @param $string   boolean 是否渲染为字符串而不是直接输出
  */
-if ( ! function_exists( 'render' ) ) {
-    function render( $template, $params, $string = false ) {
-        $latte = new Latte\Engine;
-        $latte->setTempDirectory( WP_CONTENT_DIR . '/cache/' );
+if ( ! function_exists( 'wprs_render' ) ) {
+	function wprs_render( $template, $params, $string = false ) {
+		$latte = new Latte\Engine;
+		$latte->setTempDirectory( WP_CONTENT_DIR . '/cache/' );
 
-        $latte->setLoader( new Latte\Loaders\StringLoader( [
-            'template' => $template,
-        ] ) );
+		$latte->setLoader( new Latte\Loaders\StringLoader( [
+			'template' => $template,
+		] ) );
 
-        if ( $string ) {
-            return $latte->renderToString( 'template', $params );
-        } else {
-            $latte->render( 'template', $params );
-        }
+		if ( $string ) {
+			return $latte->renderToString( 'template', $params );
+		} else {
+			$latte->render( 'template', $params );
+		}
 
-        return true;
-    }
+		return true;
+	}
 }
 
 
 /**
  * 判断是否在微信中打开
  */
-if ( ! function_exists( 'is_wechat' ) ) {
-    function is_wechat() {
-        if ( ! empty( $_SERVER[ 'HTTP_USER_AGENT' ] ) && strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'MicroMessenger' ) !== false ) {
-            return true;
-        }
+if ( ! function_exists( 'wprs_is_wechat' ) ) {
+	function wprs_is_wechat() {
+		if ( ! empty( $_SERVER[ 'HTTP_USER_AGENT' ] ) && strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'MicroMessenger' ) !== false ) {
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 }
 
 
@@ -46,14 +46,14 @@ if ( ! function_exists( 'is_wechat' ) ) {
  *
  * @return bool
  */
-if ( ! function_exists( 'is_ajax' ) ) {
-    function is_ajax() {
-        if ( ! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) == 'xmlhttprequest' ) {
-            return true;
-        }
+if ( ! function_exists( 'wprs_is_ajax' ) ) {
+	function wprs_is_ajax() {
+		if ( ! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) == 'xmlhttprequest' ) {
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 }
 
 /**
@@ -61,17 +61,17 @@ if ( ! function_exists( 'is_ajax' ) ) {
  *
  * @return bool
  */
-if ( ! function_exists( 'is_en' ) ) {
-    function is_en() {
+if ( ! function_exists( 'wprs_is_en' ) ) {
+	function wprs_is_en() {
 
-        $lang = get_bloginfo( 'language' );
+		$lang = get_bloginfo( 'language' );
 
-        if ( $lang == 'en-US' ) {
-            return true;
-        }
+		if ( $lang == 'en-US' ) {
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 }
 
 /**
@@ -79,73 +79,75 @@ if ( ! function_exists( 'is_en' ) ) {
  *
  * @return mixed
  */
-if ( ! function_exists( 'get_ip' ) ) {
-    function get_ip() {
-        $client  = @$_SERVER[ 'HTTP_CLIENT_IP' ];
-        $forward = @$_SERVER[ 'HTTP_X_FORWARDED_FOR' ];
-        $remote  = $_SERVER[ 'REMOTE_ADDR' ];
+if ( ! function_exists( 'wprs_get_ip' ) ) {
+	function wprs_get_ip() {
+		$client  = @$_SERVER[ 'HTTP_CLIENT_IP' ];
+		$forward = @$_SERVER[ 'HTTP_X_FORWARDED_FOR' ];
+		$remote  = $_SERVER[ 'REMOTE_ADDR' ];
 
-        if ( filter_var( $client, FILTER_VALIDATE_IP ) ) {
-            $ip = $client;
-        } elseif ( filter_var( $forward, FILTER_VALIDATE_IP ) ) {
-            $ip = $forward;
-        } else {
-            $ip = $remote;
-        }
+		if ( filter_var( $client, FILTER_VALIDATE_IP ) ) {
+			$ip = $client;
+		} elseif ( filter_var( $forward, FILTER_VALIDATE_IP ) ) {
+			$ip = $forward;
+		} else {
+			$ip = $remote;
+		}
 
-        return $ip;
-    }
+		return $ip;
+	}
 }
 
 
 /**
  * 获取前端资源路径
  */
-class JsonManifest {
-    private $manifest;
+if ( !class_exists( 'JsonManifest' ) ) {
+	class JsonManifest {
+		private $manifest;
 
-    public function __construct( $manifest_path ) {
+		public function __construct( $manifest_path ) {
 
-        if ( file_exists( $manifest_path ) ) {
-            $this->manifest = json_decode( file_get_contents( $manifest_path ), true );
-        } else {
-            $this->manifest = [];
-        }
+			if ( file_exists( $manifest_path ) ) {
+				$this->manifest = json_decode( file_get_contents( $manifest_path ), true );
+			} else {
+				$this->manifest = [];
+			}
 
-    }
+		}
 
-    public function get() {
-        return $this->manifest;
-    }
+		public function get() {
+			return $this->manifest;
+		}
 
-    /**
-     * @param string $key
-     * @param null   $default
-     *
-     * @return array|mixed|null
-     */
-    public function getPath( $key = '', $default = null ) {
-        $collection = $this->manifest;
+		/**
+		 * @param string $key
+		 * @param null   $default
+		 *
+		 * @return array|mixed|null
+		 */
+		public function getPath( $key = '', $default = null ) {
+			$collection = $this->manifest;
 
-        if ( is_null( $key ) ) {
-            return $collection;
-        }
+			if ( is_null( $key ) ) {
+				return $collection;
+			}
 
-        if ( isset( $collection[ $key ] ) ) {
-            return $collection[ $key ];
-        }
+			if ( isset( $collection[ $key ] ) ) {
+				return $collection[ $key ];
+			}
 
-        foreach ( explode( '.', $key ) as $segment ) {
-            if ( ! isset( $collection[ $segment ] ) ) {
-                return $default;
-            } else {
-                $collection = $collection[ $segment ];
-            }
-        }
+			foreach ( explode( '.', $key ) as $segment ) {
+				if ( ! isset( $collection[ $segment ] ) ) {
+					return $default;
+				} else {
+					$collection = $collection[ $segment ];
+				}
+			}
 
-        return $collection;
-    }
+			return $collection;
+		}
 
+	}
 }
 
 
@@ -156,22 +158,22 @@ class JsonManifest {
  *
  * @return string 文件路径
  */
-if ( ! function_exists( 'assets' ) ) {
-    function asset( $filename ) {
-        $dist_path = get_theme_file_uri('/front/dist/');
-        $directory = dirname( $filename ) . '/';
-        $file      = basename( $filename );
-        static $manifest;
+if ( ! function_exists( 'wprs_assets' ) ) {
+	function wprs_asset( $filename ) {
+		$dist_path = get_theme_file_uri( '/front/dist/' );
+		$directory = dirname( $filename ) . '/';
+		$file      = basename( $filename );
+		static $manifest;
 
-        if ( empty( $manifest ) ) {
-            $manifest_path = get_theme_file_path('/front/dist/' . 'assets.json');
-            $manifest      = new JsonManifest( $manifest_path );
-        }
+		if ( empty( $manifest ) ) {
+			$manifest_path = get_theme_file_path( '/front/dist/' . 'assets.json' );
+			$manifest      = new JsonManifest( $manifest_path );
+		}
 
-        if ( array_key_exists( $file, $manifest->get() ) ) {
-            return $dist_path . $directory . $manifest->get()[ $file ];
-        } else {
-            return $dist_path . $directory . $file;
-        }
-    }
+		if ( array_key_exists( $file, $manifest->get() ) ) {
+			return $dist_path . $directory . $manifest->get()[ $file ];
+		} else {
+			return $dist_path . $directory . $file;
+		}
+	}
 }
