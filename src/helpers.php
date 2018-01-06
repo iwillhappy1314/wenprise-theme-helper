@@ -101,8 +101,8 @@ if ( ! function_exists( 'wprs_get_ip' ) ) {
 /**
  * 获取前端资源路径
  */
-if ( !class_exists( 'JsonManifest' ) ) {
-	class JsonManifest {
+if ( ! class_exists( 'WprsJsonManifest' ) ) {
+	class WprsJsonManifest {
 		private $manifest;
 
 		public function __construct( $manifest_path ) {
@@ -167,7 +167,7 @@ if ( ! function_exists( 'wprs_assets' ) ) {
 
 		if ( empty( $manifest ) ) {
 			$manifest_path = get_theme_file_path( '/front/dist/' . 'assets.json' );
-			$manifest      = new JsonManifest( $manifest_path );
+			$manifest      = new WprsJsonManifest( $manifest_path );
 		}
 
 		if ( array_key_exists( $file, $manifest->get() ) ) {
@@ -175,5 +175,64 @@ if ( ! function_exists( 'wprs_assets' ) ) {
 		} else {
 			return $dist_path . $directory . $file;
 		}
+	}
+}
+
+
+/**
+ * 数字分页
+ *
+ * @param string $query
+ * @param string $pages
+ * @param int    $range
+ */
+function wprs_pagination( $query = '', $pages = '', $range = 5 ) {
+	$show_items = ( $range * 2 ) + 1;
+
+	global $paged;
+	if ( empty( $paged ) ) {
+		$paged = 1;
+	}
+
+	if ( ! $query ) {
+		global $wp_query;
+		$wizhi_query = $wp_query;
+	} else {
+		$wizhi_query = $query;
+	}
+
+	if ( $pages == '' ) {
+		$pages = $wizhi_query->max_num_pages;
+		if ( ! $pages ) {
+			$pages = 1;
+		}
+	}
+
+	if ( 1 != $pages ) {
+		echo '<ul class="pagination">';
+		if ( $paged > 2 && $paged > $range + 1 && $show_items < $pages ) {
+			echo '<li><a aria-label="Previous" href="' . get_pagenum_link( 1 ) . '"><span aria-hidden="true">«</span></a></li>';
+		}
+		if ( $paged > 1 && $show_items < $pages ) {
+			echo '<li><a aria-label="Previous" href="' . get_pagenum_link( $paged - 1 ) . '"><span aria-hidden="true"><</span></a></li>';
+		}
+
+		for ( $i = 1; $i <= $pages; $i ++ ) {
+			if ( 1 != $pages && ( ! ( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $show_items ) ) {
+				if ( $paged == $i ) {
+					echo '<li class="active"><a href="#">' . $i . '</a></li>';
+				} else {
+					echo '<li><a href="' . get_pagenum_link( $i ) . '">' . $i . '</a></li>';
+				}
+			}
+		}
+
+		if ( $paged < $pages ) {
+			echo '<li><a class="nextpostslink" aria-label="Next" href="' . get_pagenum_link( $paged + 1 ) . '"><span aria-hidden="true">></span></a></li>';
+		}
+		if ( $paged < $pages - 1 && $paged + $range - 1 < $pages && $show_items < $pages ) {
+			echo '<li><a class="lastpostslink" aria-label="Next" href="' . get_pagenum_link( $pages ) . '"><span aria-hidden="true">»</span></a></li>';
+		}
+		echo '</ul>';
 	}
 }
