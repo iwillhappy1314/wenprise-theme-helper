@@ -241,62 +241,24 @@ if ( ! function_exists( 'wprs_assets' ) ) {
 }
 
 
-/**
- * 数字分页
- *
- * @param string $query
- * @param string $pages
- * @param int    $range
- */
-if ( ! function_exists( 'wprs_pagination' ) ) {
-	function wprs_pagination( $query = '', $pages = '', $range = 5 ) {
-		$show_items = ( $range * 2 ) + 1;
+if ( ! function_exists( 'wprs_get_archive_option' ) ) {
+	/**
+	 * 获取分类法存档设置
+	 *
+	 * @param        $type    string 分类法名称
+	 * @param        $name    string 设置名称
+	 * @param string $default 默认值
+	 *
+	 * @return mixed|string
+	 */
+	function wprs_get_archive_option( $type, $name, $default = '' ) {
+		$value = carbon_get_theme_option( $type . '_' . $name );
 
-		global $paged;
-		if ( empty( $paged ) ) {
-			$paged = 1;
+		if ( ! $value ) {
+			$value = $default;
 		}
 
-		if ( ! $query ) {
-			global $wp_query;
-			$wizhi_query = $wp_query;
-		} else {
-			$wizhi_query = $query;
-		}
-
-		if ( $pages == '' ) {
-			$pages = $wizhi_query->max_num_pages;
-			if ( ! $pages ) {
-				$pages = 1;
-			}
-		}
-
-		if ( 1 != $pages ) {
-			echo '<ul class="pagination">';
-			if ( $paged > 2 && $paged > $range + 1 && $show_items < $pages ) {
-				echo '<li><a aria-label="Previous" href="' . get_pagenum_link( 1 ) . '"><span aria-hidden="true">«</span></a></li>';
-			}
-			if ( $paged > 1 && $show_items < $pages ) {
-				echo '<li><a aria-label="Previous" href="' . get_pagenum_link( $paged - 1 ) . '"><span aria-hidden="true"><</span></a></li>';
-			}
-
-			for ( $i = 1; $i <= $pages; $i ++ ) {
-				if ( 1 != $pages && ( ! ( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $show_items ) ) {
-					if ( $paged == $i ) {
-						echo '<li class="active"><a href="#">' . $i . '</a></li>';
-					} else {
-						echo '<li><a href="' . get_pagenum_link( $i ) . '">' . $i . '</a></li>';
-					}
-				}
-			}
-
-			if ( $paged < $pages ) {
-				echo '<li><a class="nextpostslink" aria-label="Next" href="' . get_pagenum_link( $paged + 1 ) . '"><span aria-hidden="true">></span></a></li>';
-			}
-			if ( $paged < $pages - 1 && $paged + $range - 1 < $pages && $show_items < $pages ) {
-				echo '<li><a class="lastpostslink" aria-label="Next" href="' . get_pagenum_link( $pages ) . '"><span aria-hidden="true">»</span></a></li>';
-			}
-			echo '</ul>';
-		}
+		return $value;
 	}
 }
+
