@@ -41,6 +41,28 @@ if ( ! function_exists( 'wprs_is_wechat' ) ) {
 }
 
 
+if ( ! function_exists( 'wprs_is_subpage' ) ) {
+	/**
+	 * 判断当前页面是否为子页面
+	 *
+	 * @param array $parent
+	 *
+	 * @return bool
+	 */
+	function wprs_is_subpage( array $parent ) {
+		global $post;
+
+		$parentPage = get_post( $post->post_parent );
+
+		if ( is_page() && $post->post_parent && $parentPage->post_name === $parent[ 0 ] ) {
+			return $post->post_parent;
+		}
+
+		return false;
+	}
+}
+
+
 /**
  * 获取文章元数据，设置默认值
  *

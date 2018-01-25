@@ -61,7 +61,6 @@ if ( ! function_exists( 'wprs_pagination' ) ) {
 }
 
 
-
 /**
  *  获取存档或文章标题作为页面标题使用
  */
@@ -154,5 +153,26 @@ if ( ! function_exists( 'wprs_get_archive_title' ) ) {
 		 * @param string $title Archive title to be displayed.
 		 */
 		return apply_filters( 'wprs_get_archive_title', $title );
+	}
+}
+
+
+if ( ! function_exists( 'wprs_get_archive_description' ) ) {
+	/**
+	 * 获取存档描述
+	 *
+	 * @return mixed|string
+	 */
+	function wprs_get_archive_description() {
+
+		$description = '';
+
+		if ( is_post_type_archive() ) {
+			$description = wprs_get_archive_option( get_queried_object()->name, 'description' );
+		} elseif ( is_tax() || is_category() || is_tag() ) {
+			$description = get_the_archive_description();
+		}
+
+		return $description;
 	}
 }
