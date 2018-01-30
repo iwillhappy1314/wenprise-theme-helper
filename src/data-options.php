@@ -32,7 +32,7 @@ function wprs_get_template_option( $dir = "wizhi", $default_path = '' ) {
 			$name            = Arrays::get( $file_name_array, 1, '' );
 
 			$headers = [
-				'Name' => __( 'Loop Template Name', 'wizhi' ),
+				'Name' => __( 'Loop Template Name', 'wprs' ),
 			];
 
 			$file_info = get_file_data( $key, $headers );
@@ -63,7 +63,7 @@ function wprs_get_template_option( $dir = "wizhi", $default_path = '' ) {
 			$name            = Arrays::get( $file_name_array, 1, '' );
 
 			$headers = [
-				'Name' => __( 'Loop Template Name', 'wizhi' ),
+				'Name' => __( 'Loop Template Name', 'wprs' ),
 			];
 
 			$file_info = get_file_data( $key, $headers );

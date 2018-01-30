@@ -85,36 +85,36 @@ if ( ! function_exists( 'wprs_get_archive_title' ) ) {
 
 		} elseif ( is_year() ) {
 
-			$title = sprintf( __( '%s' ), get_the_date( _x( 'Y', 'wizhi', 'yearly archives date format' ) ) );
+			$title = sprintf( __( '%s' ), get_the_date( _x( 'Y', 'wprs', 'yearly archives date format' ) ) );
 
 		} elseif ( is_month() ) {
 
-			$title = sprintf( __( '%s' ), get_the_date( _x( 'F Y', 'wizhi', 'monthly archives date format' ) ) );
+			$title = sprintf( __( '%s' ), get_the_date( _x( 'F Y', 'wprs', 'monthly archives date format' ) ) );
 
 		} elseif ( is_day() ) {
 
-			$title = sprintf( __( '%s' ), get_the_date( _x( 'F j, Y', 'wizhi', 'daily archives date format' ) ) );
+			$title = sprintf( __( '%s' ), get_the_date( _x( 'F j, Y', 'wprs', 'daily archives date format' ) ) );
 
 		} elseif ( is_tax( 'post_format' ) ) {
 
 			if ( is_tax( 'post_format', 'post-format-aside' ) ) {
-				$title = _x( 'Asides', 'wizhi', 'post format archive title' );
+				$title = _x( 'Asides', 'wprs', 'post format archive title' );
 			} elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) {
-				$title = _x( 'Galleries', 'wizhi', 'post format archive title' );
+				$title = _x( 'Galleries', 'wprs', 'post format archive title' );
 			} elseif ( is_tax( 'post_format', 'post-format-image' ) ) {
-				$title = _x( 'Images', 'wizhi', 'post format archive title' );
+				$title = _x( 'Images', 'wprs', 'post format archive title' );
 			} elseif ( is_tax( 'post_format', 'post-format-video' ) ) {
-				$title = _x( 'Videos', 'wizhi', 'post format archive title' );
+				$title = _x( 'Videos', 'wprs', 'post format archive title' );
 			} elseif ( is_tax( 'post_format', 'post-format-quote' ) ) {
-				$title = _x( 'Quotes', 'wizhi', 'post format archive title' );
+				$title = _x( 'Quotes', 'wprs', 'post format archive title' );
 			} elseif ( is_tax( 'post_format', 'post-format-link' ) ) {
-				$title = _x( 'Links', 'wizhi', 'post format archive title' );
+				$title = _x( 'Links', 'wprs', 'post format archive title' );
 			} elseif ( is_tax( 'post_format', 'post-format-status' ) ) {
-				$title = _x( 'Statuses', 'wizhi', 'post format archive title' );
+				$title = _x( 'Statuses', 'wprs', 'post format archive title' );
 			} elseif ( is_tax( 'post_format', 'post-format-audio' ) ) {
-				$title = _x( 'Audio', 'wizhi', 'post format archive title' );
+				$title = _x( 'Audio', 'wprs', 'post format archive title' );
 			} elseif ( is_tax( 'post_format', 'post-format-chat' ) ) {
-				$title = _x( 'Chats', 'wizhi', 'post format archive title' );
+				$title = _x( 'Chats', 'wprs', 'post format archive title' );
 			}
 		} elseif ( is_post_type_archive() ) {
 
@@ -141,7 +141,7 @@ if ( ! function_exists( 'wprs_get_archive_title' ) ) {
 
 		} else {
 
-			$title = __( 'Archives', 'wizhi' );
+			$title = __( 'Archives', 'wprs' );
 
 		}
 
