@@ -61,16 +61,39 @@ if ( ! function_exists( 'wprs_pagination' ) ) {
 }
 
 
+if ( ! function_exists( 'wprs_get_archive_title' ) ) {
+	/**
+	 * @return mixed
+	 *
+	 * @deprecated
+	 */
+	function wprs_get_archive_title() {
+		return wprs_get_page_title();
+	}
+}
+
+if ( ! function_exists( 'wprs_get_archive_description' ) ) {
+	/**
+	 * @return mixed
+	 *
+	 * @deprecated
+	 */
+	function wprs_get_archive_description() {
+		return wprs_get_page_description();
+	}
+}
+
+
 /**
  *  获取存档或文章标题作为页面标题使用
  */
-if ( ! function_exists( 'wprs_get_archive_title' ) ) {
+if ( ! function_exists( 'wprs_get_page_title' ) ) {
 	/**
 	 * 获取存档或文章标题作为页面标题使用
 	 *
 	 * @return mixed
 	 */
-	function wprs_get_archive_title() {
+	function wprs_get_page_title() {
 		if ( is_category() || is_tag() ) {
 
 			$title = carbon_get_term_meta( get_queried_object_id(), 'title' );
@@ -152,18 +175,18 @@ if ( ! function_exists( 'wprs_get_archive_title' ) ) {
 		 *
 		 * @param string $title Archive title to be displayed.
 		 */
-		return apply_filters( 'wprs_get_archive_title', $title );
+		return apply_filters( 'wprs_get_page_title', $title );
 	}
 }
 
 
-if ( ! function_exists( 'wprs_get_archive_description' ) ) {
+if ( ! function_exists( 'wprs_get_page_description' ) ) {
 	/**
 	 * 获取存档描述
 	 *
 	 * @return mixed|string
 	 */
-	function wprs_get_archive_description() {
+	function wprs_get_page_description() {
 
 		$description = '';
 
