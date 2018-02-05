@@ -86,3 +86,179 @@ function wprs_get_template_option( $dir = "wizhi", $default_path = '' ) {
 
 	return $templates;
 }
+
+
+/**
+ * 获取文章类型数组
+ *
+ * @return array
+ */
+function wprs_data_post_types() {
+
+	$args_type = [
+		'public'   => true,
+		'_builtin' => false,
+	];
+
+	$post_types = get_post_types( $args_type, 'objects' );
+
+	$output = [
+		0      => sprintf( '— %s —', __( 'Select Content Type', 'wizhi' ) ),
+		'post' => __( 'Post', 'wizhi' ),
+		'page' => __( 'Page', 'wizhi' ),
+	];
+
+	foreach ( $post_types as $post_type ) {
+		$output[ $post_type->name ] = $post_type->label;
+	}
+
+	return $output;
+}
+
+
+/**
+ * 获取分类方法数组
+ *
+ * @return array
+ */
+function wprs_data_taxonomies() {
+
+	$output = [
+		0          => sprintf( '— %s —', __( 'Select Taxonomy', 'wizhi' ) ),
+		'category' => __( 'Category', 'wizhi' ),
+		'post_tag' => __( 'Tags', 'wizhi' ),
+	];
+
+	$args = [
+		'public'   => true,
+		'_builtin' => false,
+	];
+
+	$taxonomies = get_taxonomies( $args );
+
+	foreach ( $taxonomies as $taxonomy ) {
+		$tax = get_taxonomy( $taxonomy );
+		if ( ( ! $tax->show_tagcloud || empty( $tax->labels->name ) ) ) {
+			continue;
+		}
+		$output[ esc_attr( $taxonomy ) ] = esc_attr( $tax->labels->name );
+	}
+
+	return $output;
+}
+
+
+/**
+ * 获取分类法项目数组
+ *
+ * @param string $taxonomy
+ * @param int    $parent
+ *
+ * @return array
+ */
+function wprs_data_terms( $taxonomy = 'post_tag', $parent = 0 ) {
+	$terms = get_terms( $taxonomy, [
+		'parent'     => $parent,
+		'hide_empty' => false,
+	] );
+
+	$output = [
+		0 => sprintf( '— %s —', __( 'Select Category', 'wizhi' ) ),
+	];
+
+	if ( is_wp_error( $terms ) ) {
+		return $output;
+	}
+
+	foreach ( $terms as $term ) {
+
+		$output[ $term->term_id ] = $term->name;
+		$term_children            = get_term_children( $term->term_id, $taxonomy );
+
+		if ( is_wp_error( $term_children ) ) {
+			continue;
+		}
+
+		foreach ( $term_children as $term_child_id ) {
+
+			$term_child = get_term_by( 'id', $term_child_id, $taxonomy );
+
+			if ( is_wp_error( $term_child ) ) {
+				continue;
+			}
+
+			$output[ $term_child->term_id ] = $term_child->name;
+		}
+
+	}
+
+	return $output;
+}
+
+
+/**
+ * 获取文章数组
+ *
+ * @param string $type
+ *
+ * @return array
+ */
+function wprs_data_posts( $type = "post" ) {
+	$args = [
+		'post_type'      => $type,
+		'posts_per_page' => '-1',
+	];
+	$loop = new \WP_Query( $args );
+
+	$output = [
+		0 => sprintf( '— %s —', __( 'Select Content', 'wizhi' ) ),
+	];
+
+	if ( $loop->have_posts() ) {
+		while ( $loop->have_posts() ) : $loop->the_post();
+			$output[ get_the_ID() ] = get_the_title();
+		endwhile;
+	}
+
+	wp_reset_postdata();
+
+	return $output;
+}
+
+
+/**
+ * 获取图片尺寸数组
+ *
+ * @return array
+ */
+function wprs_data_image_sizes() {
+	$image_sizes_orig   = get_intermediate_image_sizes();
+	$image_sizes_orig[] = 'full';
+	$image_sizes        = [];
+
+	foreach ( $image_sizes_orig as $size ) {
+		$image_sizes[ $size ] = $size;
+	}
+
+	return $image_sizes;
+}
+
+
+/**
+ * 获取主题
+ *
+ * @return array
+ */
+function wprs_data_themes() {
+	$themes = wp_get_themes();
+
+	$options = [
+		0 => 'Responsive',
+	];
+
+	foreach ( $themes as $theme ) {
+		$options[ $theme->template ] = $theme->Name;
+	}
+
+	return $options;
+}
