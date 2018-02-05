@@ -3,6 +3,19 @@
 use Nette\Utils\Arrays;
 use Nette\Utils\Finder;
 
+
+/**
+ * @param string $dir
+ * @param string $default_path
+ *
+ * @return array
+ *
+ * @deprecated
+ */
+function wprs_get_template_option( $dir = "wizhi", $default_path = '' ) {
+	return wprs_data_templates( $dir, $default_path );
+}
+
 /**
  * 获取存档页面模板
  *
@@ -11,7 +24,7 @@ use Nette\Utils\Finder;
  *
  * @return array
  */
-function wprs_get_template_option( $dir = "wizhi", $default_path = '' ) {
+function wprs_data_templates( $dir = "wizhi", $default_path = '' ) {
 
 	$template_in_plugin = $default_path . $dir;
 	$template_in_theme  = get_theme_file_path( $dir );
@@ -103,9 +116,9 @@ function wprs_data_post_types() {
 	$post_types = get_post_types( $args_type, 'objects' );
 
 	$output = [
-		0      => sprintf( '— %s —', __( 'Select Content Type', 'wizhi' ) ),
-		'post' => __( 'Post', 'wizhi' ),
-		'page' => __( 'Page', 'wizhi' ),
+		0      => sprintf( '— %s —', __( 'Select Content Type', 'wprs' ) ),
+		'post' => __( 'Post', 'wprs' ),
+		'page' => __( 'Page', 'wprs' ),
 	];
 
 	foreach ( $post_types as $post_type ) {
@@ -124,9 +137,9 @@ function wprs_data_post_types() {
 function wprs_data_taxonomies() {
 
 	$output = [
-		0          => sprintf( '— %s —', __( 'Select Taxonomy', 'wizhi' ) ),
-		'category' => __( 'Category', 'wizhi' ),
-		'post_tag' => __( 'Tags', 'wizhi' ),
+		0          => sprintf( '— %s —', __( 'Select Taxonomy', 'wprs' ) ),
+		'category' => __( 'Category', 'wprs' ),
+		'post_tag' => __( 'Tags', 'wprs' ),
 	];
 
 	$args = [
@@ -163,7 +176,7 @@ function wprs_data_terms( $taxonomy = 'post_tag', $parent = 0 ) {
 	] );
 
 	$output = [
-		0 => sprintf( '— %s —', __( 'Select Category', 'wizhi' ) ),
+		0 => sprintf( '— %s —', __( 'Select Category', 'wprs' ) ),
 	];
 
 	if ( is_wp_error( $terms ) ) {
@@ -211,7 +224,7 @@ function wprs_data_posts( $type = "post" ) {
 	$loop = new \WP_Query( $args );
 
 	$output = [
-		0 => sprintf( '— %s —', __( 'Select Content', 'wizhi' ) ),
+		0 => sprintf( '— %s —', __( 'Select Content', 'wprs' ) ),
 	];
 
 	if ( $loop->have_posts() ) {
