@@ -284,3 +284,172 @@ if ( ! function_exists( 'wprs_get_archive_option' ) ) {
 	}
 }
 
+
+if ( ! function_exists( 'wprs_get_taxonomy_type' ) ) {
+	/**
+	 * 获取个分类法关联的第一个文章类型，在分类法存档页使用
+	 */
+	function wprs_get_taxonomy_type() {
+		$taxonomy   = get_query_var( 'taxonomy' );
+		$tax_object = get_taxonomy( $taxonomy );
+		$type       = $tax_object->object_type[ 0 ];
+
+		return $type;
+	}
+}
+
+
+if ( ! function_exists( 'wprs_get_term_post_type' ) ) {
+	/**
+	 * 获取当前分类法项目所属的文章类型，在分类法项目存档页中使用
+	 *
+	 * @param bool $term
+	 *
+	 * @return mixed
+	 */
+	function wprs_get_term_post_type( $term = false ) {
+
+		if ( ! $term ) {
+			$term = get_queried_object();
+		}
+
+		$term = get_term( $term );
+
+		$taxonomy = get_taxonomy( $term->taxonomy );
+
+		return $taxonomy->object_type[ 0 ];
+	}
+}
+
+
+/**
+ * 获取设置，具体页面设置覆盖主题全局设置
+ *
+ * @todo: 添加自定义工具支持
+ *
+ * @param $name
+ * @param $default
+ *
+ * @return bool|string
+ */
+if ( ! function_exists( 'wprs_get_page_settings' ) ) {
+	function wprs_get_page_settings( $name, $default = '' ) {
+
+		$global_settings = carbon_get_theme_option( $name );
+
+		if ( is_page() || is_single() || is_singular() ) {
+
+			$settings = carbon_get_post_meta( get_queried_object_id(), $name );
+
+		} elseif ( is_category() || is_tag() || is_tax() ) {
+
+			$settings = carbon_get_term_meta( get_queried_object_id(), $name );
+
+			if ( ! $settings ) {
+				$settings = wprs_get_archive_option( wprs_get_term_post_type(), $name );
+			}
+
+		} elseif ( is_post_type_archive() ) {
+
+			$post_type = get_queried_object()->name;
+			$settings  = wprs_get_archive_option( $post_type, $name );
+
+		} else {
+
+			$settings = $global_settings;
+
+		}
+
+		if ( '' === $settings ) {
+			$settings = $global_settings;
+		}
+
+		if ( '' === $settings ) {
+			$settings = $default;
+		}
+
+		return $settings;
+	}
+}
+
+
+if ( ! function_exists( 'wprs_get_current_url' ) ) {
+	/**
+	 * 获取当前 URL
+	 *
+	 * @return bool|string
+	 */
+	function wprs_get_current_url() {
+		$url = false;
+
+		if ( isset( $_SERVER[ 'SERVER_ADDR' ] ) ) {
+			$is_https   = isset( $_SERVER[ 'HTTPS' ] ) && 'on' == $_SERVER[ 'HTTPS' ];
+			$protocol   = 'http' . ( $is_https ? 's' : '' );
+			$host       = isset( $_SERVER[ 'HTTP_HOST' ] )
+				? $_SERVER[ 'HTTP_HOST' ]
+				: $_SERVER[ 'SERVER_ADDR' ];
+			$port       = $_SERVER[ 'SERVER_PORT' ];
+			$path_query = $_SERVER[ 'REQUEST_URI' ];
+
+			$url = sprintf( '%s://%s%s%s',
+				$protocol,
+				$host,
+				$is_https
+					? ( 443 != $port ? ':' . $port : '' )
+					: ( 80 != $port ? ':' . $port : '' ),
+				$path_query
+			);
+		}
+
+		return $url;
+	}
+}
+
+
+if ( ! function_exists( 'wprs_get_domain' ) ) {
+	/**
+	 * 获取网址的域名
+	 *
+	 * @param $url
+	 *
+	 * @return bool|mixed|string
+	 */
+	function wprs_get_domain( $url ) {
+		$host = @parse_url( $url, PHP_URL_HOST );
+		// If the URL can't be parsed, use the original URL
+		// Change to "return false" if you don't want that
+		if ( ! $host ) {
+			$host = $url;
+		}
+		// The "www." prefix isn't really needed if you're just using
+		// this to display the domain to the user
+		if ( substr( $host, 0, 4 ) == "www." ) {
+			$host = substr( $host, 4 );
+		}
+		// You might also want to limit the length if screen space is limited
+		if ( strlen( $host ) > 50 ) {
+			$host = substr( $host, 0, 47 ) . '...';
+		}
+
+		return $host;
+	}
+}
+
+
+if ( ! function_exists( 'wprs_get_social_icon' ) ) {
+	/**
+	 * 获取社交图标名称，可以自动添加 font-awesome 图标
+	 *
+	 * @param $url
+	 *
+	 * @return mixed
+	 */
+	function wprs_get_social_icon( $url ) {
+
+		$domain = wprs_get_domain( $url );
+		$icon   = explode( '.', $domain )[ 0 ];
+
+		return $icon;
+
+	}
+}
