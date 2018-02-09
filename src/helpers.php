@@ -6,6 +6,8 @@
  * @param $template string 模版字符串
  * @param $params   array 模版数据
  * @param $string   boolean 是否渲染为字符串而不是直接输出
+ *
+ * @deprecated
  */
 if ( ! function_exists( 'wprs_render' ) ) {
 	function wprs_render( $template, $params, $string = false ) {
@@ -324,6 +326,7 @@ if ( ! function_exists( 'wprs_get_term_post_type' ) ) {
 
 /**
  * 获取设置，具体页面设置覆盖主题全局设置
+ * 优先级: 页面 > 分类 > 存档 > 全局 > 函数默认
  *
  * @todo: 添加自定义工具支持
  *

@@ -35,6 +35,8 @@ function wprs_data_templates( $dir = "wizhi", $default_path = '' ) {
 
 	// 插件中的模板
 	if ( is_dir( $template_in_plugin ) ) {
+
+		// 查找目录中的文件
 		$finder = Finder::findFiles( '*.php' )
 		                ->in( $template_in_plugin );
 
