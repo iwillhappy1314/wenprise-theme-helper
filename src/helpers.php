@@ -326,7 +326,7 @@ if ( ! function_exists( 'wprs_get_term_post_type' ) ) {
 
 /**
  * 获取设置，具体页面设置覆盖主题全局设置
- * 优先级: 页面 > 分类 > 存档 > 全局 > 函数默认
+ * 优先级: 页面 > 父级页面 > 分类 > 存档 > 全局 > 函数默认
  *
  * @todo: 添加自定义工具支持
  *
@@ -342,7 +342,12 @@ if ( ! function_exists( 'wprs_get_page_settings' ) ) {
 
 		if ( is_page() || is_single() || is_singular() ) {
 
-			$settings = carbon_get_post_meta( get_queried_object_id(), $name );
+			$post     = get_queried_object();
+			$settings = carbon_get_post_meta( $post->ID, $name );
+
+			if ( ! $settings && $post->post_parent ) {
+				$settings = carbon_get_post_meta( $post->post_parent, $name );
+			}
 
 		} elseif ( is_category() || is_tag() || is_tax() ) {
 
