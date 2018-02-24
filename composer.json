@@ -12,8 +12,7 @@
     "files": [
       "src/helpers.php",
       "src/template-tags.php",
-      "src/data-options.php",
-      "src/walkers.php"
+      "src/data-options.php"
     ]
   },
   "license": "MIT",
