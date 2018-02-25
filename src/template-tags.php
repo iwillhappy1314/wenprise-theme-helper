@@ -201,3 +201,125 @@ if ( ! function_exists( 'wprs_get_page_description' ) ) {
 		return $description;
 	}
 }
+
+
+/**
+ * 显示文章缩略图，如果有相册，显示相册  wprs_get_attachment_image();
+ *
+ * @param        $post
+ * @param string $size
+ * @param bool   $icon
+ * @param array  $attr
+ *
+ * @return string
+ */
+if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
+	function wprs_post_thumbnail( $post, $size = 'is-400by300', $icon = false, $attr = [] ) {
+		$html      = '';
+		$img_class = [ 'class' => 'img-responsive' ];
+		$attr      = wp_parse_args( $attr, $img_class );
+
+		if ( is_int( $post ) ) {
+			$post = get_post( $post );
+		}
+
+		// 如果是数组，转换为 is-1by2的形式，否则，求简化分数
+		if ( is_array( $size ) ) {
+			$size_array = $size;
+			$size_class = ( $size[ 2 ] == 1 ) ? 'is-square ' : 'is-' . str_replace( '/', 'by', wprs_float2rat( $size[ 0 ] / $size[ 1 ] ) );
+			unset( $size_array[ 2 ] );
+		} else {
+			$size_array = explode( 'by', str_replace( 'is-', '', $size ) );
+			$size_class = wprs_ratio_simplify( $size_array[ 0 ], $size_array[ 1 ] );
+		}
+
+		// 原始图像尺寸，方便查找图像尺寸定义
+		$size_class_base = 'is-' . join( 'by', $size_array );
+
+		$size_array[] = 1;
+
+		$thumb_id = get_post_thumbnail_id( $post );
+
+		if ( get_post_gallery( $post ) ) {
+
+			$gallery = get_post_gallery( get_the_ID(), false );
+
+			$html .= '<figure class="f-popup f-view f-overlay">';
+			$html .= '<div class="f-slider" data-slick={"slidesToShow": 4, "slidesToScroll": 4}>';
+
+			if ( has_post_thumbnail() ) {
+				$html .= '<div class="image ' . $size_class_base . ' ' . $size_class . '">';
+				$html .= wp_get_attachment_image( $thumb_id, $size_array, $icon, $attr );
+				$html .= '</div>';
+			}
+
+			foreach ( explode( ',', $gallery[ 'ids' ] ) as $image ) {
+				$html .= '<div class="image ' . $size_class_base . ' ' . $size_class . '">';
+				$html .= wp_get_attachment_image( $image, $size_array, $icon, $attr );
+				$html .= '</div>';
+			}
+
+			$html .= '</div>';
+
+			$html .= wprs_thumbnail_mask( $post );
+
+			$html .= '</figure>';
+
+		} elseif ( has_post_thumbnail( $post ) ) {
+
+			$html .= '<figure class="f-popup f-view f-overlay">';
+			$html .= '<div class="image ' . $size_class_base . ' ' . $size_class . '">';
+			$html .= wp_get_attachment_image( $thumb_id, $size_array, $icon, $attr );
+			$html .= '</div>';
+			$html .= wprs_thumbnail_mask( $post );
+			$html .= '</figure>';
+
+		} else {
+
+			$html .= '';
+
+		}
+
+		return $html;
+	}
+}
+
+
+/**
+ * 显示缩略图遮罩
+ *
+ * @param $post
+ *
+ * @return string
+ */
+if ( ! function_exists( '' ) ) {
+	function wprs_thumbnail_mask( $post ) {
+
+		if ( is_int( $post ) ) {
+			$post = get_post( $post );
+		}
+
+		$attachment_id = get_post_thumbnail_id();
+		$thumb_src     = wp_get_attachment_image_src( $attachment_id, true );
+
+		$is_show_image_popup = wprs_get_page_settings( 'show_popup', 'show' );
+
+		$html = '<div class="is-overlay u-mask flex-center">';
+
+		if ( $is_show_image_popup === 'show' ) {
+			if ( get_post_gallery( $post ) ) {
+				$html .= '<a class="f-gallery" href="#"><i class="iconfont icon-arrowexpand"></i></a>';
+			} else {
+				$html .= '<a class="f-gallery" href="' . esc_url( $thumb_src[ 0 ] ) . '"><i class="iconfont icon-arrowexpand"></i></a>';
+			}
+		}
+
+		if ( ! is_singular( $post ) ) {
+			$html .= '<a class="f-post" href="' . get_the_permalink( $post ) . '"><i class="iconfont icon-link"></i></a>';
+		}
+
+		$html .= '</div>';
+
+		return $html;
+	}
+}

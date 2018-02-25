@@ -461,3 +461,92 @@ if ( ! function_exists( 'wprs_get_social_icon' ) ) {
 
 	}
 }
+
+
+/**
+ * 求两个数的最大公因式
+ *
+ * @param $a
+ * @param $b
+ *
+ * @return float|int|mixed
+ */
+if ( ! function_exists( 'wprs_get_base_number' ) ) {
+	function wprs_get_base_number( $a, $b ) {
+
+		$a = abs( $a );
+		$b = abs( $b );
+
+		if ( $a < $b ) {
+			list( $b, $a ) = [ $a, $b ];
+		}
+
+		if ( $b == 0 ) {
+			return $a;
+		}
+
+		$r = $a % $b;
+
+		while ( $r > 0 ) {
+			$a = $b;
+			$b = $r;
+			$r = $a % $b;
+		}
+
+		return $b;
+	}
+}
+
+
+/**
+ * 简化分数
+ *
+ * @param $num
+ * @param $den
+ *
+ * @return string
+ */
+if ( ! function_exists( 'wprs_ratio_simplify' ) ) {
+	function wprs_ratio_simplify( $num, $den ) {
+		$g = wprs_get_base_number( $num, $den );
+
+		if ( $g == 0 ) {
+			return 'is-' . $num . 'by' . $den;
+		} else {
+			return 'is-' . $num / $g . 'by' . $den / $g;
+		}
+
+	}
+}
+
+
+/**
+ * 小数转化为分数
+ *
+ * @param       $n
+ * @param float $tolerance
+ *
+ * @return string
+ */
+if ( ! function_exists( 'wprs_float2rat' ) ) {
+	function wprs_float2rat( $n, $tolerance = 1.e-6 ) {
+		$h1 = 1;
+		$h2 = 0;
+		$k1 = 0;
+		$k2 = 1;
+		$b  = 1 / $n;
+		do {
+			$b   = 1 / $b;
+			$a   = floor( $b );
+			$aux = $h1;
+			$h1  = $a * $h1 + $h2;
+			$h2  = $aux;
+			$aux = $k1;
+			$k1  = $a * $k1 + $k2;
+			$k2  = $aux;
+			$b   = $b - $a;
+		} while ( abs( $n - $h1 / $k1 ) > $n * $tolerance );
+
+		return "$h1/$k1";
+	}
+}
