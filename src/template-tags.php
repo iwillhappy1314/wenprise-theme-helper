@@ -292,7 +292,7 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
  *
  * @return string
  */
-if ( ! function_exists( '' ) ) {
+if ( ! function_exists( 'wprs_thumbnail_mask' ) ) {
 	function wprs_thumbnail_mask( $post ) {
 
 		if ( is_int( $post ) ) {
