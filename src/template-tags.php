@@ -1,4 +1,71 @@
 <?php
+/**
+ * 模版标签
+ */
+
+/**
+ * Bulma CSS 数字分页
+ *
+ * @param string $query
+ * @param string $pages
+ * @param int    $range
+ */
+if ( ! function_exists( 'wprs_bulma_pagination' ) ) {
+	function wprs_bulma_pagination( $query = '', $pages = '', $range = 5 ) {
+		$show_items = ( $range * 2 ) + 1;
+
+		global $paged;
+		if ( empty( $paged ) ) {
+			$paged = 1;
+		}
+
+		if ( ! $query ) {
+			global $wp_query;
+			$wizhi_query = $wp_query;
+		} else {
+			$wizhi_query = $query;
+		}
+
+		if ( $pages == '' ) {
+			$pages = $wizhi_query->max_num_pages;
+			if ( ! $pages ) {
+				$pages = 1;
+			}
+		}
+
+		if ( 1 != $pages ) {
+			echo '<nav class="pagination" role="navigation" aria-label="pagination">';
+			if ( $paged > 2 && $paged > $range + 1 && $show_items < $pages ) {
+				echo '<a class="pagination-previous" aria-label="Previous" href="' . get_pagenum_link( 1 ) . '"><span aria-hidden="true">«</span></a>';
+			}
+			if ( $paged > 1 && $show_items < $pages ) {
+				echo '<a class="pagination-previous" aria-label="Previous" href="' . get_pagenum_link( $paged - 1 ) . '"><span aria-hidden="true"><</span></a>';
+			}
+
+			echo '<ul class="pagination-list">';
+
+			for ( $i = 1; $i <= $pages; $i ++ ) {
+				if ( 1 != $pages && ( ! ( $i >= $paged + $range + 1 || $i <= $paged - $range - 1 ) || $pages <= $show_items ) ) {
+					if ( $paged == $i ) {
+						echo '<li><a class="pagination-link is-current" href="#">' . $i . '</a></li>';
+					} else {
+						echo '<li><a class="pagination-link" href="' . get_pagenum_link( $i ) . '">' . $i . '</a></li>';
+					}
+				}
+			}
+
+			echo '</ul>';
+
+			if ( $paged < $pages ) {
+				echo '<a class="pagination-next" aria-label="Next" href="' . get_pagenum_link( $paged + 1 ) . '"><span aria-hidden="true">></span></a>';
+			}
+			if ( $paged < $pages - 1 && $paged + $range - 1 < $pages && $show_items < $pages ) {
+				echo '<a class="pagination-next" aria-label="Next" href="' . get_pagenum_link( $pages ) . '"><span aria-hidden="true">»</span></a>';
+			}
+			echo '</nav>';
+		}
+	}
+}
 
 /**
  * 数字分页
