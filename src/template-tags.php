@@ -271,6 +271,38 @@ if ( ! function_exists( 'wprs_get_page_description' ) ) {
 
 
 /**
+ * 获取图像尺寸属性
+ *
+ * @param string $size
+ *
+ * @return array
+ */
+function wprs_image_size_attr( $size = 'is-400by300' ) {
+	if ( is_array( $size ) ) {
+		$size_array = $size;
+		$size_class = ( $size[ 2 ] == 1 ) ? 'is-square ' : 'is-' . str_replace( '/', 'by', wprs_float2rat( $size[ 0 ] / $size[ 1 ] ) );
+		unset( $size_array[ 2 ] );
+	} else {
+		$size_array = explode( 'by', str_replace( 'is-', '', $size ) );
+		$size_class = wprs_ratio_simplify( $size_array[ 0 ], $size_array[ 1 ] );
+	}
+
+	// 原始图像尺寸，方便查找图像尺寸定义
+	$size_class_base = 'is-' . join( 'by', $size_array );
+
+	$size_array[] = 1;
+
+	$attr = [
+		'size_class_base' => $size_class_base,
+		'size_class'      => $size_class,
+		'size_array'      => $size_array,
+	];
+
+	return $attr;
+}
+
+
+/**
  * 显示文章缩略图，如果有相册，显示相册  wprs_get_attachment_image();
  *
  * @param        $post
@@ -290,20 +322,7 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 			$post = get_post( $post );
 		}
 
-		// 如果是数组，转换为 is-1by2的形式，否则，求简化分数
-		if ( is_array( $size ) ) {
-			$size_array = $size;
-			$size_class = ( $size[ 2 ] == 1 ) ? 'is-square ' : 'is-' . str_replace( '/', 'by', wprs_float2rat( $size[ 0 ] / $size[ 1 ] ) );
-			unset( $size_array[ 2 ] );
-		} else {
-			$size_array = explode( 'by', str_replace( 'is-', '', $size ) );
-			$size_class = wprs_ratio_simplify( $size_array[ 0 ], $size_array[ 1 ] );
-		}
-
-		// 原始图像尺寸，方便查找图像尺寸定义
-		$size_class_base = 'is-' . join( 'by', $size_array );
-
-		$size_array[] = 1;
+		$image_attr = wprs_image_size_attr( $size );
 
 		$thumb_id = get_post_thumbnail_id( $post );
 
@@ -315,14 +334,14 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 			$html .= '<div class="f-slider" data-slick={"slidesToShow": 4, "slidesToScroll": 4}>';
 
 			if ( has_post_thumbnail() ) {
-				$html .= '<div class="image ' . $size_class_base . ' ' . $size_class . '">';
-				$html .= wp_get_attachment_image( $thumb_id, $size_array, $icon, $attr );
+				$html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
+				$html .= wp_get_attachment_image( $thumb_id, $image_attr[ 'size_array' ], $icon, $attr );
 				$html .= '</div>';
 			}
 
 			foreach ( explode( ',', $gallery[ 'ids' ] ) as $image ) {
-				$html .= '<div class="image ' . $size_class_base . ' ' . $size_class . '">';
-				$html .= wp_get_attachment_image( $image, $size_array, $icon, $attr );
+				$html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
+				$html .= wp_get_attachment_image( $image, $image_attr[ 'size_array' ], $icon, $attr );
 				$html .= '</div>';
 			}
 
@@ -335,8 +354,8 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 		} elseif ( has_post_thumbnail( $post ) ) {
 
 			$html .= '<figure class="f-popup f-view f-overlay">';
-			$html .= '<div class="image ' . $size_class_base . ' ' . $size_class . '">';
-			$html .= wp_get_attachment_image( $thumb_id, $size_array, $icon, $attr );
+			$html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
+			$html .= wp_get_attachment_image( $thumb_id, $image_attr[ 'size_array' ], $icon, $attr );
 			$html .= '</div>';
 			$html .= wprs_thumbnail_mask( $post );
 			$html .= '</figure>';
@@ -349,6 +368,28 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 
 		return $html;
 	}
+}
+
+
+/**
+ * 获取附件图像
+ *
+ * @param        $id
+ * @param string $size
+ * @param bool   $icon
+ * @param array  $attr
+ *
+ * @return string
+ */
+function wprs_thumbnail_image( $id, $size = 'is-400by300', $icon = false, $attr = [] ) {
+	// 如果是数组，转换为 is-1by2的形式，否则，求简化分数
+	$image_attr = wprs_image_size_attr( $size );
+
+	$html = '<figure class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
+	$html .= wp_get_attachment_image( $id, $image_attr[ 'size_array' ], $icon, $attr );
+	$html .= '</figure>';
+
+	return $html;
 }
 
 
