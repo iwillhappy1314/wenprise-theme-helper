@@ -518,3 +518,27 @@ if ( ! function_exists( 'wprs_bulma_menu' ) ) {
 		echo $menu_list;
 	}
 }
+
+
+
+/**
+ * 隐藏字符串中的部分字符
+ *
+ * @param     $str
+ * @param int $start
+ * @param int $length
+ *
+ * @return mixed
+ */
+function wprs_string_mask( $str, $start = 0, $length = 4 ) {
+	$mask = preg_replace( "/\S/", "*", $str );
+	if ( is_null( $length ) ) {
+		$mask = substr( $mask, $start );
+		$str  = substr_replace( $str, $mask, $start );
+	} else {
+		$mask = substr( $mask, $start, $length );
+		$str  = substr_replace( $str, $mask, $start, $length );
+	}
+
+	return $str;
+}

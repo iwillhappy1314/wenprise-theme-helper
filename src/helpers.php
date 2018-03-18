@@ -30,6 +30,23 @@ if ( ! function_exists( 'wprs_render' ) ) {
 
 
 /**
+ * 获取嵌入的 Vue 组件 
+ *
+ * @param  string  the file path of the file
+ * @param  string  the script id
+ *
+ * @return void
+ */
+function wprs_get_vue_component_template( $file_path, $id ) {
+    if ( file_exists( $file_path ) ) {
+        echo '<script type="text/x-template" id="' . $id . '">' . "\n";
+        include_once $file_path;
+        echo "\n" . '</script>' . "\n";
+    }
+}
+
+
+/**
  * 判断是否在微信中打开
  */
 if ( ! function_exists( 'wprs_is_wechat' ) ) {
@@ -170,7 +187,7 @@ if ( ! function_exists( 'wprs_get_ip' ) ) {
 }
 
 
-if ( ! function_exists( "order_no" ) ) {
+if ( ! function_exists( "wprs_order_no" ) ) {
 	/**
 	 * 生成订单号
 	 *
@@ -178,7 +195,7 @@ if ( ! function_exists( "order_no" ) ) {
 	 *
 	 * @return string 订单号字符串
 	 */
-	function order_no() {
+	function wprs_order_no() {
 		return date( 'Ymd' ) . str_pad( mt_rand( 1, 99999 ), 5, '0', STR_PAD_LEFT );
 	}
 }
