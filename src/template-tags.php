@@ -213,7 +213,7 @@ if ( ! function_exists( 'wprs_get_page_title' ) ) {
 			$post_type    = get_queried_object()->name;
 			$custom_title = wprs_get_archive_option( $post_type, 'title' );
 
-			if ( ! empty( $title ) ) {
+			if ( ! empty( $custom_title ) ) {
 				$title = $custom_title;
 			}
 
