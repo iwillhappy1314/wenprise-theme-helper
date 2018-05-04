@@ -10,7 +10,8 @@
  * @deprecated
  */
 if ( ! function_exists( 'wprs_render' ) ) {
-	function wprs_render( $template, $params, $string = false ) {
+	function wprs_render( $template, $params, $string = false )
+	{
 		$latte = new Latte\Engine;
 		$latte->setTempDirectory( WP_CONTENT_DIR . '/cache/' );
 
@@ -30,19 +31,20 @@ if ( ! function_exists( 'wprs_render' ) ) {
 
 
 /**
- * 获取嵌入的 Vue 组件 
+ * 获取嵌入的 Vue 组件
  *
  * @param  string  the file path of the file
  * @param  string  the script id
  *
  * @return void
  */
-function wprs_get_vue_component_template( $file_path, $id ) {
-    if ( file_exists( $file_path ) ) {
-        echo '<script type="text/x-template" id="' . $id . '">' . "\n";
-        include_once $file_path;
-        echo "\n" . '</script>' . "\n";
-    }
+function wprs_get_vue_component_template( $file_path, $id )
+{
+	if ( file_exists( $file_path ) ) {
+		echo '<script type="text/x-template" id="' . $id . '">' . "\n";
+		include_once $file_path;
+		echo "\n" . '</script>' . "\n";
+	}
 }
 
 
@@ -50,7 +52,8 @@ function wprs_get_vue_component_template( $file_path, $id ) {
  * 判断是否在微信中打开
  */
 if ( ! function_exists( 'wprs_is_wechat' ) ) {
-	function wprs_is_wechat() {
+	function wprs_is_wechat()
+	{
 		if ( ! empty( $_SERVER[ 'HTTP_USER_AGENT' ] ) && strpos( $_SERVER[ 'HTTP_USER_AGENT' ], 'MicroMessenger' ) !== false ) {
 			return true;
 		}
@@ -68,7 +71,8 @@ if ( ! function_exists( 'wprs_is_subpage' ) ) {
 	 *
 	 * @return bool
 	 */
-	function wprs_is_subpage( array $parent ) {
+	function wprs_is_subpage( array $parent )
+	{
 		global $post;
 
 		$parentPage = get_post( $post->post_parent );
@@ -93,7 +97,8 @@ if ( ! function_exists( 'wprs_is_subpage' ) ) {
  * @return bool
  */
 if ( ! function_exists( 'wprs_get_post_meta' ) ) {
-	function wprs_get_post_meta( $post_id, $key = '', $single = false, $default = false ) {
+	function wprs_get_post_meta( $post_id, $key = '', $single = false, $default = false )
+	{
 
 		$meta = get_post_meta( $post_id, $key, $single );
 
@@ -117,7 +122,8 @@ if ( ! function_exists( 'wprs_get_post_meta' ) ) {
  * @return bool
  */
 if ( ! function_exists( 'wprs_get_user_meta' ) ) {
-	function wprs_get_user_meta( $user_id, $key = '', $single = false, $default = false ) {
+	function wprs_get_user_meta( $user_id, $key = '', $single = false, $default = false )
+	{
 
 		$meta = get_user_meta( $user_id, $key, $single );
 
@@ -136,7 +142,8 @@ if ( ! function_exists( 'wprs_get_user_meta' ) ) {
  * @return bool
  */
 if ( ! function_exists( 'wprs_is_ajax' ) ) {
-	function wprs_is_ajax() {
+	function wprs_is_ajax()
+	{
 		if ( ! empty( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) == 'xmlhttprequest' ) {
 			return true;
 		}
@@ -145,13 +152,47 @@ if ( ! function_exists( 'wprs_is_ajax' ) ) {
 	}
 }
 
+
+/**
+ * 判断请求类型
+ *
+ * @param $type string admin|ajax|rest|cron|frontend
+ *
+ * @return bool
+ */
+if ( function_exists( 'wprs_is_request' ) ) {
+	function wprs_is_request( $type )
+	{
+		switch ( $type ) {
+			case 'admin' :
+				return is_admin();
+
+			case 'ajax' :
+				return defined( 'DOING_AJAX' );
+
+			case 'rest' :
+				return defined( 'REST_REQUEST' );
+
+			case 'cron' :
+				return defined( 'DOING_CRON' );
+
+			case 'frontend' :
+				return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+		}
+
+		return false;
+	}
+}
+
+
 /**
  * 判断当前语言是否为英文
  *
  * @return bool
  */
 if ( ! function_exists( 'wprs_is_en' ) ) {
-	function wprs_is_en() {
+	function wprs_is_en()
+	{
 
 		$lang = get_bloginfo( 'language' );
 
@@ -169,7 +210,8 @@ if ( ! function_exists( 'wprs_is_en' ) ) {
  * @return mixed
  */
 if ( ! function_exists( 'wprs_get_ip' ) ) {
-	function wprs_get_ip() {
+	function wprs_get_ip()
+	{
 		$client  = @$_SERVER[ 'HTTP_CLIENT_IP' ];
 		$forward = @$_SERVER[ 'HTTP_X_FORWARDED_FOR' ];
 		$remote  = $_SERVER[ 'REMOTE_ADDR' ];
@@ -195,7 +237,8 @@ if ( ! function_exists( "wprs_order_no" ) ) {
 	 *
 	 * @return string 订单号字符串
 	 */
-	function wprs_order_no() {
+	function wprs_order_no()
+	{
 		return date( 'Ymd' ) . str_pad( mt_rand( 1, 99999 ), 5, '0', STR_PAD_LEFT );
 	}
 }
@@ -205,10 +248,12 @@ if ( ! function_exists( "wprs_order_no" ) ) {
  * 获取前端资源路径
  */
 if ( ! class_exists( 'WprsJsonManifest' ) ) {
-	class WprsJsonManifest {
+	class WprsJsonManifest
+	{
 		private $manifest;
 
-		public function __construct( $manifest_path ) {
+		public function __construct( $manifest_path )
+		{
 
 			if ( file_exists( $manifest_path ) ) {
 				$this->manifest = json_decode( file_get_contents( $manifest_path ), true );
@@ -218,7 +263,8 @@ if ( ! class_exists( 'WprsJsonManifest' ) ) {
 
 		}
 
-		public function get() {
+		public function get()
+		{
 			return $this->manifest;
 		}
 
@@ -228,7 +274,8 @@ if ( ! class_exists( 'WprsJsonManifest' ) ) {
 		 *
 		 * @return array|mixed|null
 		 */
-		public function getPath( $key = '', $default = null ) {
+		public function getPath( $key = '', $default = null )
+		{
 			$collection = $this->manifest;
 
 			if ( is_null( $key ) ) {
@@ -262,7 +309,8 @@ if ( ! class_exists( 'WprsJsonManifest' ) ) {
  * @return string 文件路径
  */
 if ( ! function_exists( 'wprs_assets' ) ) {
-	function wprs_asset( $filename ) {
+	function wprs_asset( $filename )
+	{
 		$dist_path = get_theme_file_uri( '/front/dist/' );
 		$directory = dirname( $filename ) . '/';
 		$file      = basename( $filename );
@@ -292,7 +340,8 @@ if ( ! function_exists( 'wprs_get_archive_option' ) ) {
 	 *
 	 * @return mixed|string
 	 */
-	function wprs_get_archive_option( $type, $name, $default = '' ) {
+	function wprs_get_archive_option( $type, $name, $default = '' )
+	{
 		$value = carbon_get_theme_option( $type . '_' . $name );
 
 		if ( ! $value ) {
@@ -308,7 +357,8 @@ if ( ! function_exists( 'wprs_get_taxonomy_type' ) ) {
 	/**
 	 * 获取个分类法关联的第一个文章类型，在分类法存档页使用
 	 */
-	function wprs_get_taxonomy_type() {
+	function wprs_get_taxonomy_type()
+	{
 		$taxonomy   = get_query_var( 'taxonomy' );
 		$tax_object = get_taxonomy( $taxonomy );
 		$type       = $tax_object->object_type[ 0 ];
@@ -326,7 +376,8 @@ if ( ! function_exists( 'wprs_get_term_post_type' ) ) {
 	 *
 	 * @return mixed
 	 */
-	function wprs_get_term_post_type( $term = false ) {
+	function wprs_get_term_post_type( $term = false )
+	{
 
 		if ( ! $term ) {
 			$term = get_queried_object();
@@ -353,7 +404,8 @@ if ( ! function_exists( 'wprs_get_term_post_type' ) ) {
  * @return bool|string
  */
 if ( ! function_exists( 'wprs_get_page_settings' ) ) {
-	function wprs_get_page_settings( $name, $default = '' ) {
+	function wprs_get_page_settings( $name, $default = '' )
+	{
 
 		$global_settings = carbon_get_theme_option( $name );
 
@@ -404,7 +456,8 @@ if ( ! function_exists( 'wprs_get_current_url' ) ) {
 	 *
 	 * @return bool|string
 	 */
-	function wprs_get_current_url() {
+	function wprs_get_current_url()
+	{
 		$url = false;
 
 		if ( isset( $_SERVER[ 'SERVER_ADDR' ] ) ) {
@@ -439,7 +492,8 @@ if ( ! function_exists( 'wprs_get_domain' ) ) {
 	 *
 	 * @return bool|mixed|string
 	 */
-	function wprs_get_domain( $url ) {
+	function wprs_get_domain( $url )
+	{
 		$host = @parse_url( $url, PHP_URL_HOST );
 		// If the URL can't be parsed, use the original URL
 		// Change to "return false" if you don't want that
@@ -469,7 +523,8 @@ if ( ! function_exists( 'wprs_get_social_icon' ) ) {
 	 *
 	 * @return mixed
 	 */
-	function wprs_get_social_icon( $url ) {
+	function wprs_get_social_icon( $url )
+	{
 
 		$domain = wprs_get_domain( $url );
 		$icon   = explode( '.', $domain )[ 0 ];
@@ -489,7 +544,8 @@ if ( ! function_exists( 'wprs_get_social_icon' ) ) {
  * @return float|int|mixed
  */
 if ( ! function_exists( 'wprs_get_base_number' ) ) {
-	function wprs_get_base_number( $a, $b ) {
+	function wprs_get_base_number( $a, $b )
+	{
 
 		$a = abs( $a );
 		$b = abs( $b );
@@ -524,7 +580,8 @@ if ( ! function_exists( 'wprs_get_base_number' ) ) {
  * @return string
  */
 if ( ! function_exists( 'wprs_ratio_simplify' ) ) {
-	function wprs_ratio_simplify( $num, $den ) {
+	function wprs_ratio_simplify( $num, $den )
+	{
 		$g = wprs_get_base_number( $num, $den );
 
 		if ( $g == 0 ) {
@@ -546,7 +603,8 @@ if ( ! function_exists( 'wprs_ratio_simplify' ) ) {
  * @return string
  */
 if ( ! function_exists( 'wprs_float2rat' ) ) {
-	function wprs_float2rat( $n, $tolerance = 1.e-6 ) {
+	function wprs_float2rat( $n, $tolerance = 1.e-6 )
+	{
 		$h1 = 1;
 		$h2 = 0;
 		$k1 = 0;
