@@ -160,7 +160,7 @@ if ( ! function_exists( 'wprs_is_ajax' ) ) {
  *
  * @return bool
  */
-if ( function_exists( 'wprs_is_request' ) ) {
+if ( ! function_exists( 'wprs_is_request' ) ) {
 	function wprs_is_request( $type )
 	{
 		switch ( $type ) {
