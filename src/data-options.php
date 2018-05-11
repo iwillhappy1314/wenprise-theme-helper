@@ -295,11 +295,11 @@ function wprs_data_themes()
 function wprs_data_colors()
 {
 	$output              = [];
-	$output[]            = __( 'Default', 'wizhi' );
-	$output[ 'success' ] = __( 'Success（Green）', 'wizhi' );
-	$output[ 'info' ]    = __( 'Info（Blue）', 'wizhi' );
-	$output[ 'warning' ] = __( 'Warning（Orange）', 'wizhi' );
-	$output[ 'danger' ]  = __( 'Danger（Red）', 'wizhi' );
+	$output[]            = __( 'Default', 'wprs' );
+	$output[ 'success' ] = __( 'Success（Green）', 'wprs' );
+	$output[ 'info' ]    = __( 'Info（Blue）', 'wprs' );
+	$output[ 'warning' ] = __( 'Warning（Orange）', 'wprs' );
+	$output[ 'danger' ]  = __( 'Danger（Red）', 'wprs' );
 
 	return $output;
 }
@@ -313,14 +313,14 @@ function wprs_data_colors()
 function wprs_data_sizes()
 {
 	$sizes = [
-		'0'    => __( 'Zero', 'wizhi' ),
-		'auto' => __( 'Auto', 'wizhi' ),
-		'xxs'  => __( 'xxSmall', 'wizhi' ),
-		'xs'   => __( 'xSmall', 'wizhi' ),
-		'sm'   => __( 'Small', 'wizhi' ),
-		'md'   => __( 'Medium', 'wizhi' ),
-		'lg'   => __( 'Large', 'wizhi' ),
-		'xl'   => __( 'xLarge', 'wizhi' ),
+		'0'    => __( 'Zero', 'wprs' ),
+		'auto' => __( 'Auto', 'wprs' ),
+		'xxs'  => __( 'xxSmall', 'wprs' ),
+		'xs'   => __( 'xSmall', 'wprs' ),
+		'sm'   => __( 'Small', 'wprs' ),
+		'md'   => __( 'Medium', 'wprs' ),
+		'lg'   => __( 'Large', 'wprs' ),
+		'xl'   => __( 'xLarge', 'wprs' ),
 	];
 
 	return $sizes;

@@ -21,13 +21,13 @@ if ( ! function_exists( 'wprs_bulma_pagination' ) ) {
 
 		if ( ! $query ) {
 			global $wp_query;
-			$wizhi_query = $wp_query;
+			$wprs_query = $wp_query;
 		} else {
-			$wizhi_query = $query;
+			$wprs_query = $query;
 		}
 
 		if ( $pages == '' ) {
-			$pages = $wizhi_query->max_num_pages;
+			$pages = $wprs_query->max_num_pages;
 			if ( ! $pages ) {
 				$pages = 1;
 			}
@@ -85,13 +85,13 @@ if ( ! function_exists( 'wprs_pagination' ) ) {
 
 		if ( ! $query ) {
 			global $wp_query;
-			$wizhi_query = $wp_query;
+			$wprs_query = $wp_query;
 		} else {
-			$wizhi_query = $query;
+			$wprs_query = $query;
 		}
 
 		if ( $pages == '' ) {
-			$pages = $wizhi_query->max_num_pages;
+			$pages = $wprs_query->max_num_pages;
 			if ( ! $pages ) {
 				$pages = 1;
 			}

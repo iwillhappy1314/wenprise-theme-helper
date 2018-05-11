@@ -13,7 +13,8 @@
     "files": [
       "src/helpers.php",
       "src/template-tags.php",
-      "src/data-options.php"
+      "src/data-options.php",
+      "src/languages.php"
     ]
   },
   "license": "MIT",

@@ -1,0 +1,253 @@
+# Copyright (C) 2016 Automattic
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Wenprise Shortcode 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
+"POT-Creation-Date: 2018-05-11 15:21+0800\n"
+"PO-Revision-Date: 2018-05-11 15:22+0800\n"
+"Last-Translator: Amos Lee <iwillhappy1314@gmail.com>\n"
+"Language-Team: Amos Lee\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.7\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-KeywordsList: __;_\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: data-options.php:52 data-options.php:83
+msgid "Loop Template Name"
+msgstr "循环模板名称"
+
+#: data-options.php:124
+msgid "Select Content Type"
+msgstr "选择内容类型"
+
+#: data-options.php:125
+msgid "Post"
+msgstr "文章"
+
+#: data-options.php:126
+msgid "Page"
+msgstr "页面"
+
+#: data-options.php:146
+msgid "Select Taxonomy"
+msgstr "选择分类方法"
+
+#: data-options.php:147
+msgid "Category"
+msgstr "分类"
+
+#: data-options.php:148
+msgid "Tags"
+msgstr "标签"
+
+#: data-options.php:186
+msgid "Select Category"
+msgstr "选择分类目录"
+
+#: data-options.php:235
+msgid "Select Content"
+msgstr "选择内容"
+
+#: data-options.php:298
+msgid "Default"
+msgstr "默认"
+
+#: data-options.php:299
+msgid "Success（Green）"
+msgstr "成功（绿色）"
+
+#: data-options.php:300
+msgid "Info（Blue）"
+msgstr "信息（蓝色）"
+
+#: data-options.php:301
+msgid "Warning（Orange）"
+msgstr "警告（橙色）"
+
+#: data-options.php:302
+msgid "Danger（Red）"
+msgstr "危险（红色）"
+
+#: data-options.php:316
+msgid "Zero"
+msgstr "零"
+
+#: data-options.php:317
+msgid "Auto"
+msgstr "自动"
+
+#: data-options.php:318
+msgid "xxSmall"
+msgstr "最小"
+
+#: data-options.php:319
+msgid "xSmall"
+msgstr "超小"
+
+#: data-options.php:320
+msgid "Small"
+msgstr "小"
+
+#: data-options.php:321
+msgid "Medium"
+msgstr "中等"
+
+#: data-options.php:322
+msgid "Large"
+msgstr "大"
+
+#: data-options.php:323
+msgid "xLarge"
+msgstr "超大"
+
+#: template-tags.php:169 template-tags.php:174 template-tags.php:178
+#: template-tags.php:182 template-tags.php:186 template-tags.php:211
+#: template-tags.php:222
+#, php-format
+msgid "%s"
+msgstr "%s"
+
+#: template-tags.php:229
+#, php-format
+msgid "%1$s"
+msgstr "%1$s"
+
+#: template-tags.php:234
+msgid "Archives"
+msgstr "归档"
+
+#~ msgid "Button"
+#~ msgstr "按钮"
+
+#~ msgid "Button color"
+#~ msgstr "按钮颜色"
+
+#~ msgid "Button Size"
+#~ msgstr "按钮尺寸"
+
+#~ msgid "Button text"
+#~ msgstr "按钮文本"
+
+#~ msgid "Button Link"
+#~ msgstr "按钮链接"
+
+#~ msgid "Divider line"
+#~ msgstr "分隔线"
+
+#~ msgid "Divider type"
+#~ msgstr "分隔线类型"
+
+#~ msgid "Solid"
+#~ msgstr "实线"
+
+#~ msgid "Shadow"
+#~ msgstr "投影"
+
+#~ msgid "Heading"
+#~ msgstr "标题"
+
+#~ msgid "Heading type"
+#~ msgstr "标题类型"
+
+#~ msgid "With background"
+#~ msgstr "带背景"
+
+#~ msgid "With border"
+#~ msgstr "带边框"
+
+#~ msgid "Heading text"
+#~ msgstr "标题文字"
+
+#~ msgid "Please enter heading text"
+#~ msgstr "请输入标题文本"
+
+#~ msgid "Alert"
+#~ msgstr "提示框"
+
+#~ msgid "Alert type"
+#~ msgstr "提示框类型"
+
+#~ msgid "Please enter alert content"
+#~ msgstr "请输入提示内容"
+
+#~ msgid "Page content"
+#~ msgstr "页面内容"
+
+#~ msgid "Show text count"
+#~ msgstr "显示文本字数"
+
+#~ msgid "Show more link"
+#~ msgstr "显示更多链接"
+
+#~ msgid "Post title list"
+#~ msgstr "文章标题列表"
+
+#~ msgid "Term"
+#~ msgstr "分类项目"
+
+#~ msgid "Offset post count"
+#~ msgstr "跳过文章数量"
+
+#~ msgid "Show post count"
+#~ msgstr "显示的文章数量"
+
+#~ msgid "Show term title as module heading"
+#~ msgstr "显示分类项目名称作为模块标题"
+
+#~ msgid "Add New %s"
+#~ msgstr "添加%s"
+
+# @ _s
+#~ msgid "Edit %s"
+#~ msgstr "编辑%s"
+
+#~ msgid "New %s"
+#~ msgstr "添加%s"
+
+#~ msgid "All %s"
+#~ msgstr "所有%s"
+
+#~ msgid "View %s"
+#~ msgstr "查看%s"
+
+#~ msgid "Search %s"
+#~ msgstr "搜索%s"
+
+#~ msgid "Could not find %s"
+#~ msgstr "找不到%s"
+
+#~ msgid "Could not find %s in trash"
+#~ msgstr "回收站中没有%s"
+
+#~ msgid "Upgrade %s"
+#~ msgstr "更新 %s"
+
+#~ msgid "Parent %s"
+#~ msgstr "父级%s"
+
+#~ msgid "Popular %s"
+#~ msgstr "热门%s"
+
+#~ msgid "Separate %s with commas"
+#~ msgstr "使用 %s 分隔"
+
+#~ msgid "Add or remove %s"
+#~ msgstr "添加或删除%s"
+
+#~ msgid "Choose from the most used %s"
+#~ msgstr "从最常用的 %s 选择"
+
+#~ msgid "No %s found."
+#~ msgstr "没有找到%s"
+
+#~ msgid "Home"
+#~ msgstr "首页 "
+
+#~ msgid "Add a menu"
+#~ msgstr "添加菜单"
