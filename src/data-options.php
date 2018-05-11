@@ -12,7 +12,8 @@ use Nette\Utils\Finder;
  *
  * @deprecated
  */
-function wprs_get_template_option( $dir = "wizhi", $default_path = '' ) {
+function wprs_get_template_option( $dir = "wizhi", $default_path = '' )
+{
 	return wprs_data_templates( $dir, $default_path );
 }
 
@@ -24,7 +25,8 @@ function wprs_get_template_option( $dir = "wizhi", $default_path = '' ) {
  *
  * @return array
  */
-function wprs_data_templates( $dir = "wizhi", $default_path = '' ) {
+function wprs_data_templates( $dir = "wizhi", $default_path = '' )
+{
 
 	$template_in_plugin = $default_path . $dir;
 	$template_in_theme  = get_theme_file_path( $dir );
@@ -108,7 +110,8 @@ function wprs_data_templates( $dir = "wizhi", $default_path = '' ) {
  *
  * @return array
  */
-function wprs_data_post_types() {
+function wprs_data_post_types()
+{
 
 	$args_type = [
 		'public'   => true,
@@ -136,7 +139,8 @@ function wprs_data_post_types() {
  *
  * @return array
  */
-function wprs_data_taxonomies() {
+function wprs_data_taxonomies()
+{
 
 	$output = [
 		0          => sprintf( '— %s —', __( 'Select Taxonomy', 'wprs' ) ),
@@ -171,7 +175,8 @@ function wprs_data_taxonomies() {
  *
  * @return array
  */
-function wprs_data_terms( $taxonomy = 'post_tag', $parent = 0 ) {
+function wprs_data_terms( $taxonomy = 'post_tag', $parent = 0 )
+{
 	$terms = get_terms( $taxonomy, [
 		'parent'     => $parent,
 		'hide_empty' => false,
@@ -218,7 +223,8 @@ function wprs_data_terms( $taxonomy = 'post_tag', $parent = 0 ) {
  *
  * @return array
  */
-function wprs_data_posts( $type = "post" ) {
+function wprs_data_posts( $type = "post" )
+{
 	$args = [
 		'post_type'      => $type,
 		'posts_per_page' => '-1',
@@ -246,7 +252,8 @@ function wprs_data_posts( $type = "post" ) {
  *
  * @return array
  */
-function wprs_data_image_sizes() {
+function wprs_data_image_sizes()
+{
 	$image_sizes_orig   = get_intermediate_image_sizes();
 	$image_sizes_orig[] = 'full';
 	$image_sizes        = [];
@@ -264,7 +271,8 @@ function wprs_data_image_sizes() {
  *
  * @return array
  */
-function wprs_data_themes() {
+function wprs_data_themes()
+{
 	$themes = wp_get_themes();
 
 	$options = [
@@ -276,4 +284,44 @@ function wprs_data_themes() {
 	}
 
 	return $options;
+}
+
+
+/**
+ * 获取颜色选项
+ *
+ * @return array
+ */
+function wprs_data_colors()
+{
+	$output              = [];
+	$output[]            = __( 'Default', 'wizhi' );
+	$output[ 'success' ] = __( 'Success（Green）', 'wizhi' );
+	$output[ 'info' ]    = __( 'Info（Blue）', 'wizhi' );
+	$output[ 'warning' ] = __( 'Warning（Orange）', 'wizhi' );
+	$output[ 'danger' ]  = __( 'Danger（Red）', 'wizhi' );
+
+	return $output;
+}
+
+
+/**
+ * 获取尺寸选项
+ *
+ * @return array
+ */
+function wprs_data_sizes()
+{
+	$sizes = [
+		'0'    => __( 'Zero', 'wizhi' ),
+		'auto' => __( 'Auto', 'wizhi' ),
+		'xxs'  => __( 'xxSmall', 'wizhi' ),
+		'xs'   => __( 'xSmall', 'wizhi' ),
+		'sm'   => __( 'Small', 'wizhi' ),
+		'md'   => __( 'Medium', 'wizhi' ),
+		'lg'   => __( 'Large', 'wizhi' ),
+		'xl'   => __( 'xLarge', 'wizhi' ),
+	];
+
+	return $sizes;
 }
