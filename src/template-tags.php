@@ -390,22 +390,20 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 /**
  * 获取附件图像
  *
- * @param        $id
+ * @param              $id
  * @param string|array $size
- * @param bool   $icon
- * @param array  $attr
+ * @param bool         $icon
+ * @param array        $attr
  *
  * @return string
  */
 function wprs_thumbnail_image( $id, $size = 'is-400by300', $icon = false, $attr = [] )
 {
 	// 如果是数组，转换为 is-1by2的形式，否则，求简化分数
-	if ( ! is_array( $size ) ) {
-		$size = wprs_image_size_attr( $size );
-	}
+	$size_array = wprs_image_size_attr( $size );
 
-	$html = '<figure class="image ' . $size[ 'size_class_base' ] . ' ' . $size[ 'size_class' ] . '">';
-	$html .= wp_get_attachment_image( $id, $size[ 'size_array' ], $icon, $attr );
+	$html = '<figure class="image ' . $size_array[ 'size_class_base' ] . ' ' . $size_array[ 'size_class' ] . '">';
+	$html .= wp_get_attachment_image( $id, $size_array[ 'size_array' ], $icon, $attr );
 	$html .= '</figure>';
 
 	return $html;
