@@ -11,7 +11,8 @@
  * @param int    $range
  */
 if ( ! function_exists( 'wprs_bulma_pagination' ) ) {
-	function wprs_bulma_pagination( $query = '', $pages = '', $range = 5 ) {
+	function wprs_bulma_pagination( $query = '', $pages = '', $range = 5 )
+	{
 		$show_items = ( $range * 2 ) + 1;
 
 		global $paged;
@@ -75,7 +76,8 @@ if ( ! function_exists( 'wprs_bulma_pagination' ) ) {
  * @param int    $range
  */
 if ( ! function_exists( 'wprs_pagination' ) ) {
-	function wprs_pagination( $query = '', $pages = '', $range = 5 ) {
+	function wprs_pagination( $query = '', $pages = '', $range = 5 )
+	{
 		$show_items = ( $range * 2 ) + 1;
 
 		global $paged;
@@ -134,7 +136,8 @@ if ( ! function_exists( 'wprs_get_archive_title' ) ) {
 	 *
 	 * @deprecated
 	 */
-	function wprs_get_archive_title() {
+	function wprs_get_archive_title()
+	{
 		return wprs_get_page_title();
 	}
 }
@@ -145,7 +148,8 @@ if ( ! function_exists( 'wprs_get_archive_description' ) ) {
 	 *
 	 * @deprecated
 	 */
-	function wprs_get_archive_description() {
+	function wprs_get_archive_description()
+	{
 		return wprs_get_page_description();
 	}
 }
@@ -160,7 +164,8 @@ if ( ! function_exists( 'wprs_get_page_title' ) ) {
 	 *
 	 * @return mixed
 	 */
-	function wprs_get_page_title() {
+	function wprs_get_page_title()
+	{
 		if ( is_category() || is_tag() ) {
 
 			$title = carbon_get_term_meta( get_queried_object_id(), 'title' );
@@ -253,7 +258,8 @@ if ( ! function_exists( 'wprs_get_page_description' ) ) {
 	 *
 	 * @return mixed|string
 	 */
-	function wprs_get_page_description() {
+	function wprs_get_page_description()
+	{
 
 		$description = '';
 
@@ -273,15 +279,24 @@ if ( ! function_exists( 'wprs_get_page_description' ) ) {
 /**
  * 获取图像尺寸属性
  *
- * @param string $size
+ * @param string|array $size
  *
  * @return array
  */
-function wprs_image_size_attr( $size = 'is-400by300' ) {
+function wprs_image_size_attr( $size = 'is-400by300' )
+{
+
+	$size_array = [ 400, 300 ];
+
 	if ( is_array( $size ) ) {
-		$size_array = $size;
-		$size_class = ( $size[ 2 ] == 1 ) ? 'is-square ' : 'is-' . str_replace( '/', 'by', wprs_float2rat( $size[ 0 ] / $size[ 1 ] ) );
-		unset( $size_array[ 2 ] );
+		if ( array_sum( $size ) !== 0 ) {
+			$size_array = $size;
+			$size_class = ( $size[ 2 ] == 1 ) ? 'is-square ' : 'is-' . str_replace( '/', 'by', wprs_float2rat( $size[ 0 ] / $size[ 1 ] ) );
+
+			if ( count( $size ) >= 2 ) {
+				unset( $size_array[ 2 ] );
+			}
+		}
 	} else {
 		$size_array = explode( 'by', str_replace( 'is-', '', $size ) );
 		$size_class = wprs_ratio_simplify( $size_array[ 0 ], $size_array[ 1 ] );
@@ -313,7 +328,8 @@ function wprs_image_size_attr( $size = 'is-400by300' ) {
  * @return string
  */
 if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
-	function wprs_post_thumbnail( $post, $size = 'is-400by300', $icon = false, $attr = [] ) {
+	function wprs_post_thumbnail( $post, $size = 'is-400by300', $icon = false, $attr = [] )
+	{
 		$html      = '';
 		$img_class = [ 'class' => 'img-responsive' ];
 		$attr      = wp_parse_args( $attr, $img_class );
@@ -375,18 +391,21 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
  * 获取附件图像
  *
  * @param        $id
- * @param string $size
+ * @param string|array $size
  * @param bool   $icon
  * @param array  $attr
  *
  * @return string
  */
-function wprs_thumbnail_image( $id, $size = 'is-400by300', $icon = false, $attr = [] ) {
+function wprs_thumbnail_image( $id, $size = 'is-400by300', $icon = false, $attr = [] )
+{
 	// 如果是数组，转换为 is-1by2的形式，否则，求简化分数
-	$image_attr = wprs_image_size_attr( $size );
+	if ( ! is_array( $size ) ) {
+		$size = wprs_image_size_attr( $size );
+	}
 
-	$html = '<figure class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
-	$html .= wp_get_attachment_image( $id, $image_attr[ 'size_array' ], $icon, $attr );
+	$html = '<figure class="image ' . $size[ 'size_class_base' ] . ' ' . $size[ 'size_class' ] . '">';
+	$html .= wp_get_attachment_image( $id, $size[ 'size_array' ], $icon, $attr );
 	$html .= '</figure>';
 
 	return $html;
@@ -401,7 +420,8 @@ function wprs_thumbnail_image( $id, $size = 'is-400by300', $icon = false, $attr 
  * @return string
  */
 if ( ! function_exists( 'wprs_thumbnail_mask' ) ) {
-	function wprs_thumbnail_mask( $post ) {
+	function wprs_thumbnail_mask( $post )
+	{
 
 		if ( is_int( $post ) ) {
 			$post = get_post( $post );
@@ -439,7 +459,8 @@ if ( ! function_exists( 'wprs_bulma_menu' ) ) {
 	 *
 	 * @param $theme_location string 菜单位置
 	 */
-	function wprs_bulma_menu( $theme_location ) {
+	function wprs_bulma_menu( $theme_location )
+	{
 		if ( ( $theme_location ) && ( $locations = get_nav_menu_locations() ) && isset( $locations[ $theme_location ] ) ) {
 			$menu       = get_term( $locations[ $theme_location ], 'nav_menu' );
 			$menu_items = wp_get_nav_menu_items( $menu->term_id );
@@ -520,7 +541,6 @@ if ( ! function_exists( 'wprs_bulma_menu' ) ) {
 }
 
 
-
 /**
  * 隐藏字符串中的部分字符
  *
@@ -530,7 +550,8 @@ if ( ! function_exists( 'wprs_bulma_menu' ) ) {
  *
  * @return mixed
  */
-function wprs_string_mask( $str, $start = 0, $length = 4 ) {
+function wprs_string_mask( $str, $start = 0, $length = 4 )
+{
 	$mask = preg_replace( "/\S/", "*", $str );
 	if ( is_null( $length ) ) {
 		$mask = substr( $mask, $start );
