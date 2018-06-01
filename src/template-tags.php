@@ -268,7 +268,9 @@ if ( ! function_exists( 'wprs_get_page_description' ) ) {
 		} elseif ( is_tax() || is_category() || is_tag() ) {
 			$description = get_the_archive_description();
 		} else {
-			get_the_excerpt();
+			if ( has_excerpt() ) {
+				get_the_excerpt();
+			}
 		}
 
 		return $description;
