@@ -102,6 +102,8 @@ if ( ! function_exists( 'wprs_data_templates' ) ) {
 		// 合并插件和主题中的模板，优先使用主题中模板
 		$templates = wp_parse_args( $templates_in_theme, $templates_in_plugin );
 
+		ksort($templates);
+
 		return $templates;
 	}
 }
