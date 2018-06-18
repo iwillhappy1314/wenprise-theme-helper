@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0fbb65db9d7b0bd7d5e083fa840991b3",
+    "content-hash": "37bcae5b4b12ef493257578c0840568f",
     "packages": [
         {
             "name": "latte/latte",
@@ -253,6 +253,57 @@
                 "validation"
             ],
             "time": "2017-08-20T17:32:29+00:00"
+        },
+        {
+            "name": "tyxla/carbon-breadcrumbs",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tyxla/carbon-breadcrumbs.git",
+                "reference": "85be1a71e8e2d64e932b0604626bb7d2ce9f5e21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tyxla/carbon-breadcrumbs/zipball/85be1a71e8e2d64e932b0604626bb7d2ce9f5e21",
+                "reference": "85be1a71e8e2d64e932b0604626bb7d2ce9f5e21",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "carbon-breadcrumbs.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Marin Atanasov",
+                    "email": "contact@marinatanasov.com"
+                }
+            ],
+            "description": "A basic WordPress plugin for breadcrumbs with advanced capabilities for extending.",
+            "homepage": "https://github.com/tyxla/carbon-breadcrumbs",
+            "keywords": [
+                "Settings",
+                "admin",
+                "advanced",
+                "after",
+                "auto",
+                "before",
+                "breadcrumb",
+                "breadcrumbs",
+                "carbon",
+                "configuration",
+                "developer",
+                "extending",
+                "glue",
+                "trail",
+                "wordpress"
+            ],
+            "time": "2016-04-11T21:17:54+00:00"
         }
     ],
     "packages-dev": [],

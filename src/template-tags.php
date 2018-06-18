@@ -550,16 +550,102 @@ if ( ! function_exists( 'wprs_bulma_menu' ) ) {
  *
  * @return mixed
  */
-function wprs_string_mask( $str, $start = 0, $length = 4 )
+if ( ! function_exists( 'wprs_string_mask' ) ) {
+	function wprs_string_mask( $str, $start = 0, $length = 4 )
+	{
+		$mask = preg_replace( "/\S/", "*", $str );
+		if ( is_null( $length ) ) {
+			$mask = substr( $mask, $start );
+			$str  = substr_replace( $str, $mask, $start );
+		} else {
+			$mask = substr( $mask, $start, $length );
+			$str  = substr_replace( $str, $mask, $start, $length );
+		}
+
+		return $str;
+	}
+}
+
+
+/**
+ * 显示面包屑导航
+ */
+if ( ! function_exists( 'wprs_breadcrumbs' ) ) {
+	function wprs_breadcrumbs()
+	{
+		$breadcrumbs = new Carbon_Breadcrumb_Trail( [
+			'glue'           => ' / ',
+			'link_before'    => '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">',
+			'link_after'     => '</li>',
+			'wrapper_before' => '<ol class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">',
+			'wrapper_after'  => '</ol>',
+			'title_before'   => '<span itemprop="name">',
+			'title_after'    => '</span>',
+		] );
+
+		$breadcrumbs->setup();
+		echo $breadcrumbs->render( true ); // WP_KSES strips itemprop, itemscope, etc, so bypassing!!!
+	}
+}
+
+
+add_filter( 'carbon_breadcrumbs_item_attributes', function ( $attributes, $item )
 {
-	$mask = preg_replace( "/\S/", "*", $str );
-	if ( is_null( $length ) ) {
-		$mask = substr( $mask, $start );
-		$str  = substr_replace( $str, $mask, $start );
-	} else {
-		$mask = substr( $mask, $start, $length );
-		$str  = substr_replace( $str, $mask, $start, $length );
+	if ( ! is_array( $attributes ) ) $attributes = [];
+	$attributes[ 'itemscope' ] = null;
+	$attributes[ 'itemtype' ]  = 'http://schema.org/WebPage';
+	$attributes[ 'itemprop' ]  = 'item';
+
+	return $attributes;
+}, 10, 2 );
+
+
+/**
+ * 添加 Yoast SEO 主分类支持
+ */
+add_action( 'carbon_breadcrumbs_after_setup_trail', function ( $trail )
+{
+	global $post;
+	if ( ! is_singular( 'post' ) ) {
+		return;
 	}
 
-	return $str;
-}
+	$cats = get_the_category( $post->ID );
+	if ( empty( $cats ) || empty( $cats[ 0 ] ) ) {
+		return;
+	}
+	$cats = wp_list_sort( $cats, [
+		'term_id' => 'ASC',
+	] );
+
+	/**
+	 * Call the filter,
+	 * triggering YoastSEO primary category modification
+	 */
+	$category_object = apply_filters( 'post_link_category', $cats[ 0 ], $cats, $post );
+
+	$term_id = $category_object->term_id;
+
+	/**
+	 * Taxonomy breadcrumb is inserted at 700
+	 * Removing it, and adding new one at the same priority
+	 */
+	$trail->remove_item_by_priority( 700 );
+
+	$terms = Carbon_Breadcrumb_Locator::factory( 'term', 'category' );
+	$items = $terms->get_items( 700, $term_id );
+
+	if ( $items ) {
+		$trail->add_item( $items );
+	}
+} );
+
+
+add_filter( 'carbon_breadcrumbs_item_output', function ( $item_output, $item, $trail, $trail_renderer, $index )
+{
+	// Add Position
+	$n           = strrpos( $item_output, '</li>' );
+	$item_output = substr( $item_output, 0, $n ) . '<meta itemprop="position" content="' . $index . '" />' . substr( $item_output, $n );
+
+	return $item_output;
+}, 10, 5 );
