@@ -142,6 +142,7 @@ if ( ! function_exists( 'wprs_get_archive_title' ) ) {
 	}
 }
 
+
 if ( ! function_exists( 'wprs_get_archive_description' ) ) {
 	/**
 	 * @return mixed
@@ -574,7 +575,7 @@ if ( ! function_exists( 'wprs_breadcrumbs' ) ) {
 	function wprs_breadcrumbs()
 	{
 		$breadcrumbs = new Carbon_Breadcrumb_Trail( [
-			'glue'           => ' / ',
+			'glue'           => '',
 			'link_before'    => '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">',
 			'link_after'     => '</li>',
 			'wrapper_before' => '<ol class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">',
