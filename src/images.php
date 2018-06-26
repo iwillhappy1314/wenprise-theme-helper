@@ -74,7 +74,7 @@ add_action( 'image_downsize', function ( $downsize = true, $id, $size, $crop = f
 	}
 
 	// 如果元数据包含此尺寸，回退到 WordPress 默认功能
-	if ( array_key_exists( $size, $meta[ 'sizes' ] ) ) {
+	if ( isset( $meta[ 'sizes' ] ) && array_key_exists( $size, $meta[ 'sizes' ] ) ) {
 		return false;
 	}
 
