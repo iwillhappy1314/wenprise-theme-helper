@@ -625,3 +625,30 @@ if ( ! function_exists( 'wprs_float2rat' ) ) {
 		return "$h1/$k1";
 	}
 }
+
+
+/**
+ * 获取主分类
+ *
+ * @param null $post_id
+ *
+ * @return array|null|\WP_Error|\WP_Term
+ */
+if ( ! function_exists( 'wprs_category_get_primary' ) ) {
+	function wprs_category_get_primary( $post_id = null )
+	{
+
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+		}
+
+		$primary_cat_id = get_post_meta( $post_id, '_yoast_wpseo_primary_category', true );
+
+		if ( ! $primary_cat_id ) {
+			$categories     = wp_get_post_terms( $post_id, 'category' );
+			$primary_cat_id = wp_list_pluck( $categories, 'term_id' )[ 0 ];
+		}
+
+		return get_term( $primary_cat_id );
+	}
+}
