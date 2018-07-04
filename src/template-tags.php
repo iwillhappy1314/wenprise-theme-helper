@@ -341,17 +341,22 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 			$post = get_post( $post );
 		}
 
+		$slider_option = [
+			"slidesToShow"   => 1,
+			"slidesToScroll" => 1,
+		];
+
 		$image_attr = wprs_image_size_attr( $size );
 
 		$thumb_id = get_post_thumbnail_id( $post );
 
 		if ( get_post_gallery( $post ) ) {
 
-			$gallery = get_post_gallery( get_the_ID(), false );
+			$gallery     = get_post_gallery( get_the_ID(), false );
 			$gallery_ids = explode( ',', $gallery[ 'ids' ] );
 
 			$html .= '<figure class="f-popup f-view f-overlay">';
-			$html .= '<div class="f-slider" data-slick={"slidesToShow": 4, "slidesToScroll": 4}>';
+			$html .= '<div class="f-slider" data-slick=' . json_encode( $slider_option ) . '>';
 
 			if ( has_post_thumbnail() ) {
 				$html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
