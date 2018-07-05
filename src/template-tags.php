@@ -3,6 +3,8 @@
  * 模版标签
  */
 
+use Nette\Utils\Html;
+
 /**
  * Bulma CSS 数字分页
  *
@@ -352,7 +354,7 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 
 		if ( get_post_gallery( $post ) ) {
 
-			$gallery     = get_post_gallery( get_the_ID(), false );
+			$gallery     = get_post_gallery( $post->ID, false );
 			$gallery_ids = explode( ',', $gallery[ 'ids' ] );
 
 			$html .= '<figure class="f-popup f-view f-overlay">';
@@ -611,6 +613,16 @@ add_filter( 'carbon_breadcrumbs_item_attributes', function ( $attributes, $item 
 }, 10, 2 );
 
 
+add_filter( 'carbon_breadcrumbs_item_output', function ( $item_output, $item, $trail, $trail_renderer, $index )
+{
+	// Add Position
+	$n           = strrpos( $item_output, '</li>' );
+	$item_output = substr( $item_output, 0, $n ) . '<meta itemprop="position" content="' . $index . '" />' . substr( $item_output, $n );
+
+	return $item_output;
+}, 10, 5 );
+
+
 /**
  * 添加 Yoast SEO 主分类支持
  */
@@ -652,11 +664,21 @@ add_action( 'carbon_breadcrumbs_after_setup_trail', function ( $trail )
 } );
 
 
-add_filter( 'carbon_breadcrumbs_item_output', function ( $item_output, $item, $trail, $trail_renderer, $index )
-{
-	// Add Position
-	$n           = strrpos( $item_output, '</li>' );
-	$item_output = substr( $item_output, 0, $n ) . '<meta itemprop="position" content="' . $index . '" />' . substr( $item_output, $n );
+/**
+ * 显示上下页导航
+ */
+if ( ! function_exists( 'wprs_pagination_links' ) ) {
+	function wprs_pagination_links()
+	{
+		$el        = Html::el( 'div' );
+		$el->class = [ 'level', 'is-mobile', 'c-page-links' ];
 
-	return $item_output;
-}, 10, 5 );
+		$el->addHtml( Html::el( 'div class=level-left' )
+		                  ->addHtml( get_previous_post_link( '%link', __( '&laquo; Previous ', 'wprs' ) ) ) );
+
+		$el->addHtml( Html::el( 'div class=level-right' )
+		                  ->addHtml( get_next_post_link( '%link', __( '&laquo; Previous ', 'wprs' ) ) ) );
+
+		echo $el;
+	}
+}
