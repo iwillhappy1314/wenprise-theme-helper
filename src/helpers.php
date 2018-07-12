@@ -652,3 +652,19 @@ if ( ! function_exists( 'wprs_category_get_primary' ) ) {
 		return get_term( $primary_cat_id );
 	}
 }
+
+
+/**
+ * 更新文章状态
+ *
+ * @param $post_id
+ * @param $status
+ */
+if ( ! function_exists( 'update_post_status' ) ) {
+	function update_post_status( $post_id, $status )
+	{
+		global $wpdb;
+
+		$wpdb->update( $wpdb->posts, [ 'post_status' => $status ], [ 'ID' => $post_id ] );
+	}
+}
