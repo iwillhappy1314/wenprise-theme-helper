@@ -660,8 +660,8 @@ if ( ! function_exists( 'wprs_category_get_primary' ) ) {
  * @param $post_id
  * @param $status
  */
-if ( ! function_exists( 'update_post_status' ) ) {
-	function update_post_status( $post_id, $status )
+if ( ! function_exists( 'wprs_update_post_status' ) ) {
+	function wprs_update_post_status( $post_id, $status )
 	{
 		global $wpdb;
 
