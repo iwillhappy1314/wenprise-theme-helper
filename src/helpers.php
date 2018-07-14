@@ -1,36 +1,6 @@
 <?php
 
 /**
- * 基于 Latte 的字符串模版
- *
- * @param $template string 模版字符串
- * @param $params   array 模版数据
- * @param $string   boolean 是否渲染为字符串而不是直接输出
- *
- * @deprecated
- */
-if ( ! function_exists( 'wprs_render' ) ) {
-	function wprs_render( $template, $params, $string = false )
-	{
-		$latte = new Latte\Engine;
-		$latte->setTempDirectory( WP_CONTENT_DIR . '/cache/' );
-
-		$latte->setLoader( new Latte\Loaders\StringLoader( [
-			'template' => $template,
-		] ) );
-
-		if ( $string ) {
-			return $latte->renderToString( 'template', $params );
-		} else {
-			$latte->render( 'template', $params );
-		}
-
-		return true;
-	}
-}
-
-
-/**
  * 获取嵌入的 Vue 组件
  *
  * @param  string  the file path of the file
