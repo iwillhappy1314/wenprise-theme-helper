@@ -691,29 +691,31 @@ if ( ! function_exists( 'wprs_pagination_links' ) ) {
  *
  * @return mixed|string
  */
-function wprs_render_menu( $menu )
-{
-	$current_link = ( isset( $_SERVER[ 'HTTPS' ] ) ? "https" : "http" ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+if ( ! function_exists( 'wprs_render_menu' ) ) {
+	function wprs_render_menu( $menu )
+	{
+		$current_link = ( isset( $_SERVER[ 'HTTPS' ] ) ? "https" : "http" ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-	foreach ( $menu as $m ) {
-		$m->setLinkAttribute( 'class', 'c-menu__link' );
-		if ( $m->getUri() == $current_link ) {
-			$m->setCurrent( true );
-			$m->setLinkAttribute( 'class', 'c-menu__link is-active' );
+		foreach ( $menu as $m ) {
+			$m->setLinkAttribute( 'class', 'c-menu__link' );
+			if ( $m->getUri() == $current_link ) {
+				$m->setCurrent( true );
+				$m->setLinkAttribute( 'class', 'c-menu__link is-active' );
+			}
 		}
+
+		$renderer = new ListRenderer( new \Knp\Menu\Matcher\Matcher() );
+		$menu     = $renderer->render( $menu, [
+			'currentClass'  => 'is-active',
+			'branch_class'  => 'c-menu__item',
+			'leaf_class'    => 'c-menu__item',
+			'ancestorClass' => 'c-menu__item',
+		] );
+
+		$menu = str_replace( '&lt;', '<', $menu );
+		$menu = str_replace( '&gt;', '>', $menu );
+		$menu = str_replace( '&quot;', '"', $menu );
+
+		return $menu;
 	}
-
-	$renderer = new ListRenderer( new \Knp\Menu\Matcher\Matcher() );
-	$menu     = $renderer->render( $menu, [
-		'currentClass'  => 'is-active',
-		'branch_class'  => 'c-menu__item',
-		'leaf_class'    => 'c-menu__item',
-		'ancestorClass' => 'c-menu__item',
-	] );
-
-	$menu = str_replace( '&lt;', '<', $menu );
-	$menu = str_replace( '&gt;', '>', $menu );
-	$menu = str_replace( '&quot;', '"', $menu );
-
-	return $menu;
 }
