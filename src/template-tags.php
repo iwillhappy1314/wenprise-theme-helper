@@ -580,6 +580,42 @@ if ( ! function_exists( 'wprs_string_mask' ) ) {
 }
 
 
+
+/**
+ * 按字符数裁剪英文字符串，不截断单词
+ *
+ * @param     $str
+ * @param int $start
+ * @param int $length
+ *
+ * @return mixed
+ */
+if ( ! function_exists( 'wprs_string_trim' ) ) {
+	function wprs_string_trim($input, $length, $ellipses = true, $strip_html = true) {
+		// strip tags, if desired
+		if ($strip_html) {
+			$input = strip_tags($input);
+		}
+
+		// no need to trim, already shorter than trim length
+		if (strlen($input) <= $length) {
+			return $input;
+		}
+
+		//find last space within length
+		$last_space = strrpos(substr($input, 0, $length), ' ');
+		$trimmed_text = substr($input, 0, $last_space);
+
+		// add ellipses (...)
+		if ($ellipses) {
+			$trimmed_text .= '...';
+		}
+
+		return $trimmed_text;
+	}
+}
+
+
 /**
  * 显示面包屑导航
  */

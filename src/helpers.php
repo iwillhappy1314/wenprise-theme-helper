@@ -638,3 +638,51 @@ if ( ! function_exists( 'wprs_update_post_status' ) ) {
 		$wpdb->update( $wpdb->posts, [ 'post_status' => $status ], [ 'ID' => $post_id ] );
 	}
 }
+
+
+/**
+ * 生成随机的字母+数字字符串
+ *
+ * @param int $length
+ *
+ * @return string
+ */
+if ( ! function_exists( 'wprs_str_random' ) ) {
+	function wprs_str_random( $length = 16 )
+	{
+		$string = '';
+
+		while ( ( $len = strlen( $string ) ) < $length ) {
+			$size = $length - $len;
+
+			$bytes = random_bytes( $size );
+
+			$string .= substr( str_replace( [ '/', '+', '=' ], '', base64_encode( $bytes ) ), 0, $size );
+		}
+
+		return $string;
+	}
+}
+
+
+/**
+ * 判断是否安装了数据表
+ *
+ * @param int $table_name, 不带前缀的数据表名称
+ *
+ * @return bool
+ */
+if ( ! function_exists( 'wprs_is_table_installed' ) ) {
+	function wprs_is_table_installed( $table_name )
+	{
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . $table_name;
+
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+			return true;
+		}
+
+		return false;
+	}
+}
