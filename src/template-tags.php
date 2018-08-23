@@ -3,8 +3,6 @@
  * 模版标签
  */
 
-use Nette\Utils\Html;
-
 /**
  * Bulma CSS 数字分页
  *
@@ -291,12 +289,13 @@ if ( ! function_exists( 'wprs_get_page_description' ) ) {
 function wprs_image_size_attr( $size = 'is-400by300' )
 {
 
+	$size_class = '';
 	$size_array = [ 400, 300 ];
 
 	if ( is_array( $size ) ) {
 		if ( array_sum( $size ) !== 0 ) {
 			$size_array = $size;
-			$size_class = ( $size[ 2 ] == 1 ) ? 'is-square ' : 'is-' . str_replace( '/', 'by', wprs_float2rat( $size[ 0 ] / $size[ 1 ] ) );
+			( isset( $size[ 2 ] ) && $size_class = ( $size[ 2 ] == 1 ) ) ? 'is-square ' : 'is-' . str_replace( '/', 'by', wprs_float2rat( $size[ 0 ] / $size[ 1 ] ) );
 
 			if ( count( $size ) >= 2 ) {
 				unset( $size_array[ 2 ] );
@@ -343,22 +342,16 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 			$post = get_post( $post );
 		}
 
-		$slider_option = [
-			"slidesToShow"   => 1,
-			"slidesToScroll" => 1,
-		];
-
 		$image_attr = wprs_image_size_attr( $size );
 
 		$thumb_id = get_post_thumbnail_id( $post );
 
 		if ( get_post_gallery( $post ) ) {
 
-			$gallery     = get_post_gallery( $post->ID, false );
-			$gallery_ids = explode( ',', $gallery[ 'ids' ] );
+			$gallery = get_post_gallery( get_the_ID(), false );
 
 			$html .= '<figure class="f-popup f-view f-overlay">';
-			$html .= '<div class="f-slider" data-slick=' . json_encode( $slider_option ) . '>';
+			$html .= '<div class="f-slider" data-slick={"slidesToShow": 4, "slidesToScroll": 4}>';
 
 			if ( has_post_thumbnail() ) {
 				$html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
@@ -366,7 +359,7 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 				$html .= '</div>';
 			}
 
-			foreach ( $gallery_ids as $image ) {
+			foreach ( explode( ',', $gallery[ 'ids' ] ) as $image ) {
 				$html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
 				$html .= wp_get_attachment_image( $image, $image_attr[ 'size_array' ], $icon, $attr );
 				$html .= '</div>';
@@ -378,22 +371,18 @@ if ( ! function_exists( 'wprs_post_thumbnail' ) ) {
 
 			$html .= '</figure>';
 
+		} elseif ( has_post_thumbnail( $post ) ) {
+
+			$html .= '<figure class="f-popup f-view f-overlay">';
+			$html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
+			$html .= wp_get_attachment_image( $thumb_id, $image_attr[ 'size_array' ], $icon, $attr );
+			$html .= '</div>';
+			$html .= wprs_thumbnail_mask( $post );
+			$html .= '</figure>';
+
 		} else {
 
-			if ( has_post_thumbnail( $post ) ) {
-
-				$html .= '<figure class="f-popup f-view f-overlay">';
-				$html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
-				$html .= wp_get_attachment_image( $thumb_id, $image_attr[ 'size_array' ], $icon, $attr );
-				$html .= '</div>';
-				$html .= wprs_thumbnail_mask( $post );
-				$html .= '</figure>';
-
-			} else {
-
-				$html .= '';
-
-			}
+			$html .= '';
 
 		}
 
@@ -580,42 +569,6 @@ if ( ! function_exists( 'wprs_string_mask' ) ) {
 }
 
 
-
-/**
- * 按字符数裁剪英文字符串，不截断单词
- *
- * @param     $str
- * @param int $start
- * @param int $length
- *
- * @return mixed
- */
-if ( ! function_exists( 'wprs_string_trim' ) ) {
-	function wprs_string_trim($input, $length, $ellipses = true, $strip_html = true) {
-		// strip tags, if desired
-		if ($strip_html) {
-			$input = strip_tags($input);
-		}
-
-		// no need to trim, already shorter than trim length
-		if (strlen($input) <= $length) {
-			return $input;
-		}
-
-		//find last space within length
-		$last_space = strrpos(substr($input, 0, $length), ' ');
-		$trimmed_text = substr($input, 0, $last_space);
-
-		// add ellipses (...)
-		if ($ellipses) {
-			$trimmed_text .= '...';
-		}
-
-		return $trimmed_text;
-	}
-}
-
-
 /**
  * 显示面包屑导航
  */
@@ -647,16 +600,6 @@ add_filter( 'carbon_breadcrumbs_item_attributes', function ( $attributes, $item 
 
 	return $attributes;
 }, 10, 2 );
-
-
-add_filter( 'carbon_breadcrumbs_item_output', function ( $item_output, $item, $trail, $trail_renderer, $index )
-{
-	// Add Position
-	$n           = strrpos( $item_output, '</li>' );
-	$item_output = substr( $item_output, 0, $n ) . '<meta itemprop="position" content="' . $index . '" />' . substr( $item_output, $n );
-
-	return $item_output;
-}, 10, 5 );
 
 
 /**
@@ -700,21 +643,11 @@ add_action( 'carbon_breadcrumbs_after_setup_trail', function ( $trail )
 } );
 
 
-/**
- * 显示上下页导航
- */
-if ( ! function_exists( 'wprs_pagination_links' ) ) {
-	function wprs_pagination_links()
-	{
-		$el        = Html::el( 'div' );
-		$el->class = [ 'level', 'is-mobile', 'c-page-links' ];
+add_filter( 'carbon_breadcrumbs_item_output', function ( $item_output, $item, $trail, $trail_renderer, $index )
+{
+	// Add Position
+	$n           = strrpos( $item_output, '</li>' );
+	$item_output = substr( $item_output, 0, $n ) . '<meta itemprop="position" content="' . $index . '" />' . substr( $item_output, $n );
 
-		$el->addHtml( Html::el( 'div class=level-left' )
-		                  ->addHtml( get_previous_post_link( '%link', __( '&laquo; Previous ', 'wprs' ) ) ) );
-
-		$el->addHtml( Html::el( 'div class=level-right' )
-		                  ->addHtml( get_next_post_link( '%link', __( '&laquo; Previous ', 'wprs' ) ) ) );
-
-		echo $el;
-	}
-}
+	return $item_output;
+}, 10, 5 );
