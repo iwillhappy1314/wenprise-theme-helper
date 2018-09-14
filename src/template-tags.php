@@ -592,19 +592,6 @@ if ( ! function_exists('wprs_breadcrumbs')) {
 }
 
 
-add_filter('carbon_breadcrumbs_item_attributes', function ($attributes, $item)
-{
-    if ( ! is_array($attributes)) {
-        $attributes = [];
-    }
-    $attributes[ 'itemscope' ] = null;
-    $attributes[ 'itemtype' ]  = 'http://schema.org/WebPage';
-    $attributes[ 'itemprop' ]  = 'item';
-
-    return $attributes;
-}, 10, 2);
-
-
 /**
  * 添加 Yoast SEO 主分类支持
  */
@@ -645,6 +632,21 @@ add_action('carbon_breadcrumbs_after_setup_trail', function ($trail)
     }
 });
 
+
+/**
+ * 为面包屑导航添加微格式
+ */
+add_filter('carbon_breadcrumbs_item_attributes', function ($attributes, $item)
+{
+    if ( ! is_array($attributes)) {
+        $attributes = [];
+    }
+    $attributes[ 'itemscope' ] = null;
+    $attributes[ 'itemtype' ]  = 'http://schema.org/WebPage';
+    $attributes[ 'itemprop' ]  = 'item';
+
+    return $attributes;
+}, 10, 2);
 
 add_filter('carbon_breadcrumbs_item_output', function ($item_output, $item, $trail, $trail_renderer, $index)
 {

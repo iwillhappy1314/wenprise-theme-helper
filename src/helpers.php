@@ -1,27 +1,30 @@
 <?php
 
-/**
- * 获取嵌入的 Vue 组件
- *
- * @param  string  the file path of the file
- * @param  string  the script id
- *
- * @return void
- */
-function wprs_get_vue_component_template($file_path, $id)
-{
-    if (file_exists($file_path)) {
-        echo '<script type="text/x-template" id="' . $id . '">' . "\n";
-        include_once $file_path;
-        echo "\n" . '</script>' . "\n";
+
+if ( ! function_exists('wprs_get_vue_component_template')) {
+    /**
+     * 获取嵌入的 Vue 组件
+     *
+     * @param  string  the file path of the file
+     * @param  string  the script id
+     *
+     * @return void
+     */
+    function wprs_get_vue_component_template($file_path, $id)
+    {
+        if (file_exists($file_path)) {
+            echo '<script type="text/x-template" id="' . $id . '">' . "\n";
+            include_once $file_path;
+            echo "\n" . '</script>' . "\n";
+        }
     }
 }
 
 
-/**
- * 判断是否在微信中打开
- */
 if ( ! function_exists('wprs_is_wechat')) {
+    /**
+     * 判断是否在微信中打开
+     */
     function wprs_is_wechat()
     {
         if ( ! empty($_SERVER[ 'HTTP_USER_AGENT' ]) && strpos($_SERVER[ 'HTTP_USER_AGENT' ], 'MicroMessenger') !== false) {
@@ -56,17 +59,17 @@ if ( ! function_exists('wprs_is_subpage')) {
 }
 
 
-/**
- * 获取文章元数据，设置默认值
- *
- * @param        $post_id
- * @param string $key
- * @param bool   $single
- * @param bool   $default
- *
- * @return bool
- */
 if ( ! function_exists('wprs_get_post_meta')) {
+    /**
+     * 获取文章元数据，设置默认值
+     *
+     * @param        $post_id
+     * @param string $key
+     * @param bool   $single
+     * @param bool   $default
+     *
+     * @return bool
+     */
     function wprs_get_post_meta($post_id, $key = '', $single = false, $default = false)
     {
 
@@ -81,17 +84,17 @@ if ( ! function_exists('wprs_get_post_meta')) {
 }
 
 
-/**
- * 获取用户元数据，可以设置默认值
- *
- * @param        $user_id
- * @param string $key
- * @param bool   $single
- * @param bool   $default
- *
- * @return bool
- */
 if ( ! function_exists('wprs_get_user_meta')) {
+    /**
+     * 获取用户元数据，可以设置默认值
+     *
+     * @param        $user_id
+     * @param string $key
+     * @param bool   $single
+     * @param bool   $default
+     *
+     * @return bool
+     */
     function wprs_get_user_meta($user_id, $key = '', $single = false, $default = false)
     {
 
@@ -106,12 +109,12 @@ if ( ! function_exists('wprs_get_user_meta')) {
 }
 
 
-/**
- * 判断是否为 Ajax 请求
- *
- * @return bool
- */
 if ( ! function_exists('wprs_is_ajax')) {
+    /**
+     * 判断是否为 Ajax 请求
+     *
+     * @return bool
+     */
     function wprs_is_ajax()
     {
         if ( ! empty($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) && strtolower($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) == 'xmlhttprequest') {
@@ -123,14 +126,14 @@ if ( ! function_exists('wprs_is_ajax')) {
 }
 
 
-/**
- * 判断请求类型
- *
- * @param $type string admin|ajax|rest|cron|frontend
- *
- * @return bool
- */
 if ( ! function_exists('wprs_is_request')) {
+    /**
+     * 判断请求类型
+     *
+     * @param $type string admin|ajax|rest|cron|frontend
+     *
+     * @return bool
+     */
     function wprs_is_request($type)
     {
         switch ($type) {
@@ -155,12 +158,12 @@ if ( ! function_exists('wprs_is_request')) {
 }
 
 
-/**
- * 判断当前语言是否为英文
- *
- * @return bool
- */
 if ( ! function_exists('wprs_is_en')) {
+    /**
+     * 判断当前语言是否为英文
+     *
+     * @return bool
+     */
     function wprs_is_en()
     {
 
@@ -174,12 +177,13 @@ if ( ! function_exists('wprs_is_en')) {
     }
 }
 
-/**
- * 获取用户的真实 IP
- *
- * @return mixed
- */
+
 if ( ! function_exists('wprs_get_ip')) {
+    /**
+     * 获取用户的真实 IP
+     *
+     * @return mixed
+     */
     function wprs_get_ip()
     {
         $client  = @$_SERVER[ 'HTTP_CLIENT_IP' ];
@@ -214,10 +218,10 @@ if ( ! function_exists("wprs_order_no")) {
 }
 
 
-/**
- * 获取前端资源路径
- */
 if ( ! class_exists('WprsJsonManifest')) {
+    /**
+     * 获取前端资源路径
+     */
     class WprsJsonManifest
     {
         private $manifest;
@@ -271,14 +275,14 @@ if ( ! class_exists('WprsJsonManifest')) {
 }
 
 
-/**
- * 获取前端资源
- *
- * @param $filename string 文件名
- *
- * @return string 文件路径
- */
 if ( ! function_exists('wprs_assets')) {
+    /**
+     * 获取前端资源
+     *
+     * @param $filename string 文件名
+     *
+     * @return string 文件路径
+     */
     function wprs_asset($filename)
     {
         $dist_path = get_theme_file_uri('/front/dist/');
@@ -363,6 +367,11 @@ if ( ! function_exists('wprs_get_term_post_type')) {
 
 
 if ( ! function_exists('wprs_get_page_type')) {
+    /**
+     * 获取页面类型
+     *
+     * @return string
+     */
     function wprs_get_page_type()
     {
 
@@ -425,18 +434,18 @@ if ( ! function_exists('wprs_get_page_type')) {
 }
 
 
-/**
- * 获取设置，具体页面设置覆盖主题全局设置
- * 优先级: 页面 > 父级页面 > 分类 > 存档 > 全局 > 函数默认
- *
- * @todo: 添加自定义工具支持
- *
- * @param $name
- * @param $default
- *
- * @return bool|string
- */
 if ( ! function_exists('wprs_get_page_settings')) {
+    /**
+     * 获取设置，具体页面设置覆盖主题全局设置
+     * 优先级: 页面 > 父级页面 > 分类 > 存档 > 全局 > 函数默认
+     *
+     * @todo: 添加自定义工具支持
+     *
+     * @param $name
+     * @param $default
+     *
+     * @return bool|string
+     */
     function wprs_get_page_settings($name, $default = '')
     {
 
@@ -568,15 +577,15 @@ if ( ! function_exists('wprs_get_social_icon')) {
 }
 
 
-/**
- * 求两个数的最大公因式
- *
- * @param $a
- * @param $b
- *
- * @return float|int|mixed
- */
 if ( ! function_exists('wprs_get_base_number')) {
+    /**
+     * 求两个数的最大公因式
+     *
+     * @param $a
+     * @param $b
+     *
+     * @return float|int|mixed
+     */
     function wprs_get_base_number($a, $b)
     {
 
@@ -604,15 +613,15 @@ if ( ! function_exists('wprs_get_base_number')) {
 }
 
 
-/**
- * 简化分数
- *
- * @param $num
- * @param $den
- *
- * @return string
- */
 if ( ! function_exists('wprs_ratio_simplify')) {
+    /**
+     * 简化分数
+     *
+     * @param $num
+     * @param $den
+     *
+     * @return string
+     */
     function wprs_ratio_simplify($num, $den)
     {
         $g = wprs_get_base_number($num, $den);
@@ -627,15 +636,15 @@ if ( ! function_exists('wprs_ratio_simplify')) {
 }
 
 
-/**
- * 小数转化为分数
- *
- * @param       $n
- * @param float $tolerance
- *
- * @return string
- */
 if ( ! function_exists('wprs_float2rat')) {
+    /**
+     * 小数转化为分数
+     *
+     * @param       $n
+     * @param float $tolerance
+     *
+     * @return string
+     */
     function wprs_float2rat($n, $tolerance = 1.e-6)
     {
         $h1 = 1;
@@ -660,14 +669,14 @@ if ( ! function_exists('wprs_float2rat')) {
 }
 
 
-/**
- * 获取主分类
- *
- * @param null $post_id
- *
- * @return array|null|\WP_Error|\WP_Term
- */
 if ( ! function_exists('wprs_category_get_primary')) {
+    /**
+     * 获取主分类
+     *
+     * @param null $post_id
+     *
+     * @return array|null|\WP_Error|\WP_Term
+     */
     function wprs_category_get_primary($post_id = null)
     {
 
@@ -687,13 +696,13 @@ if ( ! function_exists('wprs_category_get_primary')) {
 }
 
 
-/**
- * 更新文章状态
- *
- * @param $post_id
- * @param $status
- */
 if ( ! function_exists('wprs_update_post_status')) {
+    /**
+     * 更新文章状态
+     *
+     * @param $post_id
+     * @param $status
+     */
     function wprs_update_post_status($post_id, $status)
     {
         global $wpdb;
@@ -703,14 +712,15 @@ if ( ! function_exists('wprs_update_post_status')) {
 }
 
 
-/**
- * 生成随机的字母+数字字符串
- *
- * @param int $length
- *
- * @return string
- */
 if ( ! function_exists('wprs_str_random')) {
+    /**
+     * 生成随机的字母+数字字符串
+     *
+     * @param int $length
+     *
+     * @return string
+     * @throws \Exception
+     */
     function wprs_str_random($length = 16)
     {
         $string = '';
@@ -728,14 +738,14 @@ if ( ! function_exists('wprs_str_random')) {
 }
 
 
-/**
- * 判断是否安装了数据表
- *
- * @param int $table_name , 不带前缀的数据表名称
- *
- * @return bool
- */
 if ( ! function_exists('wprs_is_table_installed')) {
+    /**
+     * 判断是否安装了数据表
+     *
+     * @param int $table_name , 不带前缀的数据表名称
+     *
+     * @return bool
+     */
     function wprs_is_table_installed($table_name)
     {
         global $wpdb;
@@ -751,6 +761,9 @@ if ( ! function_exists('wprs_is_table_installed')) {
 }
 
 if ( ! function_exists('wprs_get_queried_object_name')) {
+    /**
+     * 获取对象名称
+     */
     function wprs_get_queried_object_name()
     {
 
