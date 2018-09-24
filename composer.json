@@ -4,6 +4,7 @@
   "require": {
     "php": ">=7.0",
     "nette/finder": "^2.4",
+    "illuminate/support": "5.5.*",
     "tyxla/carbon-breadcrumbs": "^1.0"
   },
   "autoload": {

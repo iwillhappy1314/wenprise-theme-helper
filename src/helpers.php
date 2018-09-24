@@ -769,3 +769,49 @@ if ( ! function_exists('wprs_get_queried_object_name')) {
 
     }
 }
+
+
+/**
+ * 应用多个 Filter 到回调
+ *
+ * @param  mixed   $filters
+ * @param  mixed   $callback
+ * @param  integer $priority
+ * @param  integer $arguments
+ *
+ * @return true
+ */
+if ( ! function_exists('add_filters')) {
+    function add_filters($filters, $callback, $priority = 10, $arguments = 1)
+    {
+        collect($filters)->each(function ($filter, $index) use ($callback, $priority, $arguments)
+        {
+            add_filter(
+                $filter,
+                $callback,
+                (int)is_array($priority) ? $priority[ $index ] : $priority,
+                (int)is_array($arguments) ? $arguments[ $index ] : $arguments
+            );
+        });
+
+        return true;
+    }
+}
+
+
+/**
+ * 应用多个 Action 到回调
+ *
+ * @param  mixed   $actions
+ * @param  mixed   $callback
+ * @param  integer $priority
+ * @param  integer $arguments
+ *
+ * @return true
+ */
+if ( ! function_exists('add_actions')) {
+    function add_actions($actions, $callback, $priority = 10, $arguments = 1)
+    {
+        return add_filters($actions, $callback, $priority, $arguments);
+    }
+}
