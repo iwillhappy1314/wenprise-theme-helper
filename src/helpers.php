@@ -285,20 +285,27 @@ if ( ! function_exists('wprs_assets')) {
      */
     function wprs_asset($filename)
     {
-        $dist_path = get_theme_file_uri('/front/dist/');
+        $dist_path = get_theme_file_path('/front/dist/');
+        $dist_uri  = get_theme_file_uri('/front/dist/');
+
+        if ( ! is_dir($dist_path)) {
+            $dist_path = get_theme_file_path('/frontend/dist/');
+            $dist_uri  = get_theme_file_uri('/frontend/dist/');
+        }
+
         $directory = dirname($filename) . '/';
         $file      = basename($filename);
         static $manifest;
 
         if (empty($manifest)) {
-            $manifest_path = get_theme_file_path('/front/dist/' . 'assets.json');
+            $manifest_path = $dist_path . 'assets.json';
             $manifest      = new WprsJsonManifest($manifest_path);
         }
 
         if (array_key_exists($file, $manifest->get())) {
-            return $dist_path . $directory . $manifest->get()[ $file ];
+            return $dist_uri . $directory . $manifest->get()[ $file ];
         } else {
-            return $dist_path . $directory . $file;
+            return $dist_uri . $directory . $file;
         }
     }
 }
@@ -814,4 +821,28 @@ if ( ! function_exists('add_actions')) {
     {
         return add_filters($actions, $callback, $priority, $arguments);
     }
+}
+
+
+/**
+ * 获取步骤类名
+ *
+ * @param $step_name       string
+ * @param $steps           array
+ * @param $step_order      int
+ *
+ * @return string
+ */
+function wprs_step_class($step_name, $steps, $step_order)
+{
+    $step_key = array_search($step_name, $steps);
+
+    if ($step_key == $step_order) {
+        return 'c-step--active';
+    } elseif ($step_key > $step_order) {
+        return 'c-step--complete';
+    } else {
+        return 'c-step--disable';
+    }
+
 }
