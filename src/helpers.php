@@ -767,6 +767,7 @@ if ( ! function_exists('wprs_is_table_installed')) {
     }
 }
 
+
 if ( ! function_exists('wprs_get_queried_object_name')) {
     /**
      * 获取对象名称
@@ -845,4 +846,77 @@ function wprs_step_class($step_name, $steps, $step_order)
         return 'c-step--disable';
     }
 
+}
+
+
+/**
+ * 根据用户 ID 获取该用户的角色
+ *
+ * @param $user_id
+ *
+ * @return array 该用户的角色，一般只有一个元素
+ */
+function wprs_get_roles_by_user_id($user_id)
+{
+    $user = get_userdata($user_id);
+
+    return empty($user) ? [] : $user->roles;
+}
+
+
+/**
+ * 判断用户是有某个角色
+ *
+ * @param $user_id int 用户 ID
+ * @param $role    string 角色名称
+ *
+ * @return bool
+ */
+function wprs_is_user_in_role($user_id, $role)
+{
+    return in_array($role, wprs_get_roles_by_user_id($user_id));
+}
+
+
+/**
+ * 获取下一流程的用户角色，CRM 系统中，用来过滤上一流程角色审核通过的客户
+ *
+ * @param $roles array 角色名称数组
+ *
+ * @return string|bool 返回角色名称，如果是第一级，返回 True
+ */
+function wprs_get_prev_role($roles)
+{
+    $user_role          = wprs_get_roles_by_user_id(get_current_user_id())[ 0 ];
+    $current_role_level = array_search($user_role, $roles);
+
+    $prev_role = $roles[ $current_role_level - 1 ];
+
+    if ($current_role_level == 0) {
+        return false;
+    }
+
+    return $prev_role;
+}
+
+
+/**
+ * 获取下一流程的用户角色，CRM 系统中，用来通知下一流程进行审核操作
+ *
+ * @param $roles array 角色名称数组
+ *
+ * @return string|bool 返回角色名称，如果是最后一级返回 false
+ */
+function wprs_get_next_role($roles)
+{
+    $user_role          = wprs_get_roles_by_user_id(get_current_user_id())[ 0 ];
+    $current_role_level = array_search($user_role, $roles);
+
+    $next_role = $roles[ $current_role_level + 1 ];
+
+    if ($current_role_level == count($roles)) {
+        return false;
+    }
+
+    return $next_role;
 }
