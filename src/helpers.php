@@ -899,7 +899,7 @@ function wprs_user_get_prev_role($roles, $user_id = 0)
 
     $prev_role = $roles[ $current_role_level - 1 ];
 
-    if ($current_role_level == 0) {
+    if ( ! $current_role_level || $current_role_level == 0) {
         return false;
     }
 
@@ -922,7 +922,7 @@ function wprs_user_get_next_role($roles, $user_id = 0)
 
     $next_role = $roles[ $current_role_level + 1 ];
 
-    if ($current_role_level == count($roles)) {
+    if ( ! $current_role_level || $current_role_level == count($roles)) {
         return false;
     }
 
