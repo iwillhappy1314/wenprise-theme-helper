@@ -361,12 +361,7 @@ if ( ! function_exists('wprs_data_user')) {
             'role' => $role,
         ]);
 
-        $user_data = [];
-        foreach ($users as $user) {
-            $user_data[ $user->ID ] = $user->display_name;
-        }
-
-        return $user_data;
+        return wp_list_pluck($users, 'display_name', 'ID');
     }
 }
 
