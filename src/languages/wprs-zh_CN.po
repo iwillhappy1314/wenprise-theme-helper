@@ -4,123 +4,142 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wenprise Shortcode 1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-05-11 15:21+0800\n"
-"PO-Revision-Date: 2018-05-11 15:22+0800\n"
+"POT-Creation-Date: 2018-12-24 11:13+0800\n"
+"PO-Revision-Date: 2018-12-24 11:14+0800\n"
 "Last-Translator: Amos Lee <iwillhappy1314@gmail.com>\n"
 "Language-Team: Amos Lee\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 1.8.12\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-KeywordsList: __;_\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: data-options.php:52 data-options.php:83
+#: data-options.php:53 data-options.php:84
 msgid "Loop Template Name"
 msgstr "循环模板名称"
 
-#: data-options.php:124
-msgid "Select Content Type"
-msgstr "选择内容类型"
-
-#: data-options.php:125
+#: data-options.php:131
 msgid "Post"
 msgstr "文章"
 
-#: data-options.php:126
+#: data-options.php:132
 msgid "Page"
 msgstr "页面"
 
-#: data-options.php:146
-msgid "Select Taxonomy"
-msgstr "选择分类方法"
+#: data-options.php:140
+msgid "Select Content Type"
+msgstr "选择内容类型"
 
-#: data-options.php:147
+#: data-options.php:165
 msgid "Category"
 msgstr "分类"
 
-#: data-options.php:148
+#: data-options.php:166
 msgid "Tags"
 msgstr "标签"
 
-#: data-options.php:186
-msgid "Select Category"
-msgstr "选择分类目录"
+#: data-options.php:237
+msgid "Select Term"
+msgstr "选择分类"
 
-#: data-options.php:235
+#: data-options.php:273
 msgid "Select Content"
 msgstr "选择内容"
 
-#: data-options.php:298
+#: data-options.php:321
+msgid "Responsive"
+msgstr "自适应"
+
+#: data-options.php:342
 msgid "Default"
 msgstr "默认"
 
-#: data-options.php:299
-msgid "Success（Green）"
-msgstr "成功（绿色）"
+#: data-options.php:343
+msgid "Success"
+msgstr "成功"
 
-#: data-options.php:300
-msgid "Info（Blue）"
-msgstr "信息（蓝色）"
+#: data-options.php:344
+msgid "Info"
+msgstr "信息"
 
-#: data-options.php:301
-msgid "Warning（Orange）"
-msgstr "警告（橙色）"
+#: data-options.php:345
+msgid "Warning"
+msgstr "警告"
 
-#: data-options.php:302
-msgid "Danger（Red）"
-msgstr "危险（红色）"
+#: data-options.php:346
+msgid "Danger"
+msgstr "危险"
 
-#: data-options.php:316
+#: data-options.php:362
 msgid "Zero"
 msgstr "零"
 
-#: data-options.php:317
+#: data-options.php:363
 msgid "Auto"
 msgstr "自动"
 
-#: data-options.php:318
+#: data-options.php:364
 msgid "xxSmall"
 msgstr "最小"
 
-#: data-options.php:319
+#: data-options.php:365
 msgid "xSmall"
 msgstr "超小"
 
-#: data-options.php:320
+#: data-options.php:366
 msgid "Small"
 msgstr "小"
 
-#: data-options.php:321
+#: data-options.php:367
 msgid "Medium"
 msgstr "中等"
 
-#: data-options.php:322
+#: data-options.php:368
 msgid "Large"
 msgstr "大"
 
-#: data-options.php:323
+#: data-options.php:369
 msgid "xLarge"
 msgstr "超大"
 
-#: template-tags.php:169 template-tags.php:174 template-tags.php:178
-#: template-tags.php:182 template-tags.php:186 template-tags.php:211
-#: template-tags.php:222
+#: data-options.php:396
+msgid "Select User"
+msgstr "选择用户"
+
+#: template-tags.php:175 template-tags.php:180 template-tags.php:184
+#: template-tags.php:188 template-tags.php:192 template-tags.php:218
+#: template-tags.php:229
 #, php-format
 msgid "%s"
 msgstr "%s"
 
-#: template-tags.php:229
+#: template-tags.php:236
 #, php-format
 msgid "%1$s"
 msgstr "%1$s"
 
-#: template-tags.php:234
+#: template-tags.php:241
 msgid "Archives"
 msgstr "归档"
+
+#~ msgid "Select Taxonomy"
+#~ msgstr "选择分类方法"
+
+#~ msgid "Success（Green）"
+#~ msgstr "成功（绿色）"
+
+#~ msgid "Info（Blue）"
+#~ msgstr "信息（蓝色）"
+
+#~ msgid "Warning（Orange）"
+#~ msgstr "警告（橙色）"
+
+#~ msgid "Danger（Red）"
+#~ msgstr "危险（红色）"
 
 #~ msgid "Button"
 #~ msgstr "按钮"

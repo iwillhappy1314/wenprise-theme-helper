@@ -17,15 +17,16 @@ function wprs_get_template_option($dir = "wizhi", $default_path = '')
     return wprs_data_templates($dir, $default_path);
 }
 
-/**
- * 获取存档页面模板
- *
- * @param string $dir          模板文件所在的目录名称
- * @param string $default_path 模板文件所在默认目录名称，可为空
- *
- * @return array
- */
+
 if ( ! function_exists('wprs_data_templates')) {
+    /**
+     * 获取存档页面模板
+     *
+     * @param string $dir          模板文件所在的目录名称
+     * @param string $default_path 模板文件所在默认目录名称，可为空
+     *
+     * @return array
+     */
     function wprs_data_templates($dir = "wizhi", $default_path = '')
     {
 
@@ -137,11 +138,11 @@ if ( ! function_exists('wprs_data_post_types')) {
         }
 
         $empty = [
-            '' => sprintf('— %s —', __('Select Content Type', 'wprs')),
+            '' => sprintf('%s', __('Select Content Type', 'wprs')),
         ];
 
         if ($show_empty) {
-            array_merge($empty, $output);
+            $output = array_merge($empty, $output);
         }
 
         return $output;
@@ -188,7 +189,6 @@ if ( ! function_exists('wprs_data_taxonomies')) {
 
 
 if ( ! function_exists('wprs_data_terms')) {
-
     /**
      * 获取分类法项目数组
      *
@@ -233,6 +233,13 @@ if ( ! function_exists('wprs_data_terms')) {
 
         }
 
+        $empty = [
+            '' => sprintf('%s', __('Select Term', 'wprs')),
+        ];
+
+        if ($show_empty) {
+            $output = array_merge($empty, $output);
+        }
 
         return $output;
     }
@@ -240,7 +247,6 @@ if ( ! function_exists('wprs_data_terms')) {
 
 
 if ( ! function_exists('wprs_data_posts')) {
-
     /**
      * 获取文章数组
      *
@@ -255,24 +261,19 @@ if ( ! function_exists('wprs_data_posts')) {
             'post_type'      => $type,
             'posts_per_page' => '-1',
         ];
+
         $loop = new \WP_Query($args);
 
-        $output = [];
-
-        if ($loop->have_posts()) {
-            while ($loop->have_posts()) : $loop->the_post();
-                $output[ get_the_ID() ] = get_the_title();
-            endwhile;
-        }
+        $output = wp_list_pluck($loop->posts, 'post_title', 'ID');
 
         wp_reset_postdata();
 
         $empty = [
-            '' => sprintf('— %s —', __('Select Content', 'wprs')),
+            '' => sprintf('%s', __('Select Content', 'wprs')),
         ];
 
         if ($show_empty) {
-            array_merge($empty, $output);
+            $output = array_merge($empty, $output);
         }
 
         return $output;
@@ -280,12 +281,12 @@ if ( ! function_exists('wprs_data_posts')) {
 }
 
 
-/**
- * 获取图片尺寸数组
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_image_sizes')) {
+    /**
+     * 获取图片尺寸数组
+     *
+     * @return array
+     */
     function wprs_data_image_sizes()
     {
         $image_sizes_orig   = get_intermediate_image_sizes();
@@ -313,18 +314,14 @@ if ( ! function_exists('wprs_data_themes')) {
     {
         $themes = wp_get_themes();
 
-        $options = [];
-
-        foreach ($themes as $theme) {
-            $options[ $theme->template ] = $theme->Name;
-        }
+        $options = wp_list_pluck($themes, 'Name', 'template');
 
         $empty = [
-            '' => sprintf('— %s —', __('Responsive', 'wprs')),
+            '' => sprintf('%s', __('Responsive', 'wprs')),
         ];
 
         if ($show_empty) {
-            array_merge($empty, $options);
+            $options = array_merge($empty, $options);
         }
 
         return $options;
@@ -332,32 +329,32 @@ if ( ! function_exists('wprs_data_themes')) {
 }
 
 
-/**
- * 获取颜色选项
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_colors')) {
+    /**
+     * 获取颜色选项
+     *
+     * @return array
+     */
     function wprs_data_colors()
     {
         $output              = [];
         $output[]            = __('Default', 'wprs');
-        $output[ 'success' ] = __('Success（Green）', 'wprs');
-        $output[ 'info' ]    = __('Info（Blue）', 'wprs');
-        $output[ 'warning' ] = __('Warning（Orange）', 'wprs');
-        $output[ 'danger' ]  = __('Danger（Red）', 'wprs');
+        $output[ 'success' ] = __('Success', 'wprs');
+        $output[ 'info' ]    = __('Info', 'wprs');
+        $output[ 'warning' ] = __('Warning', 'wprs');
+        $output[ 'danger' ]  = __('Danger', 'wprs');
 
         return $output;
     }
 }
 
 
-/**
- * 获取尺寸选项
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_sizes')) {
+    /**
+     * 获取尺寸选项
+     *
+     * @return array
+     */
     function wprs_data_sizes()
     {
         $sizes = [
@@ -376,31 +373,42 @@ if ( ! function_exists('wprs_data_sizes')) {
 }
 
 
-/**
- * 根据角色获取用户选项数组
- *
- * @param $role
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_user')) {
-    function wprs_data_user($role)
+    /**
+     * 根据角色获取用户选项数组
+     *
+     * @param        $role
+     * @param        $show_empty bool 是否显示空值
+     *
+     * @return array
+     */
+    function wprs_data_user($role, $show_empty = true)
     {
         $users = get_users([
             'role' => $role,
         ]);
 
-        return wp_list_pluck($users, 'display_name', 'ID');
+        $options = wp_list_pluck($users, 'display_name', 'ID');
+
+        $empty = [
+            '' => sprintf('%s', __('Select User', 'wprs')),
+        ];
+
+        if ($show_empty) {
+            $options = array_merge($empty, $options);
+        }
+
+        return $options;
     }
 }
 
 
-/**
- * 获取用户角色
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_roles')) {
+    /**
+     * 获取用户角色
+     *
+     * @return array
+     */
     function wprs_data_roles()
     {
         return wp_roles()->role_names;
