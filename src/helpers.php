@@ -486,11 +486,11 @@ if ( ! function_exists('wprs_get_page_settings')) {
 
         }
 
-        if ('' === $settings) {
+        if ( ! $settings) {
             $settings = $global_settings;
         }
 
-        if ('' === $settings) {
+        if ( ! $settings) {
             $settings = $default;
         }
 
