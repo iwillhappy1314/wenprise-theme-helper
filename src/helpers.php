@@ -834,18 +834,20 @@ if ( ! function_exists('add_actions')) {
  *
  * @return string
  */
-function wprs_step_class($step_name, $steps, $step_order)
-{
-    $step_key = array_search($step_name, $steps);
+if ( ! function_exists('wprs_step_class')) {
+    function wprs_step_class($step_name, $steps, $step_order)
+    {
+        $step_key = array_search($step_name, $steps);
 
-    if ($step_key == $step_order) {
-        return 'c-step--active';
-    } elseif ($step_key > $step_order) {
-        return 'c-step--complete';
-    } else {
-        return 'c-step--disable';
+        if ($step_key == $step_order) {
+            return 'c-step--active';
+        } elseif ($step_key > $step_order) {
+            return 'c-step--complete';
+        } else {
+            return 'c-step--disable';
+        }
+
     }
-
 }
 
 
@@ -856,15 +858,17 @@ function wprs_step_class($step_name, $steps, $step_order)
  *
  * @return array 该用户的角色，一般只有一个元素
  */
-function wprs_user_get_roles($user_id = 0)
-{
-    if ($user_id == 0) {
-        $user_id = get_current_user_id();
+if ( ! function_exists('wprs_user_get_roles')) {
+    function wprs_user_get_roles($user_id = 0)
+    {
+        if ($user_id == 0) {
+            $user_id = get_current_user_id();
+        }
+
+        $user = get_userdata($user_id);
+
+        return empty($user) ? [] : $user->roles;
     }
-
-    $user = get_userdata($user_id);
-
-    return empty($user) ? [] : $user->roles;
 }
 
 
@@ -876,11 +880,13 @@ function wprs_user_get_roles($user_id = 0)
  *
  * @return bool
  */
-function wprs_user_is_role($role, $user_id = 0)
-{
-    $user_roles = wprs_user_get_roles($user_id);
+if ( ! function_exists('wprs_user_is_role')) {
+    function wprs_user_is_role($role, $user_id = 0)
+    {
+        $user_roles = wprs_user_get_roles($user_id);
 
-    return in_array($role, $user_roles);
+        return in_array($role, $user_roles);
+    }
 }
 
 
@@ -892,18 +898,21 @@ function wprs_user_is_role($role, $user_id = 0)
  *
  * @return string|bool 返回角色名称，如果是第一级，返回 True
  */
-function wprs_user_get_prev_role($roles, $user_id = 0)
-{
-    $user_role          = wprs_user_get_roles($user_id)[ 0 ];
-    $current_role_level = array_search($user_role, $roles);
+if ( ! function_exists('wprs_user_get_prev_role')) {
+    function wprs_user_get_prev_role($roles, $user_id = 0)
+    {
+        $user_role          = wprs_user_get_roles($user_id)[ 0 ];
+        $current_role_level = array_search($user_role, $roles);
 
-    $prev_role = $roles[ $current_role_level - 1 ];
+        $prev_role = $roles[ $current_role_level - 1 ];
 
-    if ( ! $current_role_level || $current_role_level == 0) {
-        return false;
+        if ( ! $current_role_level || $current_role_level == 0) {
+            return false;
+        }
+
+        return $prev_role;
     }
 
-    return $prev_role;
 }
 
 
@@ -915,16 +924,70 @@ function wprs_user_get_prev_role($roles, $user_id = 0)
  *
  * @return string|bool 返回角色名称，如果是最后一级返回 false
  */
-function wprs_user_get_next_role($roles, $user_id = 0)
-{
-    $user_role          = wprs_user_get_roles($user_id)[ 0 ];
-    $current_role_level = array_search($user_role, $roles);
+if ( ! function_exists('wprs_user_get_next_role')) {
+    function wprs_user_get_next_role($roles, $user_id = 0)
+    {
+        $user_role          = wprs_user_get_roles($user_id)[ 0 ];
+        $current_role_level = array_search($user_role, $roles);
 
-    $next_role = $roles[ $current_role_level + 1 ];
+        $next_role = $roles[ $current_role_level + 1 ];
 
-    if ( ! $current_role_level || $current_role_level == count($roles)) {
+        if ( ! $current_role_level || $current_role_level == count($roles)) {
+            return false;
+        }
+
+        return $next_role;
+    }
+}
+
+
+if ( ! function_exists('wprs_is_plugin_active')) {
+    /**
+     * 检查插件是否已激活
+     *
+     * @param $plugin
+     *
+     * @return bool
+     */
+    function wprs_is_plugin_active($plugin)
+    {
+        return in_array($plugin, (array)get_option('active_plugins', [])) || wprs_is_plugin_active_for_network($plugin);
+    }
+}
+
+
+if ( ! function_exists('wprs_is_plugin_active_for_network')) {
+    /**
+     * 检查网络插件是否已激活
+     *
+     * @param $plugin
+     *
+     * @return bool
+     */
+    function wprs_is_plugin_active_for_network($plugin)
+    {
+        if ( ! is_multisite()) {
+            return false;
+        }
+
+        $plugins = get_site_option('active_sitewide_plugins');
+        if (isset($plugins[ $plugin ])) {
+            return true;
+        }
+
         return false;
     }
+}
 
-    return $next_role;
+
+if ( ! function_exists('wprs_class')) {
+    /**
+     * 转换数组为 Class
+     *
+     * @param string $class
+     */
+    function wprs_class($class = '')
+    {
+        echo 'class="' . join(' ', (array)$class) . '"';
+    }
 }
