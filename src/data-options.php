@@ -109,13 +109,15 @@ if ( ! function_exists('wprs_data_templates')) {
 }
 
 
-/**
- * 获取文章类型数组
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_post_types')) {
-    function wprs_data_post_types()
+    /**
+     * 获取文章类型数组
+     *
+     * @param $show_empty bool 是否显示空值
+     *
+     * @return array
+     */
+    function wprs_data_post_types($show_empty = true)
     {
 
         $args_type = [
@@ -126,7 +128,6 @@ if ( ! function_exists('wprs_data_post_types')) {
         $post_types = get_post_types($args_type, 'objects');
 
         $output = [
-            ''     => sprintf('— %s —', __('Select Content Type', 'wprs')),
             'post' => __('Post', 'wprs'),
             'page' => __('Page', 'wprs'),
         ];
@@ -135,22 +136,32 @@ if ( ! function_exists('wprs_data_post_types')) {
             $output[ $post_type->name ] = $post_type->label;
         }
 
+        $empty = [
+            '' => sprintf('— %s —', __('Select Content Type', 'wprs')),
+        ];
+
+        if ($show_empty) {
+            array_merge($empty, $output);
+        }
+
         return $output;
     }
 }
 
 
-/**
- * 获取分类方法数组
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_taxonomies')) {
-    function wprs_data_taxonomies()
+
+    /**
+     * 获取分类方法数组
+     *
+     * @param $show_empty bool 是否显示空值
+     *
+     * @return array
+     */
+    function wprs_data_taxonomies($show_empty = true)
     {
 
         $output = [
-            ''         => sprintf('— %s —', __('Select Taxonomy', 'wprs')),
             'category' => __('Category', 'wprs'),
             'post_tag' => __('Tags', 'wprs'),
         ];
@@ -170,30 +181,31 @@ if ( ! function_exists('wprs_data_taxonomies')) {
             $output[ esc_attr($taxonomy) ] = esc_attr($tax->labels->name);
         }
 
+
         return $output;
     }
 }
 
 
-/**
- * 获取分类法项目数组
- *
- * @param string $taxonomy
- * @param int    $parent
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_terms')) {
-    function wprs_data_terms($taxonomy = 'post_tag', $parent = 0)
+
+    /**
+     * 获取分类法项目数组
+     *
+     * @param string $taxonomy
+     * @param int    $parent
+     * @param        $show_empty bool 是否显示空值
+     *
+     * @return array
+     */
+    function wprs_data_terms($taxonomy = 'post_tag', $parent = 0, $show_empty = true)
     {
         $terms = get_terms($taxonomy, [
             'parent'     => $parent,
             'hide_empty' => false,
         ]);
 
-        $output = [
-            '' => sprintf('— %s —', __('Select Category', 'wprs')),
-        ];
+        $output = [];
 
         if (is_wp_error($terms)) {
             return $output;
@@ -221,20 +233,23 @@ if ( ! function_exists('wprs_data_terms')) {
 
         }
 
+
         return $output;
     }
 }
 
 
-/**
- * 获取文章数组
- *
- * @param string $type
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_posts')) {
-    function wprs_data_posts($type = "post")
+
+    /**
+     * 获取文章数组
+     *
+     * @param string $type
+     * @param        $show_empty bool 是否显示空值
+     *
+     * @return array
+     */
+    function wprs_data_posts($type = "post", $show_empty = true)
     {
         $args = [
             'post_type'      => $type,
@@ -242,9 +257,7 @@ if ( ! function_exists('wprs_data_posts')) {
         ];
         $loop = new \WP_Query($args);
 
-        $output = [
-            '' => sprintf('— %s —', __('Select Content', 'wprs')),
-        ];
+        $output = [];
 
         if ($loop->have_posts()) {
             while ($loop->have_posts()) : $loop->the_post();
@@ -253,6 +266,14 @@ if ( ! function_exists('wprs_data_posts')) {
         }
 
         wp_reset_postdata();
+
+        $empty = [
+            '' => sprintf('— %s —', __('Select Content', 'wprs')),
+        ];
+
+        if ($show_empty) {
+            array_merge($empty, $output);
+        }
 
         return $output;
     }
@@ -280,22 +301,30 @@ if ( ! function_exists('wprs_data_image_sizes')) {
 }
 
 
-/**
- * 获取主题
- *
- * @return array
- */
 if ( ! function_exists('wprs_data_themes')) {
-    function wprs_data_themes()
+    /**
+     * 获取主题
+     *
+     * @param        $show_empty bool 是否显示空值
+     *
+     * @return array
+     */
+    function wprs_data_themes($show_empty = true)
     {
         $themes = wp_get_themes();
 
-        $options = [
-            '' => sprintf('— %s —', __('Responsive', 'wprs')),
-        ];
+        $options = [];
 
         foreach ($themes as $theme) {
             $options[ $theme->template ] = $theme->Name;
+        }
+
+        $empty = [
+            '' => sprintf('— %s —', __('Responsive', 'wprs')),
+        ];
+
+        if ($show_empty) {
+            array_merge($empty, $options);
         }
 
         return $options;
