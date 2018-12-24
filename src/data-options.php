@@ -126,7 +126,7 @@ if ( ! function_exists('wprs_data_post_types')) {
         $post_types = get_post_types($args_type, 'objects');
 
         $output = [
-            0      => sprintf('— %s —', __('Select Content Type', 'wprs')),
+            ''     => sprintf('— %s —', __('Select Content Type', 'wprs')),
             'post' => __('Post', 'wprs'),
             'page' => __('Page', 'wprs'),
         ];
@@ -150,7 +150,7 @@ if ( ! function_exists('wprs_data_taxonomies')) {
     {
 
         $output = [
-            0          => sprintf('— %s —', __('Select Taxonomy', 'wprs')),
+            ''         => sprintf('— %s —', __('Select Taxonomy', 'wprs')),
             'category' => __('Category', 'wprs'),
             'post_tag' => __('Tags', 'wprs'),
         ];
@@ -192,7 +192,7 @@ if ( ! function_exists('wprs_data_terms')) {
         ]);
 
         $output = [
-            0 => sprintf('— %s —', __('Select Category', 'wprs')),
+            '' => sprintf('— %s —', __('Select Category', 'wprs')),
         ];
 
         if (is_wp_error($terms)) {
@@ -243,7 +243,7 @@ if ( ! function_exists('wprs_data_posts')) {
         $loop = new \WP_Query($args);
 
         $output = [
-            0 => sprintf('— %s —', __('Select Content', 'wprs')),
+            '' => sprintf('— %s —', __('Select Content', 'wprs')),
         ];
 
         if ($loop->have_posts()) {
@@ -291,7 +291,7 @@ if ( ! function_exists('wprs_data_themes')) {
         $themes = wp_get_themes();
 
         $options = [
-            0 => 'Responsive',
+            '' => sprintf('— %s —', __('Responsive', 'wprs')),
         ];
 
         foreach ($themes as $theme) {
@@ -332,7 +332,7 @@ if ( ! function_exists('wprs_data_sizes')) {
     function wprs_data_sizes()
     {
         $sizes = [
-            '0'    => __('Zero', 'wprs'),
+            ''     => __('Zero', 'wprs'),
             'auto' => __('Auto', 'wprs'),
             'xxs'  => __('xxSmall', 'wprs'),
             'xs'   => __('xSmall', 'wprs'),
