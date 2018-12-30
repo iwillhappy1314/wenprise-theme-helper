@@ -745,6 +745,44 @@ if ( ! function_exists('wprs_str_random')) {
 }
 
 
+/**
+ * 裁剪文本
+ *
+ * @param      $input
+ * @param      $length
+ * @param bool $ellipses
+ * @param bool $strip_html
+ *
+ * @return bool|string
+ */
+if ( ! function_exists('wprs_trim_words')) {
+    function wprs_trim_words($input, $length, $ellipses = true, $strip_html = true)
+    {
+        //strip tags, if desired
+        if ($strip_html) {
+            $input = strip_tags($input);
+        }
+
+        //no need to trim, already shorter than trim length
+        if (strlen($input) <= $length) {
+            return $input;
+        }
+
+        //find last space within length
+        $last_space   = strrpos(substr($input, 0, $length), ' ');
+        $trimmed_text = substr($input, 0, $last_space);
+
+        //add ellipses (...)
+        if ($ellipses) {
+            $trimmed_text .= '...';
+        }
+
+        return $trimmed_text;
+    }
+}
+
+
+
 if ( ! function_exists('wprs_is_table_installed')) {
     /**
      * 判断是否安装了数据表
