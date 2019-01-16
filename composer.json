@@ -12,6 +12,7 @@
     },
     "files": [
       "src/helpers.php",
+      "src/conditional.php",
       "src/template-tags.php",
       "src/data-options.php",
       "src/images.php",

@@ -12,7 +12,7 @@ use Nette\Utils\Finder;
  *
  * @deprecated
  */
-function wprs_get_template_option($dir = "wizhi", $default_path = '')
+function wprs_get_template_option($dir = "templates", $default_path = '')
 {
     return wprs_data_templates($dir, $default_path);
 }
@@ -27,7 +27,7 @@ if ( ! function_exists('wprs_data_templates')) {
      *
      * @return array
      */
-    function wprs_data_templates($dir = "wizhi", $default_path = '')
+    function wprs_data_templates($dir = "templates", $default_path = '')
     {
 
         $template_in_plugin = $default_path . $dir;
