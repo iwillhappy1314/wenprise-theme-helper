@@ -30,19 +30,18 @@ if ( ! function_exists('wprs_data_templates')) {
     function wprs_data_templates($dir = "templates", $default_path = '')
     {
 
-        $template_in_plugin = $default_path . $dir;
-        $template_in_theme  = get_theme_file_path($dir);
+        $plugin_template_dir = $default_path . $dir;
+        $theme_template_dir  = get_theme_file_path($dir);
 
         $templates_in_plugin = [];
         $templates_in_theme  = [];
 
 
         // 插件中的模板
-        if (is_dir($template_in_plugin)) {
+        if (is_dir($plugin_template_dir)) {
 
             // 查找目录中的文件
-            $finder = Finder::findFiles('*.php')
-                            ->in($template_in_plugin);
+            $finder = Finder::findFiles('*.php')->in($plugin_template_dir);
 
             foreach ($finder as $key => $file) {
 
@@ -57,23 +56,22 @@ if ( ! function_exists('wprs_data_templates')) {
                 $file_info = get_file_data($key, $headers);
 
                 // 获取模板名称
-                if ($file_info[ 'Name' ]) {
-                    $option_name = $file_info[ 'Name' ];
+                if ($file_info[ 'name' ]) {
+                    $option_name = $file_info[ 'name' ];
                 } else {
                     $option_name = ucfirst($name);
                 }
 
-                $templates_in_theme[ explode('.', $name)[ 0 ] ] = $option_name;
+                $templates_in_plugin[ explode('.', $name)[ 0 ] ] = $option_name;
 
             }
         }
 
 
         // 主题中的模板
-        if (is_dir($template_in_theme)) {
+        if (is_dir($theme_template_dir)) {
 
-            $finder = Finder::findFiles('*.php')
-                            ->in($template_in_theme);
+            $finder = Finder::findFiles('*.php')->in($theme_template_dir);
 
             foreach ($finder as $key => $file) {
 
