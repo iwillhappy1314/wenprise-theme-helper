@@ -51,7 +51,7 @@ if ( ! function_exists('wprs_data_templates')) {
                 $name            = Arrays::get($file_name_array, 1, '');
 
                 $headers = [
-                    'Name' => __('Loop Template Name', 'wprs'),
+                    'name' => 'Loop Template Name',
                 ];
 
                 $file_info = get_file_data($key, $headers);
@@ -82,14 +82,14 @@ if ( ! function_exists('wprs_data_templates')) {
                 $name            = Arrays::get($file_name_array, 1, '');
 
                 $headers = [
-                    'Name' => __('Loop Template Name', 'wprs'),
+                    'name' => 'Loop Template Name',
                 ];
 
                 $file_info = get_file_data($key, $headers);
 
                 // 获取模板名称
-                if ($file_info[ 'Name' ]) {
-                    $option_name = $file_info[ 'Name' ];
+                if ($file_info[ 'name' ]) {
+                    $option_name = $file_info[ 'name' ];
                 } else {
                     $option_name = ucfirst($name);
                 }
