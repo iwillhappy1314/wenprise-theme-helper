@@ -1,9 +1,5 @@
 <?php
 
-use Nette\Utils\Arrays;
-use Nette\Utils\Finder;
-
-
 /**
  * @param string $dir
  * @param string $default_path
@@ -30,80 +26,37 @@ if ( ! function_exists('wprs_data_templates')) {
     function wprs_data_templates($dir = "templates", $default_path = '')
     {
 
+        $headers = [
+            'name' => 'Loop Template Name',
+        ];
+
         $plugin_template_dir = $default_path . $dir;
         $theme_template_dir  = get_theme_file_path($dir);
 
         $templates_in_plugin = [];
         $templates_in_theme  = [];
 
-
         // 插件中的模板
         if (is_dir($plugin_template_dir)) {
-
-            // 查找目录中的文件
-            $finder = Finder::findFiles('*.php')->in($plugin_template_dir);
-
-            foreach ($finder as $key => $file) {
-
-                $filename        = $file->getFilename();
-                $file_name_array = explode('-', $filename);
-                $name            = Arrays::get($file_name_array, 1, '');
-
-                $headers = [
-                    'name' => 'Loop Template Name',
-                ];
-
-                $file_info = get_file_data($key, $headers);
-
-                // 获取模板名称
-                if ($file_info[ 'name' ]) {
-                    $option_name = $file_info[ 'name' ];
-                } else {
-                    $option_name = ucfirst($name);
-                }
-
-                $templates_in_plugin[ explode('.', $name)[ 0 ] ] = $option_name;
-
-            }
+            $templates_in_plugin = wprs_get_templates_in_path($plugin_template_dir, $headers);
         }
-
 
         // 主题中的模板
         if (is_dir($theme_template_dir)) {
-
-            $finder = Finder::findFiles('*.php')->in($theme_template_dir);
-
-            foreach ($finder as $key => $file) {
-
-                $filename        = $file->getFilename();
-                $file_name_array = explode('-', $filename);
-                $name            = Arrays::get($file_name_array, 1, '');
-
-                $headers = [
-                    'name' => 'Loop Template Name',
-                ];
-
-                $file_info = get_file_data($key, $headers);
-
-                // 获取模板名称
-                if ($file_info[ 'name' ]) {
-                    $option_name = $file_info[ 'name' ];
-                } else {
-                    $option_name = ucfirst($name);
-                }
-
-                $templates_in_theme[ explode('.', $name)[ 0 ] ] = $option_name;
-
-            }
+            $templates_in_theme = wprs_get_templates_in_path($theme_template_dir, $headers);
         }
-
 
         // 合并插件和主题中的模板，优先使用主题中模板
         $templates = wp_parse_args($templates_in_theme, $templates_in_plugin);
 
-        ksort($templates);
+        $result = [];
+        foreach ($templates as $key => $name) {
+            $result[ $key ] = $name[ 'name' ];
+        }
 
-        return $templates;
+        ksort($result);
+
+        return $result;
     }
 }
 

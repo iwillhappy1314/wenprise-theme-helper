@@ -1,5 +1,7 @@
 <?php
 
+use Nette\Utils\Arrays;
+use Nette\Utils\Finder;
 
 if ( ! function_exists('wprs_get_vue_component_template')) {
     /**
@@ -838,5 +840,46 @@ if ( ! function_exists('wprs_class')) {
     function wprs_class($class = '')
     {
         echo 'class="' . join(' ', (array)$class) . '"';
+    }
+}
+
+
+/**
+ * 获取路径中的指定文件
+ *
+ * @param $path
+ * @param $headers
+ *
+ * @return array
+ */
+if ( ! function_exists('wprs_get_templates_in_path')) {
+    function wprs_get_templates_in_path($path, $headers = [])
+    {
+        $templates = [];
+
+        if (is_dir($path)) {
+            $finder = Finder::findFiles('*.php')->in($path);
+
+            foreach ($finder as $key => $file) {
+
+                $filename        = $file->getFilename();
+                $file_name_array = explode('-', $filename);
+                $name            = Arrays::get($file_name_array, 1, '');
+
+                if ( ! $name) {
+                    $name = $filename;
+                }
+
+                $file_info = get_file_data($key, $headers);
+
+                // 获取模板名称
+                if (isset($file_info[ 'name' ]) && $file_info[ 'name' ] != '') {
+                    $templates[ explode('.', $name)[ 0 ] ] = $file_info;
+                }
+
+            }
+        }
+
+        return $templates;
     }
 }
