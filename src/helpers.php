@@ -883,3 +883,24 @@ if ( ! function_exists('wprs_get_templates_in_path')) {
         return $templates;
     }
 }
+
+
+/**
+ * 获取 wp-content 中的自定义子目录，如果不存在，新建目录
+ *
+ * @param $dir
+ *
+ * @return string
+ */
+if ( ! function_exists('wprs_content_dir')) {
+    function wprs_content_dir($dir)
+    {
+        $directory = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . $dir;
+
+        if ( ! is_dir($dir)) {
+            wp_mkdir_p($dir);
+        }
+
+        return $directory;
+    }
+}
