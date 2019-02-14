@@ -4,109 +4,105 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wenprise Shortcode 1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2018-12-24 11:13+0800\n"
-"PO-Revision-Date: 2018-12-24 11:14+0800\n"
+"POT-Creation-Date: 2019-02-14 19:52+0800\n"
+"PO-Revision-Date: 2019-02-14 19:53+0800\n"
 "Last-Translator: Amos Lee <iwillhappy1314@gmail.com>\n"
 "Language-Team: Amos Lee\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-Basepath: ..\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-KeywordsList: __;_\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: data-options.php:53 data-options.php:84
-msgid "Loop Template Name"
-msgstr "循环模板名称"
-
-#: data-options.php:131
+#: data-options.php:83
 msgid "Post"
 msgstr "文章"
 
-#: data-options.php:132
+#: data-options.php:84
 msgid "Page"
 msgstr "页面"
 
-#: data-options.php:140
+#: data-options.php:92
 msgid "Select Content Type"
 msgstr "选择内容类型"
 
-#: data-options.php:165
+#: data-options.php:117
 msgid "Category"
 msgstr "分类"
 
-#: data-options.php:166
+#: data-options.php:118
 msgid "Tags"
 msgstr "标签"
 
-#: data-options.php:237
+#: data-options.php:188
 msgid "Select Term"
 msgstr "选择分类"
 
-#: data-options.php:273
+#: data-options.php:223
 msgid "Select Content"
 msgstr "选择内容"
 
-#: data-options.php:321
+#: data-options.php:271
 msgid "Responsive"
 msgstr "自适应"
 
-#: data-options.php:342
+#: data-options.php:292
 msgid "Default"
 msgstr "默认"
 
-#: data-options.php:343
+#: data-options.php:293
 msgid "Success"
 msgstr "成功"
 
-#: data-options.php:344
+#: data-options.php:294
 msgid "Info"
 msgstr "信息"
 
-#: data-options.php:345
+#: data-options.php:295
 msgid "Warning"
 msgstr "警告"
 
-#: data-options.php:346
+#: data-options.php:296
 msgid "Danger"
 msgstr "危险"
 
-#: data-options.php:362
+#: data-options.php:312
 msgid "Zero"
 msgstr "零"
 
-#: data-options.php:363
+#: data-options.php:313
 msgid "Auto"
 msgstr "自动"
 
-#: data-options.php:364
+#: data-options.php:314
 msgid "xxSmall"
 msgstr "最小"
 
-#: data-options.php:365
+#: data-options.php:315
 msgid "xSmall"
 msgstr "超小"
 
-#: data-options.php:366
+#: data-options.php:316
 msgid "Small"
 msgstr "小"
 
-#: data-options.php:367
+#: data-options.php:317
 msgid "Medium"
 msgstr "中等"
 
-#: data-options.php:368
+#: data-options.php:318
 msgid "Large"
 msgstr "大"
 
-#: data-options.php:369
+#: data-options.php:319
 msgid "xLarge"
 msgstr "超大"
 
-#: data-options.php:396
+#: data-options.php:345
 msgid "Select User"
 msgstr "选择用户"
 
@@ -125,6 +121,13 @@ msgstr "%1$s"
 #: template-tags.php:241
 msgid "Archives"
 msgstr "归档"
+
+#: template-tags.php:587
+msgid "Home"
+msgstr "首页"
+
+#~ msgid "Loop Template Name"
+#~ msgstr "循环模板名称"
 
 #~ msgid "Select Taxonomy"
 #~ msgstr "选择分类方法"
@@ -264,9 +267,6 @@ msgstr "归档"
 
 #~ msgid "No %s found."
 #~ msgstr "没有找到%s"
-
-#~ msgid "Home"
-#~ msgstr "首页 "
 
 #~ msgid "Add a menu"
 #~ msgstr "添加菜单"

@@ -577,13 +577,15 @@ if ( ! function_exists('wprs_breadcrumbs')) {
     function wprs_breadcrumbs()
     {
         $breadcrumbs = new Carbon_Breadcrumb_Trail([
-            'glue'           => '',
-            'link_before'    => '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">',
-            'link_after'     => '</li>',
-            'wrapper_before' => '<ol class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">',
-            'wrapper_after'  => '</ol>',
-            'title_before'   => '<span itemprop="name">',
-            'title_after'    => '</span>',
+            'glue'            => '',
+            'link_before'     => '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">',
+            'link_after'      => '</li>',
+            'wrapper_before'  => '<ol class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">',
+            'wrapper_after'   => '</ol>',
+            'title_before'    => '<span itemprop="name">',
+            'title_after'     => '</span>',
+            'last_item_link'  => false,
+            'home_item_title' => __('Home', 'wprs'),
         ]);
 
         $breadcrumbs->setup();
