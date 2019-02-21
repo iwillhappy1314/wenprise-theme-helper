@@ -93,7 +93,7 @@ if ( ! function_exists('wprs_data_post_types')) {
         ];
 
         if ($show_empty) {
-            $output = array_merge($empty, $output);
+            $output = $empty + $output;
         }
 
         return $output;
@@ -189,7 +189,7 @@ if ( ! function_exists('wprs_data_terms')) {
         ];
 
         if ($show_empty) {
-            $output = array_merge($empty, $output);
+            $output = $empty + $output;
         }
 
         return $output;
@@ -224,7 +224,7 @@ if ( ! function_exists('wprs_data_posts')) {
         ];
 
         if ($show_empty) {
-            $output = array_merge($empty, $output);
+            $output = $empty + $output;
         }
 
         return $output;
@@ -272,7 +272,7 @@ if ( ! function_exists('wprs_data_themes')) {
         ];
 
         if ($show_empty) {
-            $options = array_merge($empty, $options);
+            $options = $empty + $options;
         }
 
         return $options;
@@ -346,7 +346,7 @@ if ( ! function_exists('wprs_data_user')) {
         ];
 
         if ($show_empty) {
-            $options = array_merge($empty, $options);
+            $options = $empty + $options;
         }
 
         return $options;
