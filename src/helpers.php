@@ -197,7 +197,9 @@ if ( ! function_exists('wprs_assets')) {
             $manifest      = new WprsJsonManifest($manifest_path);
         }
 
-        if (array_key_exists($file, $manifest->get())) {
+        $env = defined('ENV') ? ENV : 'production';
+
+        if (array_key_exists($file, $manifest->get()) && $env != 'local') {
             return $dist_uri . $directory . $manifest->get()[ $file ];
         } else {
             return $dist_uri . $directory . $file;
