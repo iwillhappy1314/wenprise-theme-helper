@@ -170,6 +170,19 @@ if ( ! class_exists('WprsJsonManifest')) {
 }
 
 
+if ( ! function_exists('wprs_env')) {
+    /**
+     * 获取环境变量
+     */
+    function wprs_env()
+    {
+        $env = defined('ENV') ? ENV : 'production';
+
+        return $env;
+    }
+}
+
+
 if ( ! function_exists('wprs_assets')) {
     /**
      * 获取前端资源
@@ -197,9 +210,7 @@ if ( ! function_exists('wprs_assets')) {
             $manifest      = new WprsJsonManifest($manifest_path);
         }
 
-        $env = defined('ENV') ? ENV : 'production';
-
-        if (array_key_exists($file, $manifest->get()) && $env != 'local') {
+        if (array_key_exists($file, $manifest->get()) && wprs_env() != 'local') {
             return $dist_uri . $directory . $manifest->get()[ $file ];
         } else {
             return $dist_uri . $directory . $file;
