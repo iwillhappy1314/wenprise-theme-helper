@@ -231,7 +231,7 @@ if ( ! function_exists('wprs_get_archive_option')) {
      */
     function wprs_get_archive_option($type, $name, $default = '')
     {
-        $value = carbon_get_theme_option($type . '_' . $name);
+        $value = get_option($type . '_' . $name);
 
         if ( ! $value) {
             $value = $default;
@@ -364,20 +364,20 @@ if ( ! function_exists('wprs_get_page_settings')) {
     function wprs_get_page_settings($name, $default = '')
     {
 
-        $global_settings = carbon_get_theme_option($name);
+        $global_settings = get_option($name);
 
         if (is_page() || is_single() || is_singular()) {
 
             $post     = get_queried_object();
-            $settings = carbon_get_post_meta($post->ID, $name);
+            $settings = get_post_meta($post->ID, $name, true);
 
             if ( ! $settings && $post->post_parent) {
-                $settings = carbon_get_post_meta($post->post_parent, $name);
+                $settings = get_post_meta($post->post_parent, $name, true);
             }
 
         } elseif (is_category() || is_tag() || is_tax()) {
 
-            $settings = carbon_get_term_meta(get_queried_object_id(), $name);
+            $settings = get_post_meta(get_queried_object_id(), $name, true);
 
             if ( ! $settings) {
                 $settings = wprs_get_archive_option(wprs_get_term_post_type(), $name);

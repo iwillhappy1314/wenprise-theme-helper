@@ -169,7 +169,7 @@ if ( ! function_exists('wprs_get_page_title')) {
     {
         if (is_category() || is_tag()) {
 
-            $title = carbon_get_term_meta(get_queried_object_id(), 'title');
+            $title = get_term_meta(get_queried_object_id(), 'title', true);
 
             if ( ! $title) {
                 $title = sprintf(__('%s'), single_cat_title('', false));
@@ -230,7 +230,7 @@ if ( ! function_exists('wprs_get_page_title')) {
 
         } elseif (is_tax()) {
 
-            $title = carbon_get_term_meta(get_queried_object_id(), 'title');
+            $title = get_term_meta(get_queried_object_id(), 'title', true);
 
             if ( ! $title) {
                 $title = sprintf(__('%1$s'), single_term_title('', false));
