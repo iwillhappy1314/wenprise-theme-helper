@@ -439,14 +439,14 @@ if ( ! function_exists('wprs_thumbnail_mask')) {
 
         if ($is_show_image_popup === 'show') {
             if (get_post_gallery($post)) {
-                $html .= '<a class="f-gallery" href="#"><i class="iconfont icon-arrowexpand"></i></a>';
+                $html .= '<a class="f-gallery" href="#"><i class="wpion-expand-arrows-alt2"></i></a>';
             } else {
-                $html .= '<a class="f-gallery" href="' . esc_url($thumb_src[ 0 ]) . '"><i class="iconfont icon-arrowexpand"></i></a>';
+                $html .= '<a class="f-gallery" href="' . esc_url($thumb_src[ 0 ]) . '"><i class="wpion-expand-arrows-alt2"></i></a>';
             }
         }
 
         if ( ! is_singular($post)) {
-            $html .= '<a class="f-post" href="' . get_the_permalink($post) . '"><i class="iconfont icon-link"></i></a>';
+            $html .= '<a class="f-post" href="' . get_the_permalink($post) . '"><i class="wpion-link1"></i></a>';
         }
 
         $html .= '</div>';
