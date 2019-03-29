@@ -3,25 +3,6 @@
 use Nette\Utils\Arrays;
 use Nette\Utils\Finder;
 
-if ( ! function_exists('wprs_get_vue_component_template')) {
-    /**
-     * 获取嵌入的 Vue 组件
-     *
-     * @param  string  the file path of the file
-     * @param  string  the script id
-     *
-     * @return void
-     */
-    function wprs_get_vue_component_template($file_path, $id)
-    {
-        if (file_exists($file_path)) {
-            echo '<script type="text/x-template" id="' . $id . '">' . "\n";
-            include_once $file_path;
-            echo "\n" . '</script>' . "\n";
-        }
-    }
-}
-
 
 if ( ! function_exists('wprs_get_post_meta')) {
     /**
@@ -113,59 +94,23 @@ if ( ! function_exists("wprs_order_no")) {
 }
 
 
-if ( ! class_exists('WprsJsonManifest')) {
-    /**
-     * 获取前端资源路径
-     */
-    class WprsJsonManifest
+/**
+ * 获取前端资源路径
+ *
+ * @param $manifest_path
+ *
+ * @return array
+ */
+if ( ! function_exists('wprs_get_manifest')) {
+    function wprs_get_manifest($manifest_path)
     {
-        private $manifest;
-
-        public function __construct($manifest_path)
-        {
-
-            if (file_exists($manifest_path)) {
-                $this->manifest = json_decode(file_get_contents($manifest_path), true);
-            } else {
-                $this->manifest = [];
-            }
-
+        if (file_exists($manifest_path)) {
+            $manifest = json_decode(file_get_contents($manifest_path), true);
+        } else {
+            $manifest = [];
         }
 
-        public function get()
-        {
-            return $this->manifest;
-        }
-
-        /**
-         * @param string $key
-         * @param null   $default
-         *
-         * @return array|mixed|null
-         */
-        public function getPath($key = '', $default = null)
-        {
-            $collection = $this->manifest;
-
-            if (is_null($key)) {
-                return $collection;
-            }
-
-            if (isset($collection[ $key ])) {
-                return $collection[ $key ];
-            }
-
-            foreach (explode('.', $key) as $segment) {
-                if ( ! isset($collection[ $segment ])) {
-                    return $default;
-                } else {
-                    $collection = $collection[ $segment ];
-                }
-            }
-
-            return $collection;
-        }
-
+        return $manifest;
     }
 }
 
@@ -207,11 +152,11 @@ if ( ! function_exists('wprs_assets')) {
 
         if (empty($manifest)) {
             $manifest_path = $dist_path . 'assets.json';
-            $manifest      = new WprsJsonManifest($manifest_path);
+            $manifest      = wprs_get_manifest($manifest_path);
         }
 
-        if (array_key_exists($file, $manifest->get()) && wprs_env() != 'local') {
-            return $dist_uri . $directory . $manifest->get()[ $file ];
+        if (array_key_exists($file, $manifest) && wprs_env() != 'local') {
+            return $dist_uri . $directory . $manifest[ $file ];
         } else {
             return $dist_uri . $directory . $file;
         }
@@ -452,17 +397,15 @@ if ( ! function_exists('wprs_get_domain')) {
     function wprs_get_domain($url)
     {
         $host = @parse_url($url, PHP_URL_HOST);
-        // If the URL can't be parsed, use the original URL
-        // Change to "return false" if you don't want that
+
         if ( ! $host) {
             $host = $url;
         }
-        // The "www." prefix isn't really needed if you're just using
-        // this to display the domain to the user
+
         if (substr($host, 0, 4) == "www.") {
             $host = substr($host, 4);
         }
-        // You might also want to limit the length if screen space is limited
+
         if (strlen($host) > 50) {
             $host = substr($host, 0, 47) . '...';
         }
@@ -627,6 +570,43 @@ if ( ! function_exists('wprs_update_post_status')) {
 }
 
 
+if ( ! function_exists('wprs_get_queried_object_name')) {
+    /**
+     * 获取对象名称
+     */
+    function wprs_get_queried_object_name()
+    {
+
+    }
+}
+
+
+/**
+ * 隐藏字符串中的部分字符
+ *
+ * @param     $str
+ * @param int $start
+ * @param int $length
+ *
+ * @return mixed
+ */
+if ( ! function_exists('wprs_string_mask')) {
+    function wprs_string_mask($str, $start = 0, $length = 4)
+    {
+        $mask = preg_replace("/\S/", "*", $str);
+        if (is_null($length)) {
+            $mask = substr($mask, $start);
+            $str  = substr_replace($str, $mask, $start);
+        } else {
+            $mask = substr($mask, $start, $length);
+            $str  = substr_replace($str, $mask, $start, $length);
+        }
+
+        return $str;
+    }
+}
+
+
 if ( ! function_exists('wprs_str_random')) {
     /**
      * 生成随机的字母+数字字符串
@@ -686,17 +666,6 @@ if ( ! function_exists('wprs_trim_words')) {
         }
 
         return $trimmed_text;
-    }
-}
-
-
-if ( ! function_exists('wprs_get_queried_object_name')) {
-    /**
-     * 获取对象名称
-     */
-    function wprs_get_queried_object_name()
-    {
-
     }
 }
 

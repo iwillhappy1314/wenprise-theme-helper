@@ -1,20 +1,4 @@
 <?php
-/**
- * 裁剪图片
- */
-
-/**
- * Disable responsive image widths as not yet support
- *
- * @since 1.0.0
- */
-add_action( 'max_srcset_image_width', function ()
-{
-	if ( apply_filters( 'dynamic_image_resizer_disable_response', true ) ) {
-		add_filter( 'max_srcset_image_width', '__return_true' );
-	}
-} );
-
 
 /**
  * 处理图像裁剪请求
@@ -27,6 +11,8 @@ add_action( 'max_srcset_image_width', function ()
  * @param bool         $crop     是否裁剪照片
  *
  * @return bool|mixed
+ *
+ * @deprecated
  */
 add_action( 'image_downsize', function ( $downsize = true, $id, $size, $crop = false )
 {
@@ -115,6 +101,7 @@ add_action( 'image_downsize', function ( $downsize = true, $id, $size, $crop = f
  * @param  string $size 如果提供了此参数，只返回此尺寸
  *
  * @return bool|mixed        Image sizes
+ *
  */
 function wprs_get_image_sizes( $size = '' )
 {

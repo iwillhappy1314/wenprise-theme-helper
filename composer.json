@@ -16,7 +16,8 @@
       "src/template-tags.php",
       "src/data-options.php",
       "src/images.php",
-      "src/languages.php"
+      "src/languages.php",
+      "src/deprecated.php"
     ]
   },
   "license": "MIT",
