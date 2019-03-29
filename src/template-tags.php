@@ -269,7 +269,12 @@ function wprs_image_size_attr($size = 'is-400by300')
     if (is_array($size)) {
         if (array_sum($size) !== 0) {
             $size_array = $size;
-            (isset($size[ 2 ]) && $size_class = ($size[ 2 ] == 1)) ? 'is-square ' : 'is-' . str_replace('/', 'by', wprs_float2rat($size[ 0 ] / $size[ 1 ]));
+
+            if (isset($size[ 2 ]) && ($size[ 2 ] == 1)) {
+                $size_class = 'is-square ';
+            } else {
+                $size_class = 'is-' . str_replace('/', 'by', wprs_float2rat($size[ 0 ] / $size[ 1 ]));
+            }
 
             if (count($size) >= 2) {
                 unset($size_array[ 2 ]);
@@ -306,37 +311,40 @@ function wprs_image_size_attr($size = 'is-400by300')
  * @return string
  */
 if ( ! function_exists('wprs_post_thumbnail')) {
-    function wprs_post_thumbnail($post, $size = 'is-400by300', $icon = false, $attr = [])
+    function wprs_post_thumbnail($post, $size = 'thumbnail', $icon = false, $attr = [])
     {
-        $html      = '';
-        $img_class = ['class' => 'img-responsive'];
-        $attr      = wp_parse_args($attr, $img_class);
+        $html = '';
 
         if (is_int($post)) {
             $post = get_post($post);
         }
 
-        $image_attr = wprs_image_size_attr($size);
-
         $thumb_id = get_post_thumbnail_id($post);
+        $gallery  = get_post_gallery(get_the_ID(), false);
 
-        if (get_post_gallery($post)) {
+        if ($gallery) {
+            $gallery = $gallery[ 'ids' ];
+        } else {
+            $gallery = get_post_meta(get_the_ID(), 'gallery', true);
+        }
 
-            $gallery = get_post_gallery(get_the_ID(), false);
+        if ($gallery) {
 
-            $html .= '<figure class="f-popup f-view f-overlay">';
-            $html .= '<div class="f-slider" data-slick={"slidesToShow": 4, "slidesToScroll": 4}>';
+            $gallary_ids = explode(',', $gallery);
+
+            $html .= '<figure class="js-popup f-view f-overlay">';
+            $html .= '<div class="js-slider" data-slick={"slidesToShow": 4, "slidesToScroll": 4}>';
 
             if (has_post_thumbnail()) {
-                $html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
-                $html .= wp_get_attachment_image($thumb_id, $image_attr[ 'size_array' ], $icon, $attr);
-                $html .= '</div>';
+                $html .= '<a class="js-gallery image" href="' . wp_get_attachment_image_url($thumb_id, 'full') . '">';
+                $html .= wp_get_attachment_image($thumb_id, $size, $icon, $attr);
+                $html .= '</a>';
             }
 
-            foreach (explode(',', $gallery[ 'ids' ]) as $image) {
-                $html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
-                $html .= wp_get_attachment_image($image, $image_attr[ 'size_array' ], $icon, $attr);
-                $html .= '</div>';
+            foreach ($gallary_ids as $gallery_id) {
+                $html .= '<a class="js-gallery image" href="' . wp_get_attachment_image_url($gallery_id, 'full') . '">';
+                $html .= wp_get_attachment_image($gallery_id, $size, $icon, $attr);
+                $html .= '</a>';
             }
 
             $html .= '</div>';
@@ -347,16 +355,12 @@ if ( ! function_exists('wprs_post_thumbnail')) {
 
         } elseif (has_post_thumbnail($post)) {
 
-            $html .= '<figure class="f-popup f-view f-overlay">';
-            $html .= '<div class="image ' . $image_attr[ 'size_class_base' ] . ' ' . $image_attr[ 'size_class' ] . '">';
-            $html .= wp_get_attachment_image($thumb_id, $image_attr[ 'size_array' ], $icon, $attr);
+            $html .= '<figure class="js-popup f-view f-overlay">';
+            $html .= '<div class="image">';
+            $html .= wp_get_attachment_image($thumb_id, $size, $icon, $attr);
             $html .= '</div>';
             $html .= wprs_thumbnail_mask($post);
             $html .= '</figure>';
-
-        } else {
-
-            $html .= '';
 
         }
 
@@ -375,13 +379,10 @@ if ( ! function_exists('wprs_post_thumbnail')) {
  *
  * @return string
  */
-function wprs_thumbnail_image($id, $size = 'is-400by300', $icon = false, $attr = [])
+function wprs_thumbnail_image($id, $size = 'thumbnail', $icon = false, $attr = [])
 {
-    // 如果是数组，转换为 is-1by2的形式，否则，求简化分数
-    $size_array = wprs_image_size_attr($size);
-
-    $html = '<figure class="image ' . $size_array[ 'size_class_base' ] . ' ' . $size_array[ 'size_class' ] . '">';
-    $html .= wp_get_attachment_image($id, $size_array[ 'size_array' ], $icon, $attr);
+    $html = '<figure class="image">';
+    $html .= wp_get_attachment_image($id, $size, $icon, $attr);
     $html .= '</figure>';
 
     return $html;
@@ -403,19 +404,15 @@ if ( ! function_exists('wprs_thumbnail_mask')) {
             $post = get_post($post);
         }
 
-        $attachment_id = get_post_thumbnail_id();
-        $thumb_src     = wp_get_attachment_image_src($attachment_id, true);
+        $thumb_id   = get_post_thumbnail_id();
+        $thumb_full = wp_get_attachment_image_url($thumb_id, 'full');
 
         $is_show_image_popup = wprs_get_page_settings('show_popup', 'show');
 
         $html = '<div class="is-overlay u-mask flex-center">';
 
         if ($is_show_image_popup === 'show') {
-            if (get_post_gallery($post)) {
-                $html .= '<a class="js-gallery" href="#"><i class="wpion-expand-arrows-alt2"></i></a>';
-            } else {
-                $html .= '<a class="js-gallery" href="' . esc_url($thumb_src[ 0 ]) . '"><i class="wpion-expand-arrows-alt2"></i></a>';
-            }
+            $html .= '<a class="js-gallery" href="' . esc_url($thumb_full) . '"><i class="wpion-expand-arrows-alt2"></i></a>';
         }
 
         if ( ! is_singular($post)) {
