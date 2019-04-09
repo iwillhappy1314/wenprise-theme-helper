@@ -6,6 +6,19 @@
  * Time: 17:09
  */
 
+/**
+ * @param string $dir
+ * @param string $default_path
+ *
+ * @return array
+ *
+ * @deprecated
+ */
+function wprs_get_template_option($dir = "templates", $default_path = '')
+{
+    return wprs_data_templates($dir, $default_path);
+}
+
 
 if ( ! function_exists('wprs_get_vue_component_template')) {
     /**

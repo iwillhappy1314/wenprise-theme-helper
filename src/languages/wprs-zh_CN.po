@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Wenprise Shortcode 1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2019-02-14 19:52+0800\n"
-"PO-Revision-Date: 2019-02-14 19:53+0800\n"
+"POT-Creation-Date: 2019-04-09 08:59+0800\n"
+"PO-Revision-Date: 2019-04-09 08:59+0800\n"
 "Last-Translator: Amos Lee <iwillhappy1314@gmail.com>\n"
 "Language-Team: Amos Lee\n"
 "Language: zh_CN\n"
@@ -18,111 +18,115 @@ msgstr ""
 "X-Poedit-KeywordsList: __;_\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: data-options.php:83
+#: data-options.php:24
+msgid "Select a template"
+msgstr "选择一个模板"
+
+#: data-options.php:74
 msgid "Post"
 msgstr "文章"
 
-#: data-options.php:84
+#: data-options.php:75
 msgid "Page"
 msgstr "页面"
 
-#: data-options.php:92
+#: data-options.php:83
 msgid "Select Content Type"
 msgstr "选择内容类型"
 
-#: data-options.php:117
+#: data-options.php:108
 msgid "Category"
 msgstr "分类"
 
-#: data-options.php:118
+#: data-options.php:109
 msgid "Tags"
 msgstr "标签"
 
-#: data-options.php:188
+#: data-options.php:179
 msgid "Select Term"
 msgstr "选择分类"
 
-#: data-options.php:223
+#: data-options.php:214
 msgid "Select Content"
 msgstr "选择内容"
 
-#: data-options.php:271
+#: data-options.php:262
 msgid "Responsive"
 msgstr "自适应"
 
-#: data-options.php:292
+#: data-options.php:283
 msgid "Default"
 msgstr "默认"
 
-#: data-options.php:293
+#: data-options.php:284
 msgid "Success"
 msgstr "成功"
 
-#: data-options.php:294
+#: data-options.php:285
 msgid "Info"
 msgstr "信息"
 
-#: data-options.php:295
+#: data-options.php:286
 msgid "Warning"
 msgstr "警告"
 
-#: data-options.php:296
+#: data-options.php:287
 msgid "Danger"
 msgstr "危险"
 
-#: data-options.php:312
+#: data-options.php:303
 msgid "Zero"
 msgstr "零"
 
-#: data-options.php:313
+#: data-options.php:304
 msgid "Auto"
 msgstr "自动"
 
-#: data-options.php:314
+#: data-options.php:305
 msgid "xxSmall"
 msgstr "最小"
 
-#: data-options.php:315
+#: data-options.php:306
 msgid "xSmall"
 msgstr "超小"
 
-#: data-options.php:316
+#: data-options.php:307
 msgid "Small"
 msgstr "小"
 
-#: data-options.php:317
+#: data-options.php:308
 msgid "Medium"
 msgstr "中等"
 
-#: data-options.php:318
+#: data-options.php:309
 msgid "Large"
 msgstr "大"
 
-#: data-options.php:319
+#: data-options.php:310
 msgid "xLarge"
 msgstr "超大"
 
-#: data-options.php:345
+#: data-options.php:336
 msgid "Select User"
 msgstr "选择用户"
 
-#: template-tags.php:175 template-tags.php:180 template-tags.php:184
-#: template-tags.php:188 template-tags.php:192 template-tags.php:218
-#: template-tags.php:229
+#: template-tags.php:148 template-tags.php:153 template-tags.php:157
+#: template-tags.php:161 template-tags.php:165 template-tags.php:191
+#: template-tags.php:202
 #, php-format
 msgid "%s"
 msgstr "%s"
 
-#: template-tags.php:236
+#: template-tags.php:209
 #, php-format
 msgid "%1$s"
 msgstr "%1$s"
 
-#: template-tags.php:241
+#: template-tags.php:214
 msgid "Archives"
 msgstr "归档"
 
-#: template-tags.php:587
+#: template-tags.php:444
 msgid "Home"
 msgstr "首页"
 
