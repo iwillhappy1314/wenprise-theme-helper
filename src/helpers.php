@@ -822,13 +822,11 @@ if ( ! function_exists('wprs_class')) {
      */
     function wprs_class($class = '', $remove = '')
     {
-        if ( ! empty((array)$remove)) {
-            foreach ($remove as $r) {
-                unset($class[ $r ]);
-            }
+        if ( ! empty($remove)) {
+            $class = array_diff((array)$class, (array)$remove);
         }
 
-        echo 'class="' . join(' ', (array)$class) . '"';
+        echo 'class="' . join(' ', $class) . '"';
     }
 }
 
