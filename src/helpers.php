@@ -83,9 +83,9 @@ if ( ! function_exists("wprs_order_no")) {
     /**
      * 生成订单号
      *
+     * @return string 订单号字符串
      * @package   helper
      *
-     * @return string 订单号字符串
      */
     function wprs_order_no()
     {
@@ -299,12 +299,12 @@ if ( ! function_exists('wprs_get_page_settings')) {
      * 获取设置，具体页面设置覆盖主题全局设置
      * 优先级: 页面 > 父级页面 > 分类 > 存档 > 全局 > 函数默认
      *
-     * @todo: 添加自定义工具支持
-     *
      * @param $name
      * @param $default
      *
      * @return bool|string
+     * @todo: 添加自定义工具支持
+     *
      */
     function wprs_get_page_settings($name, $default = '')
     {
@@ -673,10 +673,10 @@ if ( ! function_exists('wprs_trim_words')) {
 /**
  * 应用多个 Filter 到回调
  *
- * @param  mixed   $filters
- * @param  mixed   $callback
- * @param  integer $priority
- * @param  integer $arguments
+ * @param mixed   $filters
+ * @param mixed   $callback
+ * @param integer $priority
+ * @param integer $arguments
  *
  * @return true
  */
@@ -701,10 +701,10 @@ if ( ! function_exists('add_filters')) {
 /**
  * 应用多个 Action 到回调
  *
- * @param  mixed   $actions
- * @param  mixed   $callback
- * @param  integer $priority
- * @param  integer $arguments
+ * @param mixed   $actions
+ * @param mixed   $callback
+ * @param integer $priority
+ * @param integer $arguments
  *
  * @return true
  */
@@ -817,10 +817,17 @@ if ( ! function_exists('wprs_class')) {
     /**
      * 转换数组为 Class
      *
-     * @param string $class
+     * @param string|array $class
+     * @param string|array $remove
      */
-    function wprs_class($class = '')
+    function wprs_class($class = '', $remove = '')
     {
+        if ( ! empty((array)$remove)) {
+            foreach ($remove as $r) {
+                unset($class[ $r ]);
+            }
+        }
+
         echo 'class="' . join(' ', (array)$class) . '"';
     }
 }
