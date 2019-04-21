@@ -732,7 +732,7 @@ if ( ! function_exists('wprs_step_class')) {
 
         if ($step_key == $step_order) {
             return 'c-step--active';
-        } elseif ($step_key > $step_order) {
+        } elseif ($step_key < $step_order) {
             return 'c-step--complete';
         } else {
             return 'c-step--disable';
