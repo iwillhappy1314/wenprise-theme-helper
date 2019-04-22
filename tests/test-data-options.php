@@ -49,6 +49,9 @@ class DataOptionTest extends WP_UnitTestCase
     }
 
 
+    /**
+     * 测试文章类型选项
+     */
     public function test_wprs_data_post_types()
     {
         $expect = [
@@ -63,6 +66,9 @@ class DataOptionTest extends WP_UnitTestCase
     }
 
 
+    /**
+     * 测试分类法选项
+     */
     public function test_wprs_data_taxonomies()
     {
         $expect = [
@@ -78,61 +84,19 @@ class DataOptionTest extends WP_UnitTestCase
     }
 
 
-
-    public function test_wprs_step_class()
+    /**
+     * 测试用户选项数组
+     */
+    public function test_wprs_data_user()
     {
+        foreach ($this->user_ids as $user_id) {
+            $expect[ $user_id ] = get_user_by('ID', $user_id)->display_name;
+        }
 
-        $steps = [
-            'register',
-            'login',
-            'logout',
-        ];
+        $expect2 = ['' => sprintf('%s', __('Select a user', 'wprs')),] + $expect;
 
-        // Replace this with some actual testing code.
-        $this->assertEquals('c-step--active', wprs_step_class('register', $steps, 0));
-        $this->assertEquals('c-step--complete', wprs_step_class('register', $steps, 1));
-        $this->assertEquals('c-step--disable', wprs_step_class('logout', $steps, 1));
+        $this->assertSame($expect, wprs_data_user('subscriber', false));
+        $this->assertSame($expect2, wprs_data_user('subscriber'));
     }
 
-
-    public function test_wprs_trim_words()
-    {
-        $string_en = 'this is a test for english strings';
-        $string_zh = '这是一个测试字符串，测试中文字符截断';
-
-        // Replace this with some actual testing code.
-        $this->assertEquals('this is a test...', wprs_trim_words($string_en, '18', '...'));
-        // $this->assertEquals('这是一个...', wprs_trim_words($string_zh, '8', '...'));
-    }
-
-
-    public function test_wprs_string_masks()
-    {
-        $string = '18812348888';
-
-        // Replace this with some actual testing code.
-        $this->assertEquals('188****8888', wprs_string_mask($string, 3, 4));
-    }
-
-
-    public function test_wprs_get_domain()
-    {
-
-        $this->assertEquals('google.com', wprs_get_domain('www.google.com'));
-        $this->assertEquals('google.com', wprs_get_domain('google.com'));
-        $this->assertEquals('google.com', wprs_get_domain('google.com/about'));
-        $this->assertEquals('google.com', wprs_get_domain('www.google.com/about'));
-        $this->assertEquals('google.com', wprs_get_domain('www.google.com/about?p=1'));
-        $this->assertEquals('google.com.cn', wprs_get_domain('www.google.com.cn/about?p=1'));
-        $this->assertNotEquals('bing.com', wprs_get_domain('www.google.com'));
-
-    }
-
-
-    public function test_wprs_update_post_status()
-    {
-        wprs_update_post_status($this->post_id, 'complete');
-
-        // $this->assertEquals('complete', get_post_status($this->post_id));
-    }
 }

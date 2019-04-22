@@ -340,7 +340,7 @@ if ( ! function_exists('wprs_data_user')) {
         $options = wp_list_pluck($users, 'display_name', 'ID');
 
         $empty = [
-            '' => sprintf('%s', __('Select User', 'wprs')),
+            '' => sprintf('%s', __('Select a user', 'wprs')),
         ];
 
         if ($show_empty) {

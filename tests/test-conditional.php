@@ -16,28 +16,11 @@ class ConditionalTest extends WP_UnitTestCase
         // Call the setup method on the parent or the factory objects won't be loaded!
         parent::setUp();
 
-        $this->post_id = $this->factory->post->create([
-            'post_type'   => 'page',
-            'post_status' => 'draft',
-            'post_title'  => 'This is a test page.',
-        ]);
-
-        $post_ids = $this->factory->post->create_many(10);
 
         $this->user_id = $this->factory->user->create([
             'user_login' => 'test_user',
             'role'       => 'editor',
         ]);
-
-        $user_ids = $this->factory->user->create_many(4);
-
-        $this->term_id = $this->factory->term->create([
-            'name'     => 'Babylon 5',
-            'taxonomy' => 'category',
-            'slug'     => 'babylon-5',
-        ]);
-
-        $term_ids = $this->factory->term->create_many(10);
 
     }
 
