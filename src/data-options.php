@@ -80,7 +80,7 @@ if ( ! function_exists('wprs_data_post_types')) {
         }
 
         $empty = [
-            '' => sprintf('%s', __('Select Content Type', 'wprs')),
+            '' => sprintf('%s', __('Select a content type', 'wprs')),
         ];
 
         if ($show_empty) {
@@ -104,6 +104,10 @@ if ( ! function_exists('wprs_data_taxonomies')) {
     function wprs_data_taxonomies($show_empty = true)
     {
 
+        $empty = [
+            '' => sprintf('%s', __('Select a taxonomy', 'wprs')),
+        ];
+
         $output = [
             'category' => __('Category', 'wprs'),
             'post_tag' => __('Tags', 'wprs'),
@@ -124,6 +128,9 @@ if ( ! function_exists('wprs_data_taxonomies')) {
             $output[ esc_attr($taxonomy) ] = esc_attr($tax->labels->name);
         }
 
+        if ($show_empty) {
+            $output = $empty + $output;
+        }
 
         return $output;
     }
@@ -176,7 +183,7 @@ if ( ! function_exists('wprs_data_terms')) {
         }
 
         $empty = [
-            '' => sprintf('%s', __('Select Term', 'wprs')),
+            '' => sprintf('%s', __('Select a term', 'wprs')),
         ];
 
         if ($show_empty) {

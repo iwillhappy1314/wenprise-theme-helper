@@ -6,6 +6,60 @@
  * Time: 17:09
  */
 
+if ( ! function_exists('wprs_get_post_meta')) {
+    /**
+     * 获取文章元数据，设置默认值
+     *
+     * @param        $post_id
+     * @param string $key
+     * @param bool   $single
+     * @param bool   $default
+     *
+     * @return bool
+     *
+     * @deprecated
+     */
+    function wprs_get_post_meta($post_id, $key = '', $single = false, $default = false)
+    {
+
+        $meta = get_post_meta($post_id, $key, $single);
+
+        if ( ! $meta && $default) {
+            return $default;
+        }
+
+        return $meta;
+    }
+}
+
+
+if ( ! function_exists('wprs_get_user_meta')) {
+    /**
+     * 获取用户元数据，可以设置默认值
+     *
+     * @param        $user_id
+     * @param string $key
+     * @param bool   $single
+     * @param bool   $default
+     *
+     * @return bool
+     *
+     *  @deprecated
+     */
+    function wprs_get_user_meta($user_id, $key = '', $single = false, $default = false)
+    {
+
+        $meta = get_user_meta($user_id, $key, $single);
+
+        if ( ! $meta && $default) {
+            return $default;
+        }
+
+        return $meta;
+    }
+}
+
+
 /**
  * @param string $dir
  * @param string $default_path

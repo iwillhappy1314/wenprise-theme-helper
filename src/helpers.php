@@ -4,56 +4,6 @@ use Nette\Utils\Arrays;
 use Nette\Utils\Finder;
 
 
-if ( ! function_exists('wprs_get_post_meta')) {
-    /**
-     * 获取文章元数据，设置默认值
-     *
-     * @param        $post_id
-     * @param string $key
-     * @param bool   $single
-     * @param bool   $default
-     *
-     * @return bool
-     */
-    function wprs_get_post_meta($post_id, $key = '', $single = false, $default = false)
-    {
-
-        $meta = get_post_meta($post_id, $key, $single);
-
-        if ( ! $meta && $default) {
-            return $default;
-        }
-
-        return $meta;
-    }
-}
-
-
-if ( ! function_exists('wprs_get_user_meta')) {
-    /**
-     * 获取用户元数据，可以设置默认值
-     *
-     * @param        $user_id
-     * @param string $key
-     * @param bool   $single
-     * @param bool   $default
-     *
-     * @return bool
-     */
-    function wprs_get_user_meta($user_id, $key = '', $single = false, $default = false)
-    {
-
-        $meta = get_user_meta($user_id, $key, $single);
-
-        if ( ! $meta && $default) {
-            return $default;
-        }
-
-        return $meta;
-    }
-}
-
-
 if ( ! function_exists('wprs_get_ip')) {
     /**
      * 获取用户的真实 IP
@@ -410,6 +360,8 @@ if ( ! function_exists('wprs_get_domain')) {
             $host = substr($host, 0, 47) . '...';
         }
 
+        $host = explode('/', $host)[ 0 ];
+
         return $host;
     }
 }
@@ -569,16 +521,6 @@ if ( ! function_exists('wprs_update_post_status')) {
     }
 }
 
-
-if ( ! function_exists('wprs_get_queried_object_name')) {
-    /**
-     * 获取对象名称
-     */
-    function wprs_get_queried_object_name()
-    {
-
-    }
-}
 
 
 /**
