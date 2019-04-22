@@ -522,7 +522,6 @@ if ( ! function_exists('wprs_update_post_status')) {
 }
 
 
-
 /**
  * 隐藏字符串中的部分字符
  *
@@ -762,10 +761,10 @@ if ( ! function_exists('wprs_class')) {
      * @param string|array $class
      * @param string|array $remove
      */
-    function wprs_class($class = '', $remove = '')
+    function wprs_class(array $class = [], array $remove = [])
     {
         if ( ! empty($remove)) {
-            $class = array_diff((array)$class, (array)$remove);
+            $class = array_diff($class, $remove);
         }
 
         echo 'class="' . join(' ', $class) . '"';
