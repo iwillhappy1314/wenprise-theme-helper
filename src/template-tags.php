@@ -506,6 +506,7 @@ add_filter('carbon_breadcrumbs_item_attributes', function ($attributes, $item)
     return $attributes;
 }, 10, 2);
 
+
 add_filter('carbon_breadcrumbs_item_output', function ($item_output, $item, $trail, $trail_renderer, $index)
 {
     // Add Position
