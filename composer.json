@@ -7,13 +7,6 @@
     "illuminate/support": "~5.4.0"
   },
   "require-dev": {
-    "doctrine/inflector": "~1.1.0",
-    "doctrine/instantiator": "~1.0.0",
-    "phpdocumentor/reflection-docblock": "~3.0.0",
-    "myclabs/deep-copy": "~1.6.0",
-    "symfony/yaml": "~3.4.0",
-    "phpunit/phpunit": "~5.7.0",
-    "phpunit/php-token-stream": "~1.4.0",
     "brain/monkey": "~2.2.0"
   },
   "autoload": {
