@@ -3,7 +3,6 @@
 use Nette\Utils\Arrays;
 use Nette\Utils\Finder;
 
-
 if ( ! function_exists('wprs_get_ip')) {
     /**
      * 获取用户的真实 IP
@@ -44,14 +43,14 @@ if ( ! function_exists("wprs_order_no")) {
 }
 
 
-/**
- * 获取前端资源路径
- *
- * @param $manifest_path
- *
- * @return array
- */
 if ( ! function_exists('wprs_get_manifest')) {
+    /**
+     * 获取前端资源路径
+     *
+     * @param $manifest_path
+     *
+     * @return array
+     */
     function wprs_get_manifest($manifest_path)
     {
         if (file_exists($manifest_path)) {
@@ -522,17 +521,16 @@ if ( ! function_exists('wprs_update_post_status')) {
 }
 
 
-
-/**
- * 隐藏字符串中的部分字符
- *
- * @param     $str
- * @param int $start
- * @param int $length
- *
- * @return mixed
- */
 if ( ! function_exists('wprs_string_mask')) {
+    /**
+     * 隐藏字符串中的部分字符
+     *
+     * @param     $str
+     * @param int $start
+     * @param int $length
+     *
+     * @return mixed
+     */
     function wprs_string_mask($str, $start = 0, $length = 4)
     {
         $mask = preg_replace("/\S/", "*", $str);
@@ -575,17 +573,17 @@ if ( ! function_exists('wprs_str_random')) {
 }
 
 
-/**
- * 裁剪文本
- *
- * @param      $input
- * @param      $length
- * @param bool $ellipses
- * @param bool $strip_html
- *
- * @return bool|string
- */
 if ( ! function_exists('wprs_trim_words')) {
+    /**
+     * 裁剪文本
+     *
+     * @param      $input
+     * @param      $length
+     * @param bool $ellipses
+     * @param bool $strip_html
+     *
+     * @return bool|string
+     */
     function wprs_trim_words($input, $length, $ellipses = true, $strip_html = true)
     {
         //strip tags, if desired
@@ -612,17 +610,17 @@ if ( ! function_exists('wprs_trim_words')) {
 }
 
 
-/**
- * 应用多个 Filter 到回调
- *
- * @param mixed   $filters
- * @param mixed   $callback
- * @param integer $priority
- * @param integer $arguments
- *
- * @return true
- */
 if ( ! function_exists('add_filters')) {
+    /**
+     * 应用多个 Filter 到回调
+     *
+     * @param mixed   $filters
+     * @param mixed   $callback
+     * @param integer $priority
+     * @param integer $arguments
+     *
+     * @return true
+     */
     function add_filters($filters, $callback, $priority = 10, $arguments = 1)
     {
         collect($filters)->each(function ($filter, $index) use ($callback, $priority, $arguments)
@@ -640,17 +638,17 @@ if ( ! function_exists('add_filters')) {
 }
 
 
-/**
- * 应用多个 Action 到回调
- *
- * @param mixed   $actions
- * @param mixed   $callback
- * @param integer $priority
- * @param integer $arguments
- *
- * @return true
- */
 if ( ! function_exists('add_actions')) {
+    /**
+     * 应用多个 Action 到回调
+     *
+     * @param mixed   $actions
+     * @param mixed   $callback
+     * @param integer $priority
+     * @param integer $arguments
+     *
+     * @return true
+     */
     function add_actions($actions, $callback, $priority = 10, $arguments = 1)
     {
         return add_filters($actions, $callback, $priority, $arguments);
@@ -658,16 +656,16 @@ if ( ! function_exists('add_actions')) {
 }
 
 
-/**
- * 获取步骤类名
- *
- * @param $step_name       string
- * @param $steps           array
- * @param $step_order      int
- *
- * @return string
- */
 if ( ! function_exists('wprs_step_class')) {
+    /**
+     * 获取步骤类名
+     *
+     * @param $step_name       string
+     * @param $steps           array
+     * @param $step_order      int
+     *
+     * @return string
+     */
     function wprs_step_class($step_name, $steps, $step_order)
     {
         $step_key = array_search($step_name, $steps);
@@ -684,14 +682,14 @@ if ( ! function_exists('wprs_step_class')) {
 }
 
 
-/**
- * 根据用户 ID 获取该用户的角色
- *
- * @param $user_id
- *
- * @return array 该用户的角色，一般只有一个元素
- */
 if ( ! function_exists('wprs_user_get_roles')) {
+    /**
+     * 根据用户 ID 获取该用户的角色
+     *
+     * @param $user_id
+     *
+     * @return array 该用户的角色，一般只有一个元素
+     */
     function wprs_user_get_roles($user_id = 0)
     {
         if ($user_id == 0) {
@@ -704,15 +702,16 @@ if ( ! function_exists('wprs_user_get_roles')) {
     }
 }
 
-/**
- * 获取下一流程的用户角色，CRM 系统中，用来过滤上一流程角色审核通过的客户
- *
- * @param $roles        array 角色名称数组
- * @param $user_id      int 用户 ID
- *
- * @return string|bool 返回角色名称，如果是第一级，返回 True
- */
+
 if ( ! function_exists('wprs_user_get_prev_role')) {
+    /**
+     * 获取下一流程的用户角色，CRM 系统中，用来过滤上一流程角色审核通过的客户
+     *
+     * @param $roles        array 角色名称数组
+     * @param $user_id      int 用户 ID
+     *
+     * @return string|bool 返回角色名称，如果是第一级，返回 True
+     */
     function wprs_user_get_prev_role($roles, $user_id = 0)
     {
         $user_role          = wprs_user_get_roles($user_id)[ 0 ];
@@ -730,15 +729,15 @@ if ( ! function_exists('wprs_user_get_prev_role')) {
 }
 
 
-/**
- * 获取下一流程的用户角色，CRM 系统中，用来通知下一流程进行审核操作
- *
- * @param $roles        array 角色名称数组
- * @param $user_id      int 用户 ID
- *
- * @return string|bool 返回角色名称，如果是最后一级返回 false
- */
 if ( ! function_exists('wprs_user_get_next_role')) {
+    /**
+     * 获取下一流程的用户角色，CRM 系统中，用来通知下一流程进行审核操作
+     *
+     * @param $roles        array 角色名称数组
+     * @param $user_id      int 用户 ID
+     *
+     * @return string|bool 返回角色名称，如果是最后一级返回 false
+     */
     function wprs_user_get_next_role($roles, $user_id = 0)
     {
         $user_role          = wprs_user_get_roles($user_id)[ 0 ];
@@ -773,15 +772,15 @@ if ( ! function_exists('wprs_class')) {
 }
 
 
-/**
- * 获取路径中的指定文件
- *
- * @param $path
- * @param $headers
- *
- * @return array
- */
 if ( ! function_exists('wprs_get_templates_in_path')) {
+    /**
+     * 获取路径中的指定文件
+     *
+     * @param $path
+     * @param $headers
+     *
+     * @return array
+     */
     function wprs_get_templates_in_path($path, $headers = [])
     {
         $templates = [];
@@ -813,15 +812,14 @@ if ( ! function_exists('wprs_get_templates_in_path')) {
     }
 }
 
-
-/**
- * 获取 wp-content 中的自定义子目录，如果不存在，新建目录
- *
- * @param $dir
- *
- * @return string
- */
 if ( ! function_exists('wprs_content_dir')) {
+    /**
+     * 获取 wp-content 中的自定义子目录，如果不存在，新建目录
+     *
+     * @param $dir
+     *
+     * @return string
+     */
     function wprs_content_dir($dir)
     {
         $directory = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . $dir;

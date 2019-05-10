@@ -3,14 +3,14 @@
  * 模版标签
  */
 
-/**
- * Bulma CSS 数字分页
- *
- * @param string $query
- * @param string $pages
- * @param int    $range
- */
 if ( ! function_exists('wprs_bulma_pagination')) {
+    /**
+     * Bulma CSS 数字分页
+     *
+     * @param string $query
+     * @param string $pages
+     * @param int    $range
+     */
     function wprs_bulma_pagination($query = '', $pages = '', $range = 5)
     {
         $show_items = ($range * 2) + 1;
@@ -68,14 +68,15 @@ if ( ! function_exists('wprs_bulma_pagination')) {
     }
 }
 
-/**
- * 数字分页
- *
- * @param string $query
- * @param string $pages
- * @param int    $range
- */
+
 if ( ! function_exists('wprs_pagination')) {
+    /**
+     * 数字分页
+     *
+     * @param string $query
+     * @param string $pages
+     * @param int    $range
+     */
     function wprs_pagination($query = '', $pages = '', $range = 5)
     {
         $show_items = ($range * 2) + 1;
@@ -129,9 +130,7 @@ if ( ! function_exists('wprs_pagination')) {
     }
 }
 
-/**
- *  获取存档或文章标题作为页面标题使用
- */
+
 if ( ! function_exists('wprs_get_page_title')) {
     /**
      * 获取存档或文章标题作为页面标题使用
@@ -218,9 +217,10 @@ if ( ! function_exists('wprs_get_page_title')) {
         /**
          * Filter the archive title.
          *
+         * @param string $title Archive title to be displayed.
+         *
          * @since 4.1.0
          *
-         * @param string $title Archive title to be displayed.
          */
         return apply_filters('wprs_get_page_title', $title);
     }
@@ -253,64 +253,66 @@ if ( ! function_exists('wprs_get_page_description')) {
 }
 
 
-/**
- * 获取图像尺寸属性
- *
- * @param string|array $size
- *
- * @return array
- */
-function wprs_image_size_attr($size = 'is-400by300')
-{
+if ( ! function_exists('wprs_image_size_attr')) {
+    /**
+     * 获取图像尺寸属性
+     *
+     * @param string|array $size
+     *
+     * @return array
+     */
+    function wprs_image_size_attr($size = 'is-400by300')
+    {
 
-    $size_class = '';
-    $size_array = [400, 300];
+        $size_class = '';
+        $size_array = [400, 300];
 
-    if (is_array($size)) {
-        if (array_sum($size) !== 0) {
-            $size_array = $size;
+        if (is_array($size)) {
+            if (array_sum($size) !== 0) {
+                $size_array = $size;
 
-            if (isset($size[ 2 ]) && ($size[ 2 ] == 1)) {
-                $size_class = 'is-square ';
-            } else {
-                $size_class = 'is-' . str_replace('/', 'by', wprs_float2rat($size[ 0 ] / $size[ 1 ]));
+                if (isset($size[ 2 ]) && ($size[ 2 ] == 1)) {
+                    $size_class = 'is-square ';
+                } else {
+                    $size_class = 'is-' . str_replace('/', 'by', wprs_float2rat($size[ 0 ] / $size[ 1 ]));
+                }
+
+                if (count($size) >= 2) {
+                    unset($size_array[ 2 ]);
+                }
             }
-
-            if (count($size) >= 2) {
-                unset($size_array[ 2 ]);
-            }
+        } else {
+            $size_array = explode('by', str_replace('is-', '', $size));
+            $size_class = wprs_ratio_simplify($size_array[ 0 ], $size_array[ 1 ]);
         }
-    } else {
-        $size_array = explode('by', str_replace('is-', '', $size));
-        $size_class = wprs_ratio_simplify($size_array[ 0 ], $size_array[ 1 ]);
+
+        // 原始图像尺寸，方便查找图像尺寸定义
+        $size_class_base = 'is-' . join('by', $size_array);
+
+        $size_array[] = 1;
+
+        $attr = [
+            'size_class_base' => $size_class_base,
+            'size_class'      => $size_class,
+            'size_array'      => $size_array,
+        ];
+
+        return $attr;
     }
-
-    // 原始图像尺寸，方便查找图像尺寸定义
-    $size_class_base = 'is-' . join('by', $size_array);
-
-    $size_array[] = 1;
-
-    $attr = [
-        'size_class_base' => $size_class_base,
-        'size_class'      => $size_class,
-        'size_array'      => $size_array,
-    ];
-
-    return $attr;
 }
 
 
-/**
- * 显示文章缩略图，如果有相册，显示相册  wprs_get_attachment_image();
- *
- * @param        $post
- * @param string $size
- * @param bool   $icon
- * @param array  $attr
- *
- * @return string
- */
 if ( ! function_exists('wprs_post_thumbnail')) {
+    /**
+     * 显示文章缩略图，如果有相册，显示相册  wprs_get_attachment_image();
+     *
+     * @param        $post
+     * @param string $size
+     * @param bool   $icon
+     * @param array  $attr
+     *
+     * @return string
+     */
     function wprs_post_thumbnail($post, $size = 'thumbnail', $icon = false, $attr = [])
     {
         $html = '';
@@ -369,34 +371,36 @@ if ( ! function_exists('wprs_post_thumbnail')) {
 }
 
 
-/**
- * 获取附件图像
- *
- * @param              $id
- * @param string|array $size
- * @param bool         $icon
- * @param array        $attr
- *
- * @return string
- */
-function wprs_thumbnail_image($id, $size = 'thumbnail', $icon = false, $attr = [])
-{
-    $html = '<figure class="image">';
-    $html .= wp_get_attachment_image($id, $size, $icon, $attr);
-    $html .= '</figure>';
+if ( ! function_exists('wprs_thumbnail_image')) {
+    /**
+     * 获取附件图像
+     *
+     * @param              $id
+     * @param string|array $size
+     * @param bool         $icon
+     * @param array        $attr
+     *
+     * @return string
+     */
+    function wprs_thumbnail_image($id, $size = 'thumbnail', $icon = false, $attr = [])
+    {
+        $html = '<figure class="image">';
+        $html .= wp_get_attachment_image($id, $size, $icon, $attr);
+        $html .= '</figure>';
 
-    return $html;
+        return $html;
+    }
 }
 
 
-/**
- * 显示缩略图遮罩
- *
- * @param $post
- *
- * @return string
- */
 if ( ! function_exists('wprs_thumbnail_mask')) {
+    /**
+     * 显示缩略图遮罩
+     *
+     * @param $post
+     *
+     * @return string
+     */
     function wprs_thumbnail_mask($post)
     {
 
@@ -426,10 +430,10 @@ if ( ! function_exists('wprs_thumbnail_mask')) {
 }
 
 
-/**
- * 显示面包屑导航
- */
 if ( ! function_exists('wprs_breadcrumbs')) {
+    /**
+     * 显示面包屑导航
+     */
     function wprs_breadcrumbs()
     {
         $breadcrumbs = new Carbon_Breadcrumb_Trail([
@@ -489,7 +493,6 @@ add_action('carbon_breadcrumbs_after_setup_trail', function ($trail)
         $trail->add_item($items);
     }
 });
-
 
 /**
  * 为面包屑导航添加微格式

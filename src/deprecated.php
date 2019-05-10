@@ -44,7 +44,7 @@ if ( ! function_exists('wprs_get_user_meta')) {
      *
      * @return bool
      *
-     *  @deprecated
+     * @deprecated
      */
     function wprs_get_user_meta($user_id, $key = '', $single = false, $default = false)
     {
@@ -60,17 +60,19 @@ if ( ! function_exists('wprs_get_user_meta')) {
 }
 
 
-/**
- * @param string $dir
- * @param string $default_path
- *
- * @return array
- *
- * @deprecated
- */
-function wprs_get_template_option($dir = "templates", $default_path = '')
-{
-    return wprs_data_templates($dir, $default_path);
+if ( ! function_exists('wprs_get_template_option')) {
+    /**
+     * @param string $dir
+     * @param string $default_path
+     *
+     * @return array
+     *
+     * @deprecated
+     */
+    function wprs_get_template_option($dir = "templates", $default_path = '')
+    {
+        return wprs_data_templates($dir, $default_path);
+    }
 }
 
 
@@ -78,8 +80,8 @@ if ( ! function_exists('wprs_get_vue_component_template')) {
     /**
      * 获取嵌入的 Vue 组件
      *
-     * @param  string  the file path of the file
-     * @param  string  the script id
+     * @param string  the file path of the file
+     * @param string  the script id
      *
      * @return void
      *
@@ -94,6 +96,7 @@ if ( ! function_exists('wprs_get_vue_component_template')) {
         }
     }
 }
+
 
 if ( ! function_exists('wprs_bulma_menu')) {
     /**

@@ -1,6 +1,5 @@
 <?php
 
-
 if ( ! function_exists('wprs_is_wechat')) {
     /**
      * 判断是否在微信中打开
@@ -41,8 +40,8 @@ if ( ! function_exists('wprs_is_subpage')) {
 
 if ( ! function_exists('wprs_is_object_in_terms')) {
     /**
-     * @param        int       $post 文章 ID
-     * @param        int|array $cats 分类方法 ID
+     * @param int       $post 文章 ID
+     * @param int|array $cats 分类方法 ID
      * @param string string $taxonomy 分类方法
      *
      * @return bool
@@ -154,15 +153,15 @@ if ( ! function_exists('wprs_is_table_installed')) {
 }
 
 
-/**
- * 判断用户是有某个角色
- *
- * @param $role    string 角色名称
- * @param $user_id int 用户 ID
- *
- * @return bool
- */
 if ( ! function_exists('wprs_is_user_has_role')) {
+    /**
+     * 判断用户是有某个角色
+     *
+     * @param $role    string 角色名称
+     * @param $user_id int 用户 ID
+     *
+     * @return bool
+     */
     function wprs_is_user_has_role($role, $user_id = 0)
     {
         $user_roles = wprs_user_get_roles($user_id);
