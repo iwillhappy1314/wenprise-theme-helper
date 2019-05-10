@@ -19,18 +19,24 @@ if ( ! function_exists('wprs_is_subpage')) {
     /**
      * 判断当前页面是否为子页面
      *
-     * @param array $parent
+     * @param object $post
+     * @param int    $parent
      *
      * @return bool
      */
-    function wprs_is_subpage(array $parent)
+    function wprs_is_subpage($post = null, int $parent = 0)
     {
-        global $post;
 
-        $parentPage = get_post($post->post_parent);
+        if ( ! $post) {
+            global $post;
+        }
 
-        if (is_page() && $post->post_parent && $parentPage->post_name === $parent[ 0 ]) {
-            return $post->post_parent;
+        if ( ! $post) {
+            return false;
+        }
+
+        if ($post->post_type == 'page' && $post->post_parent === $parent) {
+            return true;
         }
 
         return false;
@@ -40,18 +46,18 @@ if ( ! function_exists('wprs_is_subpage')) {
 
 if ( ! function_exists('wprs_is_object_in_terms')) {
     /**
-     * @param int       $post 文章 ID
-     * @param int|array $cats 分类方法 ID
+     * @param int       $post_id 文章 ID
+     * @param int|array $cats    分类方法 ID
      * @param string string $taxonomy 分类方法
      *
      * @return bool
      */
-    function wprs_is_object_in_terms($post, $cats, $taxonomy = 'category')
+    function wprs_is_object_in_terms(int $post_id, array $cats, string $taxonomy = 'category')
     {
         foreach ((array)$cats as $cat) {
             $terms = get_term_children((int)$cat, $taxonomy);
 
-            if ($terms && is_object_in_term($post, $taxonomy, $terms)) {
+            if ( ! is_wp_error($terms) && is_object_in_term($post_id, $taxonomy, $terms)) {
                 return true;
             }
         }

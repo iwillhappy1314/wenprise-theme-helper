@@ -314,9 +314,7 @@ if ( ! function_exists('wprs_get_current_url')) {
         if (isset($_SERVER[ 'SERVER_ADDR' ])) {
             $is_https   = isset($_SERVER[ 'HTTPS' ]) && 'on' == $_SERVER[ 'HTTPS' ];
             $protocol   = 'http' . ($is_https ? 's' : '');
-            $host       = isset($_SERVER[ 'HTTP_HOST' ])
-                ? $_SERVER[ 'HTTP_HOST' ]
-                : $_SERVER[ 'SERVER_ADDR' ];
+            $host       = isset($_SERVER[ 'HTTP_HOST' ]) ? $_SERVER[ 'HTTP_HOST' ] : $_SERVER[ 'SERVER_ADDR' ];
             $port       = $_SERVER[ 'SERVER_PORT' ];
             $path_query = $_SERVER[ 'REQUEST_URI' ];
 
@@ -812,16 +810,21 @@ if ( ! function_exists('wprs_get_templates_in_path')) {
     }
 }
 
+
 if ( ! function_exists('wprs_content_dir')) {
     /**
      * 获取 wp-content 中的自定义子目录，如果不存在，新建目录
      *
-     * @param $dir
+     * @param string $dir wp-content 子目录名称
      *
      * @return string
      */
-    function wprs_content_dir($dir)
+    function wprs_content_dir(string $dir = '')
     {
+
+        $dir       = ltrim($dir, '/');
+        $dir       = rtrim($dir, '/');
+
         $directory = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . $dir;
 
         if ( ! is_dir($dir)) {

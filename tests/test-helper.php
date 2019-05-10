@@ -23,6 +23,42 @@ class HelperTest extends WP_UnitTestCase
 
     }
 
+
+    public function test_wprs_get_ip()
+    {
+
+        $_SERVER[ 'HTTP_CLIENT_IP' ] = '1.1.1.1';
+
+        $this->assertEquals('1.1.1.1', wprs_get_ip());
+
+        $_SERVER[ 'HTTP_X_FORWARDED_FOR' ] = '000';
+        $this->assertEquals('1.1.1.1', wprs_get_ip());
+
+        $_SERVER[ 'HTTP_CLIENT_IP' ]       = '111';
+        $_SERVER[ 'HTTP_X_FORWARDED_FOR' ] = '2.2.2.2';
+        $this->assertEquals('2.2.2.2', wprs_get_ip());
+
+        $_SERVER[ 'HTTP_CLIENT_IP' ]       = '111';
+        $_SERVER[ 'HTTP_X_FORWARDED_FOR' ] = '222';
+        $_SERVER[ 'REMOTE_ADDR' ]          = '3.3.3.3';
+
+        $this->assertEquals('3.3.3.3', wprs_get_ip());
+    }
+
+
+    /**
+     * A single example test.
+     */
+    public function test_wprs_env()
+    {
+        // Replace this with some actual testing code.
+        $this->assertEquals('production', wprs_env());
+
+        define('ENV', 'local');
+        $this->assertEquals('local', wprs_env());
+    }
+
+
     /**
      * A single example test.
      */
@@ -70,7 +106,8 @@ class HelperTest extends WP_UnitTestCase
     }
 
 
-    public function test_wprs_get_domain(){
+    public function test_wprs_get_domain()
+    {
 
         $this->assertEquals('google.com', wprs_get_domain('www.google.com'));
         $this->assertEquals('google.com', wprs_get_domain('google.com'));
@@ -88,5 +125,15 @@ class HelperTest extends WP_UnitTestCase
         wprs_update_post_status($this->post_id, 'complete');
 
         // $this->assertEquals('complete', get_post_status($this->post_id));
+    }
+
+
+    public function test_wprs_content_dir()
+    {
+        $this->assertEquals(WP_CONTENT_DIR . DIRECTORY_SEPARATOR, wprs_content_dir());
+        $this->assertEquals(WP_CONTENT_DIR . DIRECTORY_SEPARATOR, wprs_content_dir('/'));
+        $this->assertEquals(WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'cache', wprs_content_dir('cache'));
+        $this->assertEquals(WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'cache', wprs_content_dir('cache/'));
+        $this->assertEquals(WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'cache/css', wprs_content_dir('cache/css'));
     }
 }
