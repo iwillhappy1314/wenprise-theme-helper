@@ -1,12 +1,12 @@
 <?php
 /**
- * Class SampleTest
+ * 测试数据选项
  *
  * @package Wenprise_Theme_Helper
  */
 
 /**
- * Sample test case.
+ * DataOptionTest
  */
 class DataOptionTest extends WP_UnitTestCase
 {

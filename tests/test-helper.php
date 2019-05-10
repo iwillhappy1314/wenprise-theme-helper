@@ -1,12 +1,12 @@
 <?php
 /**
- * Class SampleTest
+ * Class HelperTest
  *
  * @package Wenprise_Theme_Helper
  */
 
 /**
- * Sample test case.
+ * 测试辅助函数
  */
 class HelperTest extends WP_UnitTestCase
 {
@@ -46,9 +46,6 @@ class HelperTest extends WP_UnitTestCase
     }
 
 
-    /**
-     * A single example test.
-     */
     public function test_wprs_env()
     {
         // Replace this with some actual testing code.
@@ -59,9 +56,6 @@ class HelperTest extends WP_UnitTestCase
     }
 
 
-    /**
-     * A single example test.
-     */
     public function test_wprs_user_get_roles()
     {
         // Replace this with some actual testing code.

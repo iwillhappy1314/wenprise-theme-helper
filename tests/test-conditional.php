@@ -1,12 +1,12 @@
 <?php
 /**
- * Class SampleTest
+ * Class ConditionalTest
  *
  * @package Wenprise_Theme_Helper
  */
 
 /**
- * Sample test case.
+ * 测试条件函数
  */
 class ConditionalTest extends WP_UnitTestCase
 {

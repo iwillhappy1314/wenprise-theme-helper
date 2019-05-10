@@ -819,11 +819,11 @@ if ( ! function_exists('wprs_content_dir')) {
      *
      * @return string
      */
-    function wprs_content_dir(string $dir = '')
+    function wprs_content_dir($dir = '')
     {
 
-        $dir       = ltrim($dir, '/');
-        $dir       = rtrim($dir, '/');
+        $dir = ltrim($dir, '/');
+        $dir = rtrim($dir, '/');
 
         $directory = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . $dir;
 
