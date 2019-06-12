@@ -3,6 +3,10 @@
  * 模版标签
  */
 
+if(!function_exists('add_action')){
+    return;
+}
+
 if ( ! function_exists('wprs_bulma_pagination')) {
     /**
      * Bulma CSS 数字分页

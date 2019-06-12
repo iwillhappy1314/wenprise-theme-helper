@@ -1,5 +1,9 @@
 <?php
 
+if(!function_exists('add_action')){
+    return;
+}
+
 /**
  * 处理图像裁剪请求
  *

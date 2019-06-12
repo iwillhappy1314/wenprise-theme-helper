@@ -1,5 +1,9 @@
 <?php
 
+if(!function_exists('add_action')){
+    return;
+}
+
 /**
  * 加载多语言文件
  */
