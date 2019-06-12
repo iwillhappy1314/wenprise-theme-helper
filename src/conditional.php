@@ -24,7 +24,7 @@ if ( ! function_exists('wprs_is_subpage')) {
      *
      * @return bool
      */
-    function wprs_is_subpage($post = null, int $parent = 0)
+    function wprs_is_subpage($post = null, $parent = 0)
     {
 
         if ( ! $post) {
@@ -52,7 +52,7 @@ if ( ! function_exists('wprs_is_object_in_terms')) {
      *
      * @return bool
      */
-    function wprs_is_object_in_terms(int $post_id, array $cats, string $taxonomy = 'category')
+    function wprs_is_object_in_terms(int $post_id, array $cats, $taxonomy = 'category')
     {
         foreach ((array)$cats as $cat) {
             $terms = get_term_children((int)$cat, $taxonomy);
