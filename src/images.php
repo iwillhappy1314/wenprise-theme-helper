@@ -1,6 +1,6 @@
 <?php
 
-if(!function_exists('add_action')){
+if ( ! function_exists('add_action')) {
     return;
 }
 
@@ -139,5 +139,29 @@ if ( ! function_exists('wprs_get_image_sizes')) {
         }
 
         return $sizes;
+    }
+}
+
+
+if ( ! function_exists('wprs_render_qrcode')) {
+    /**
+     * 生成二维码
+     *
+     * @param $string
+     *
+     * @return string
+     */
+    function wprs_render_qrcode($string)
+    {
+        $renderer = new \BaconQrCode\Renderer\Image\Png();
+        $renderer->setHeight(256);
+        $renderer->setWidth(256);
+        $renderer->setMargin(0);
+
+        $qrCode = new \BaconQrCode\Writer($renderer);
+
+        $image = 'data:image/png;base64, ' . base64_encode($qrCode->writeString($string));
+
+        return $image;
     }
 }

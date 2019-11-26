@@ -66,6 +66,26 @@ if ( ! function_exists('wprs_is_object_in_terms')) {
     }
 }
 
+if ( ! function_exists('wprs_is_active')) {
+    /**
+     * 检查当前连接是否已激活
+     *
+     * @param $name
+     * @param $val
+     *
+     * @return string
+     */
+    function wprs_is_active($name, $val)
+    {
+        $value = isset($_GET[ $name ]) ? $_GET[ $name ] : '';
+
+        if (in_array($val, [$value])) {
+            return 'active';
+        }
+
+        return '';
+    }
+}
 
 if ( ! function_exists('wprs_is_ajax')) {
     /**
