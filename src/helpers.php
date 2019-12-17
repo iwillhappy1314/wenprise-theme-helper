@@ -784,7 +784,8 @@ if ( ! function_exists('wprs_get_templates_in_path')) {
         $templates = [];
 
         if (is_dir($path)) {
-            $finder = Finder::findFiles('*.php')->in($path);
+            $finder = Finder::findFiles('*.php')
+                            ->in($path);
 
             foreach ($finder as $key => $file) {
 
@@ -832,5 +833,27 @@ if ( ! function_exists('wprs_content_dir')) {
         }
 
         return $directory;
+    }
+}
+
+
+/**
+ * 渲染 Blade 模版
+ *
+ * @param string $template 模版路径，支持点路径
+ * @param array  $data     模版中需要的数据
+ *
+ * @return mixed
+ */
+if ( ! function_exists('wprs_render_view')) {
+    function wprs_render_view($template, $data = [])
+    {
+        $view_dir  = get_theme_file_path('views');
+        $cache_dir = wprs_content_dir('blade-cache');
+
+        $blade = new \Jenssegers\Blade\Blade($view_dir, $cache_dir);
+
+        return $blade->make($template, $data)
+                     ->render();
     }
 }

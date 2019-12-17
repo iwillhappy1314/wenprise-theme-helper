@@ -6,7 +6,8 @@
     "nette/finder": "~2.4.0",
     "doctrine/inflector": "~1.1.0",
     "illuminate/support": "~5.5.0",
-    "bacon/bacon-qr-code": "^2.0"
+    "bacon/bacon-qr-code": "^2.0",
+    "jenssegers/blade": "^1.2"
   },
   "autoload": {
     "psr-4": {
@@ -33,5 +34,13 @@
     "preferred-install": {
       "*": "dist"
     }
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://mirrors.aliyun.com/composer/"
+    }
+  },
+  "require-dev": {
   }
 }
