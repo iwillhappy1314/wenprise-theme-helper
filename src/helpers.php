@@ -175,6 +175,35 @@ if ( ! function_exists('wprs_get_term_post_type')) {
 }
 
 
+/**
+ * 获取文章顶级分类
+ *
+ * @param $post_id  int 文章 ID
+ * @param $taxonomy string 分类方法
+ *
+ * @return string|bool
+ */
+if ( ! function_exists('wprs_get_post_root_term')) {
+    function wprs_get_post_root_term($post_id, $taxonomy)
+    {
+        $root_term  = false;
+        $post_terms = wp_get_post_terms($post_id, $taxonomy);
+
+        if ( ! is_wp_error($post_terms)) {
+            foreach ($post_terms as $term) {
+                if ($term->parent == 0) {
+                    $root_term = $term->term_id;
+                } else {
+                    $root_term = get_ancestors($term->term_id, $taxonomy, 'taxonomy')[ 0 ];
+                }
+            }
+        }
+
+        return $root_term;
+    }
+}
+
+
 if ( ! function_exists('wprs_get_page_type')) {
     /**
      * 获取页面类型
