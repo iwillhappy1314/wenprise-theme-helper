@@ -10,7 +10,7 @@ if ( ! function_exists('wprs_data_templates')) {
      *
      * @return array
      */
-    function wprs_data_templates($dir = "templates", $default_path = '')
+    function wprs_data_templates($dir = 'templates', $default_path = '')
     {
 
         $headers = [
@@ -306,7 +306,7 @@ if ( ! function_exists('wprs_data_sizes')) {
      */
     function wprs_data_sizes()
     {
-        $sizes = [
+        return [
             ''     => __('Zero', 'wprs'),
             'auto' => __('Auto', 'wprs'),
             'xxs'  => __('xxSmall', 'wprs'),
@@ -316,8 +316,6 @@ if ( ! function_exists('wprs_data_sizes')) {
             'lg'   => __('Large', 'wprs'),
             'xl'   => __('xLarge', 'wprs'),
         ];
-
-        return $sizes;
     }
 }
 

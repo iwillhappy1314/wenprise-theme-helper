@@ -6,11 +6,7 @@ if ( ! function_exists('wprs_is_wechat')) {
      */
     function wprs_is_wechat()
     {
-        if ( ! empty($_SERVER[ 'HTTP_USER_AGENT' ]) && strpos($_SERVER[ 'HTTP_USER_AGENT' ], 'MicroMessenger') !== false) {
-            return true;
-        }
-
-        return false;
+        return ! empty($_SERVER[ 'HTTP_USER_AGENT' ]) && strpos($_SERVER[ 'HTTP_USER_AGENT' ], 'MicroMessenger') !== false;
     }
 }
 
@@ -35,7 +31,7 @@ if ( ! function_exists('wprs_is_subpage')) {
             return false;
         }
 
-        if ($post->post_type == 'page' && $post->post_parent === $parent) {
+        if ($post->post_type === 'page' && $post->post_parent === $parent) {
             return true;
         }
 
@@ -95,7 +91,7 @@ if ( ! function_exists('wprs_is_ajax')) {
      */
     function wprs_is_ajax()
     {
-        if ( ! empty($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) && strtolower($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) == 'xmlhttprequest') {
+        if ( ! empty($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) && strtolower($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) === 'xmlhttprequest') {
             return true;
         }
 
@@ -147,11 +143,7 @@ if ( ! function_exists('wprs_is_en')) {
 
         $lang = get_bloginfo('language');
 
-        if ($lang == 'en-US') {
-            return true;
-        }
-
-        return false;
+        return $lang === 'en-US';
     }
 }
 
@@ -170,11 +162,7 @@ if ( ! function_exists('wprs_is_table_installed')) {
 
         $table_name = $wpdb->prefix . $table_name;
 
-        if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
-            return true;
-        }
-
-        return false;
+        return $wpdb->get_var("SHOW TABLES LIKE '$table_name'") === $table_name;
     }
 }
 
@@ -192,7 +180,7 @@ if ( ! function_exists('wprs_is_user_has_role')) {
     {
         $user_roles = wprs_user_get_roles($user_id);
 
-        return in_array($role, $user_roles);
+        return in_array($role, $user_roles, true);
     }
 }
 
@@ -207,7 +195,7 @@ if ( ! function_exists('wprs_is_plugin_active')) {
      */
     function wprs_is_plugin_active($plugin)
     {
-        return in_array($plugin, (array)get_option('active_plugins', [])) || wprs_is_plugin_active_for_network($plugin);
+        return in_array($plugin, (array)get_option('active_plugins', []), true) || wprs_is_plugin_active_for_network($plugin);
     }
 }
 

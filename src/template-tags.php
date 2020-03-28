@@ -31,14 +31,14 @@ if ( ! function_exists('wprs_bulma_pagination')) {
             $wprs_query = $query;
         }
 
-        if ($pages == '') {
+        if ($pages === '') {
             $pages = $wprs_query->max_num_pages;
             if ( ! $pages) {
                 $pages = 1;
             }
         }
 
-        if (1 != $pages) {
+        if (1 !== $pages) {
             echo '<nav class="pagination" role="navigation" aria-label="pagination">';
             if ($paged > 2 && $paged > $range + 1 && $show_items < $pages) {
                 echo '<a class="pagination-previous" aria-label="Previous" href="' . get_pagenum_link(1) . '"><span aria-hidden="true">«</span></a>';
@@ -50,7 +50,7 @@ if ( ! function_exists('wprs_bulma_pagination')) {
             echo '<ul class="pagination-list">';
 
             for ($i = 1; $i <= $pages; $i++) {
-                if (1 != $pages && ( ! ($i >= $paged + $range + 1 || $i <= $paged - $range - 1) || $pages <= $show_items)) {
+                if (1 !== $pages && ( ! ($i >= $paged + $range + 1 || $i <= $paged - $range - 1) || $pages <= $show_items)) {
                     if ($paged == $i) {
                         echo '<li><a class="pagination-link is-current" href="#">' . $i . '</a></li>';
                     } else {
@@ -97,14 +97,14 @@ if ( ! function_exists('wprs_pagination')) {
             $wprs_query = $query;
         }
 
-        if ($pages == '') {
+        if ($pages === '') {
             $pages = $wprs_query->max_num_pages;
             if ( ! $pages) {
                 $pages = 1;
             }
         }
 
-        if (1 != $pages) {
+        if (1 !== $pages) {
             echo '<ul class="pagination">';
             if ($paged > 2 && $paged > $range + 1 && $show_items < $pages) {
                 echo '<li><a aria-label="Previous" href="' . get_pagenum_link(1) . '"><span aria-hidden="true">«</span></a></li>';
@@ -114,8 +114,8 @@ if ( ! function_exists('wprs_pagination')) {
             }
 
             for ($i = 1; $i <= $pages; $i++) {
-                if (1 != $pages && ( ! ($i >= $paged + $range + 1 || $i <= $paged - $range - 1) || $pages <= $show_items)) {
-                    if ($paged == $i) {
+                if (1 !== $pages && ( ! ($i >= $paged + $range + 1 || $i <= $paged - $range - 1) || $pages <= $show_items)) {
+                    if ($paged === $i) {
                         echo '<li class="active"><a href="#">' . $i . '</a></li>';
                     } else {
                         echo '<li><a href="' . get_pagenum_link($i) . '">' . $i . '</a></li>';
@@ -275,7 +275,7 @@ if ( ! function_exists('wprs_image_size_attr')) {
             if (array_sum($size) !== 0) {
                 $size_array = $size;
 
-                if (isset($size[ 2 ]) && ($size[ 2 ] == 1)) {
+                if (isset($size[ 2 ]) && ($size[ 2 ] === 1)) {
                     $size_class = 'is-square ';
                 } else {
                     $size_class = 'is-' . str_replace('/', 'by', wprs_float2rat($size[ 0 ] / $size[ 1 ]));

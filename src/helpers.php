@@ -28,7 +28,7 @@ if ( ! function_exists('wprs_get_ip')) {
 }
 
 
-if ( ! function_exists("wprs_order_no")) {
+if ( ! function_exists('wprs_order_no')) {
     /**
      * 生成订单号
      *
@@ -104,11 +104,11 @@ if ( ! function_exists('wprs_assets')) {
             $manifest      = wprs_get_manifest($manifest_path);
         }
 
-        if (array_key_exists($file, $manifest) && wprs_env() != 'local') {
+        if (array_key_exists($file, $manifest) && wprs_env() !== 'local') {
             return $dist_uri . $directory . $manifest[ $file ];
-        } else {
-            return $dist_uri . $directory . $file;
         }
+
+        return $dist_uri . $directory . $file;
     }
 }
 
@@ -144,9 +144,8 @@ if ( ! function_exists('wprs_get_taxonomy_type')) {
     {
         $taxonomy   = get_query_var('taxonomy');
         $tax_object = get_taxonomy($taxonomy);
-        $type       = $tax_object->object_type[ 0 ];
 
-        return $type;
+        return $tax_object->object_type[ 0 ];
     }
 }
 
@@ -191,7 +190,7 @@ if ( ! function_exists('wprs_get_post_root_term')) {
 
         if ( ! is_wp_error($post_terms)) {
             foreach ($post_terms as $term) {
-                if ($term->parent == 0) {
+                if ($term->parent === 0) {
                     $root_term = $term->term_id;
                 } else {
                     $root_term = get_ancestors($term->term_id, $taxonomy, 'taxonomy')[ 0 ];
@@ -341,7 +340,7 @@ if ( ! function_exists('wprs_get_current_url')) {
         $url = false;
 
         if (isset($_SERVER[ 'SERVER_ADDR' ])) {
-            $is_https   = isset($_SERVER[ 'HTTPS' ]) && 'on' == $_SERVER[ 'HTTPS' ];
+            $is_https   = isset($_SERVER[ 'HTTPS' ]) && 'on' === $_SERVER[ 'HTTPS' ];
             $protocol   = 'http' . ($is_https ? 's' : '');
             $host       = isset($_SERVER[ 'HTTP_HOST' ]) ? $_SERVER[ 'HTTP_HOST' ] : $_SERVER[ 'SERVER_ADDR' ];
             $port       = $_SERVER[ 'SERVER_PORT' ];
@@ -378,7 +377,7 @@ if ( ! function_exists('wprs_get_domain')) {
             $host = $url;
         }
 
-        if (substr($host, 0, 4) == "www.") {
+        if (strpos($host, 'www.') === 0) {
             $host = substr($host, 4);
         }
 
@@ -405,9 +404,8 @@ if ( ! function_exists('wprs_get_social_icon')) {
     {
 
         $domain = wprs_get_domain($url);
-        $icon   = explode('.', $domain)[ 0 ];
 
-        return $icon;
+        return explode('.', $domain)[ 0 ];
 
     }
 }
@@ -432,7 +430,7 @@ if ( ! function_exists('wprs_get_base_number')) {
             list($b, $a) = [$a, $b];
         }
 
-        if ($b == 0) {
+        if ($b === 0) {
             return $a;
         }
 
@@ -462,11 +460,11 @@ if ( ! function_exists('wprs_ratio_simplify')) {
     {
         $g = wprs_get_base_number($num, $den);
 
-        if ($g == 0) {
+        if ($g === 0) {
             return 'is-' . $num . 'by' . $den;
-        } else {
-            return 'is-' . $num / $g . 'by' . $den / $g;
         }
+
+        return 'is-' . $num / $g . 'by' . $den / $g;
 
     }
 }
@@ -695,15 +693,17 @@ if ( ! function_exists('wprs_step_class')) {
      */
     function wprs_step_class($step_name, $steps, $step_order)
     {
-        $step_key = array_search($step_name, $steps);
+        $step_key = array_search($step_name, $steps, true);
 
-        if ($step_key == $step_order) {
+        if ($step_key === $step_order) {
             return 'c-step--active';
-        } elseif ($step_key < $step_order) {
-            return 'c-step--complete';
-        } else {
-            return 'c-step--disable';
         }
+
+        if ($step_key < $step_order) {
+            return 'c-step--complete';
+        }
+
+        return 'c-step--disable';
 
     }
 }
@@ -719,7 +719,7 @@ if ( ! function_exists('wprs_user_get_roles')) {
      */
     function wprs_user_get_roles($user_id = 0)
     {
-        if ($user_id == 0) {
+        if ($user_id === 0) {
             $user_id = get_current_user_id();
         }
 
@@ -742,11 +742,11 @@ if ( ! function_exists('wprs_user_get_prev_role')) {
     function wprs_user_get_prev_role($roles, $user_id = 0)
     {
         $user_role          = wprs_user_get_roles($user_id)[ 0 ];
-        $current_role_level = array_search($user_role, $roles);
+        $current_role_level = array_search($user_role, $roles, true);
 
         $prev_role = $roles[ $current_role_level - 1 ];
 
-        if ( ! $current_role_level || $current_role_level == 0) {
+        if ( ! $current_role_level || $current_role_level === 0) {
             return false;
         }
 
@@ -768,11 +768,11 @@ if ( ! function_exists('wprs_user_get_next_role')) {
     function wprs_user_get_next_role($roles, $user_id = 0)
     {
         $user_role          = wprs_user_get_roles($user_id)[ 0 ];
-        $current_role_level = array_search($user_role, $roles);
+        $current_role_level = array_search($user_role, $roles, true);
 
         $next_role = $roles[ $current_role_level + 1 ];
 
-        if ( ! $current_role_level || $current_role_level == count($roles)) {
+        if ( ! $current_role_level || $current_role_level === count($roles)) {
             return false;
         }
 
@@ -829,7 +829,7 @@ if ( ! function_exists('wprs_get_templates_in_path')) {
                 $file_info = get_file_data($key, $headers);
 
                 // 获取模板名称
-                if (isset($file_info[ 'name' ]) && $file_info[ 'name' ] != '') {
+                if (isset($file_info[ 'name' ]) && $file_info[ 'name' ] !== '') {
                     $templates[ explode('.', $name)[ 0 ] ] = $file_info;
                 }
 

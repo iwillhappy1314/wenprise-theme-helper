@@ -69,7 +69,7 @@ if ( ! function_exists('wprs_get_template_option')) {
      *
      * @deprecated
      */
-    function wprs_get_template_option($dir = "templates", $default_path = '')
+    function wprs_get_template_option($dir = 'templates', $default_path = '')
     {
         return wprs_data_templates($dir, $default_path);
     }
@@ -119,27 +119,27 @@ if ( ! function_exists('wprs_bulma_menu')) {
              * 所有菜单
              */
             foreach ($menu_items as $menu_item) {
-                if ($menu_item->menu_item_parent == 0) {
+                if ($menu_item->menu_item_parent === 0) {
 
                     $menu_children_array = [];
 
                     $menu_item_url = $menu_item->url;
 
                     // 处理绝对路径为首页的情况
-                    if ($menu_item->url == '/') {
+                    if ($menu_item->url === '/') {
                         $menu_item_url = home_url('/');
                     }
 
-                    $is_current = (wprs_get_current_url() == $menu_item_url) ? 'is-active is-1' : '';
+                    $is_current = (wprs_get_current_url() === $menu_item_url) ? 'is-active is-1' : '';
 
                     /**
                      * 二级菜单数组
                      */
                     $is_child_current = false;
                     foreach ($menu_items as $submenu) {
-                        if ($submenu->menu_item_parent == $menu_item->ID) {
+                        if ($submenu->menu_item_parent === $menu_item->ID) {
                             $is_current = '';
-                            if (wprs_get_current_url() == $submenu->url) {
+                            if (wprs_get_current_url() === $submenu->url) {
                                 $is_child_current = true;
                                 $is_current       = 'is-active is-2';
                             }
@@ -153,8 +153,8 @@ if ( ! function_exists('wprs_bulma_menu')) {
                         /**
                          * 显示二级菜单
                          */
-                        $is_current_parent = ($is_child_current == '') ? '' : 'is-active-parent';
-                        $is_current        = (wprs_get_current_url() == $menu_item_url) ? 'is-active is-0' : '';
+                        $is_current_parent = ($is_child_current === '') ? '' : 'is-active-parent';
+                        $is_current        = (wprs_get_current_url() === $menu_item_url) ? 'is-active is-0' : '';
 
                         $menu_list .= '<div class="navbar-item has-dropdown is-hoverable ' . $is_current_parent . '">' . "\n";
                         $menu_list .= '<a href="' . $menu_item->url . '" class="navbar-link ' . $is_current . '">' . $menu_item->title . ' </a>' . "\n";
@@ -250,7 +250,7 @@ if ( ! class_exists('WprsJsonManifest')) {
         {
             $collection = $this->manifest;
 
-            if (is_null($key)) {
+            if ($key === null) {
                 return $collection;
             }
 
@@ -261,9 +261,9 @@ if ( ! class_exists('WprsJsonManifest')) {
             foreach (explode('.', $key) as $segment) {
                 if ( ! isset($collection[ $segment ])) {
                     return $default;
-                } else {
-                    $collection = $collection[ $segment ];
                 }
+
+                $collection = $collection[ $segment ];
             }
 
             return $collection;

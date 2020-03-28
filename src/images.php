@@ -58,7 +58,7 @@ add_action('image_downsize', function ($downsize = true, $id, $size, $crop = fal
     // 遍历上面的尺寸数组 (add_image_size()).
     foreach ($sizes as $size_name => $size_atts) {
         // 如果是命名尺寸，使用命名尺寸
-        if ($width == $size_atts[ 'width' ] && $height == $size_atts[ 'height' ]) {
+        if ($width === $size_atts[ 'width' ] && $height === $size_atts[ 'height' ]) {
             $size = $size_name;
         }
     }
@@ -160,8 +160,6 @@ if ( ! function_exists('wprs_render_qrcode')) {
 
         $qrCode = new \BaconQrCode\Writer($renderer);
 
-        $image = 'data:image/png;base64, ' . base64_encode($qrCode->writeString($string));
-
-        return $image;
+        return 'data:image/png;base64, ' . base64_encode($qrCode->writeString($string));
     }
 }
