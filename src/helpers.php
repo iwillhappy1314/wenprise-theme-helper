@@ -1,4 +1,4 @@
-<?php
+`<?php
 
 use Nette\Utils\Finder;
 
@@ -37,7 +37,7 @@ if ( ! function_exists('wprs_order_no')) {
      */
     function wprs_order_no()
     {
-        return date('Ymd') . str_pad(mt_rand(1, 99999), 5, '0', STR_PAD_LEFT);
+        return date('Ymd') . str_pad(wp_rand(10000, 99999), 5, '0', STR_PAD_LEFT);
     }
 }
 
@@ -865,6 +865,32 @@ if ( ! function_exists('wprs_content_dir')) {
 }
 
 
+/**
+ * 渲染 Blade 模版
+ *
+ * @param string $template 模版路径，支持点路径
+ * @param array  $data     模版中需要的数据
+ *
+ * @return mixed
+ */
+if ( ! function_exists('wprs_render_view')) {
+    function wprs_render_view($template, $data = [])
+    {
+        if (class_exists('\Jenssegers\Blade\Blade')) {
+            $view_dir  = get_theme_file_path('views');
+            $cache_dir = wprs_content_dir('blade-cache');
+
+            $blade = new \Jenssegers\Blade\Blade($view_dir, $cache_dir);
+
+            return $blade->make($template, $data)
+                         ->render();
+        }
+
+        wp_die('Please install jenssegers/blade library');
+    }
+}
+
+
 if ( ! function_exists('wprs_value')) {
     /**
      * 获取指定值的默认值
@@ -911,3 +937,4 @@ if ( ! function_exists('wprs_data_get')) {
         return $array;
     }
 }
+`
