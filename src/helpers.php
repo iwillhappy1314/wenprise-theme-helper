@@ -1,6 +1,5 @@
 <?php
 
-use Nette\Utils\Arrays;
 use Nette\Utils\Finder;
 
 if ( ! function_exists('wprs_get_ip')) {
@@ -427,7 +426,7 @@ if ( ! function_exists('wprs_get_base_number')) {
         $b = abs($b);
 
         if ($a < $b) {
-            list($b, $a) = [$a, $b];
+            [$b, $a] = [$a, $b];
         }
 
         if ($b === 0) {
@@ -820,7 +819,7 @@ if ( ! function_exists('wprs_get_templates_in_path')) {
 
                 $filename        = $file->getFilename();
                 $file_name_array = explode('-', $filename);
-                $name            = Arrays::get($file_name_array, 1, '');
+                $name            = wprs_data_get($file_name_array, 1, '');
 
                 if ( ! $name) {
                     $name = $filename;
@@ -866,23 +865,49 @@ if ( ! function_exists('wprs_content_dir')) {
 }
 
 
-/**
- * 渲染 Blade 模版
- *
- * @param string $template 模版路径，支持点路径
- * @param array  $data     模版中需要的数据
- *
- * @return mixed
- */
-if ( ! function_exists('wprs_render_view')) {
-    function wprs_render_view($template, $data = [])
+if ( ! function_exists('wprs_value')) {
+    /**
+     * 获取指定值的默认值
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    function wprs_value($value)
     {
-        $view_dir  = get_theme_file_path('views');
-        $cache_dir = wprs_content_dir('blade-cache');
+        return $value instanceof \Closure ? $value() : $value;
+    }
+}
 
-        $blade = new \Jenssegers\Blade\Blade($view_dir, $cache_dir);
 
-        return $blade->make($template, $data)
-                     ->render();
+if ( ! function_exists('wprs_data_get')) {
+    /**
+     * 使用点注释获取数据
+     *
+     * @param array  $array
+     * @param string $key
+     * @param mixed  $default
+     *
+     * @return mixed
+     */
+    function wprs_data_get($array, $key, $default = null)
+    {
+        if (is_null($key)) {
+            return $array;
+        }
+
+        if (isset($array[ $key ])) {
+            return $array[ $key ];
+        }
+
+        foreach (explode('.', $key) as $segment) {
+            if ( ! is_array($array) || ! array_key_exists($segment, $array)) {
+                return wprs_value($default);
+            }
+
+            $array = $array[ $segment ];
+        }
+
+        return $array;
     }
 }
