@@ -45,7 +45,7 @@ add_action('image_downsize', function ($downsize = true, $id, $size, $crop = fal
     }
 
     // 从尺寸数组中取出宽度、高度
-    list($width, $height) = $size;
+    [$width, $height] = $size;
 
     // 构建宽度 x 高度尺寸名称
     $size = $width . 'x' . $height;
@@ -81,7 +81,7 @@ add_action('image_downsize', function ($downsize = true, $id, $size, $crop = fal
     wp_update_attachment_metadata($id, $meta);
 
     // Further constrain the image if 'content_width' is narrower (media.php).
-    list($width, $height) = image_constrain_size_for_editor($intermediate[ 'width' ], $intermediate[ 'height' ], $size);
+    [$width, $height] = image_constrain_size_for_editor($intermediate[ 'width' ], $intermediate[ 'height' ], $size);
 
     // 获取原始附件数据
     $file_url  = wp_get_attachment_url($id);
@@ -153,13 +153,18 @@ if ( ! function_exists('wprs_render_qrcode')) {
      */
     function wprs_render_qrcode($string)
     {
-        $renderer = new \BaconQrCode\Renderer\Image\Png();
-        $renderer->setHeight(256);
-        $renderer->setWidth(256);
-        $renderer->setMargin(0);
+        if (class_exists('\BaconQrCode\Renderer\Image\Png')) {
+            $renderer = new \BaconQrCode\Renderer\Image\Png();
+            $renderer->setHeight(256);
+            $renderer->setWidth(256);
+            $renderer->setMargin(0);
 
-        $qrCode = new \BaconQrCode\Writer($renderer);
+            $qrCode = new \BaconQrCode\Writer($renderer);
 
-        return 'data:image/png;base64, ' . base64_encode($qrCode->writeString($string));
+            return 'data:image/png;base64, ' . base64_encode($qrCode->writeString($string));
+        } else {
+            wp_die('please install bacon/bacon-qr-code library');
+
+        }
     }
 }

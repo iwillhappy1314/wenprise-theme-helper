@@ -3,7 +3,7 @@
  * 模版标签
  */
 
-if(!function_exists('add_action')){
+if ( ! function_exists('add_action')) {
     return;
 }
 
@@ -440,20 +440,34 @@ if ( ! function_exists('wprs_breadcrumbs')) {
      */
     function wprs_breadcrumbs()
     {
-        $breadcrumbs = new Carbon_Breadcrumb_Trail([
-            'glue'            => '',
-            'link_before'     => '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">',
-            'link_after'      => '</li>',
-            'wrapper_before'  => '<ol class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">',
-            'wrapper_after'   => '</ol>',
-            'title_before'    => '<span itemprop="name">',
-            'title_after'     => '</span>',
-            'last_item_link'  => false,
-            'home_item_title' => __('Home', 'wprs'),
-        ]);
+        if (class_exists('Carbon_Breadcrumb_Trail')) {
 
-        $breadcrumbs->setup();
-        echo $breadcrumbs->render(true); // WP_KSES strips itemprop, itemscope, etc, so bypassing!!!
+            $breadcrumbs = new \Carbon_Breadcrumb_Trail([
+                'glue'            => '',
+                'link_before'     => '<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">',
+                'link_after'      => '</li>',
+                'wrapper_before'  => '<ol class="breadcrumbs" itemscope itemtype="http://schema.org/BreadcrumbList">',
+                'wrapper_after'   => '</ol>',
+                'title_before'    => '<span itemprop="name">',
+                'title_after'     => '</span>',
+                'last_item_link'  => false,
+                'home_item_title' => __('Home', 'wprs'),
+            ]);
+
+            $breadcrumbs->setup();
+
+            echo $breadcrumbs->render(true); // WP_KSES strips itemprop, itemscope, etc, so bypassing!!!
+
+        } elseif (function_exists('yoast_breadcrumb')) {
+
+            yoast_breadcrumb('<div id="breadcrumbs">', '</div>');
+
+        } else {
+
+            echo 'Please install tyxla/carbon-breadcrumbs plugin or enable Yoast SEO Breadcrumb feature.';
+
+        }
+
     }
 }
 

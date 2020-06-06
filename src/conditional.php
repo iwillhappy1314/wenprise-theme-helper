@@ -73,7 +73,7 @@ if ( ! function_exists('wprs_is_active')) {
      */
     function wprs_is_active($name, $val)
     {
-        $value = isset($_GET[ $name ]) ? $_GET[ $name ] : '';
+        $value = isset($_GET[ $name ]) ? (string)$_GET[ $name ] : '';
 
         if (in_array($val, [$value])) {
             return 'active';
@@ -91,11 +91,7 @@ if ( ! function_exists('wprs_is_ajax')) {
      */
     function wprs_is_ajax()
     {
-        if ( ! empty($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) && strtolower($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) === 'xmlhttprequest') {
-            return true;
-        }
-
-        return false;
+        return ! empty($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) && strtolower($_SERVER[ 'HTTP_X_REQUESTED_WITH' ]) === 'xmlhttprequest';
     }
 }
 
