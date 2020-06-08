@@ -937,4 +937,3 @@ if ( ! function_exists('wprs_data_get')) {
         return $array;
     }
 }
-`
