@@ -1,4 +1,4 @@
-`<?php
+<?php
 
 use Nette\Utils\Finder;
 
