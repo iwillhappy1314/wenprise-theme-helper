@@ -127,6 +127,10 @@ if ( ! function_exists('wprs_get_archive_option')) {
         $value = get_option($type . '_' . $name);
 
         if ( ! $value) {
+            $value = get_option('_' . $type . '_' . $name);
+        }
+
+        if ( ! $value) {
             $value = $default;
         }
 
