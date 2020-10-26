@@ -32,16 +32,21 @@ add_action('image_downsize', function ($downsize = true, $id, $size, $crop = fal
     }
 
     // 如果只有宽度，设置高度为宽度
-    if (sizeof($size) === 1) {
+    if (count($size) === 1) {
         $size = [$size[ 0 ], $size[ 0 ]];
     }
 
     // 如果尺寸数组有 3 个元素
-    if (sizeof($size) >= 3) {
+    if (count($size) >= 3) {
         // 覆盖 crop 选项
-        $crop = $size[ 2 ];
-        // 移除e crop 选项
-        unset($size[ 2 ]);
+        if (isset($size[ 2 ])) {
+            $crop = $size[ 2 ];
+
+            // 移除 crop 选项
+            unset($size[ 2 ]);
+        } else {
+            $crop = $size[ 'crop' ];
+        }
     }
 
     // 从尺寸数组中取出宽度、高度
