@@ -295,13 +295,11 @@ if ( ! function_exists('wprs_image_size_attr')) {
 
         $size_array[] = 1;
 
-        $attr = [
+        return [
             'size_class_base' => $size_class_base,
             'size_class'      => $size_class,
             'size_array'      => $size_array,
         ];
-
-        return $attr;
     }
 }
 

@@ -69,9 +69,7 @@ if ( ! function_exists('wprs_env')) {
      */
     function wprs_env()
     {
-        $env = defined('ENV') ? ENV : 'production';
-
-        return $env;
+        return defined('ENV') ? ENV : 'production';
     }
 }
 
@@ -352,9 +350,7 @@ if ( ! function_exists('wprs_get_current_url')) {
             $url = sprintf('%s://%s%s%s',
                 $protocol,
                 $host,
-                $is_https
-                    ? (443 != $port ? ':' . $port : '')
-                    : (80 != $port ? ':' . $port : ''),
+                $is_https ? (443 != $port ? ':' . $port : '') : (80 != $port ? ':' . $port : ''),
                 $path_query
             );
         }
@@ -409,7 +405,6 @@ if ( ! function_exists('wprs_get_social_icon')) {
         $domain = wprs_get_domain($url);
 
         return explode('.', $domain)[ 0 ];
-
     }
 }
 
