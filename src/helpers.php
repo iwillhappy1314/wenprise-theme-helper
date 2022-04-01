@@ -817,20 +817,12 @@ if ( ! function_exists('wprs_get_templates_in_path')) {
             foreach ($finder as $key => $file) {
 
                 $filename        = $file->getFilename();
-                $file_name_array = explode('-', $filename);
-                $name            = wprs_data_get($file_name_array, 1, '');
-
-                if ( ! $name) {
-                    $name = $filename;
-                }
-
                 $file_info = get_file_data($key, $headers);
 
                 // 获取模板名称
-                if (isset($file_info[ 'name' ]) && $file_info[ 'name' ] !== '') {
-                    $templates[ explode('.', $name)[ 0 ] ] = $file_info;
+                if (isset($file_info['name']) && $file_info['name'] !== '') {
+                    $templates[$filename] = $file_info;
                 }
-
             }
         }
 

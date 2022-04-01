@@ -1,20 +1,20 @@
 <?php
 
-
-if ( ! function_exists('wprs_data_templates')) {
+if (!function_exists('wprs_data_templates')) {
     /**
      * 获取存档页面模板
      *
      * @param string $dir          模板文件所在的目录名称
      * @param string $default_path 模板文件所在默认目录名称，可为空
+     * @param string $name         注释名称
      *
      * @return array
      */
-    function wprs_data_templates($dir = 'templates', $default_path = '')
+    function wprs_data_templates($dir = 'templates', $default_path = '', $name = 'Loop Template Name')
     {
 
         $headers = [
-            'name' => 'Loop Template Name',
+            'name' => $name,
         ];
 
         $default_template_dir = $default_path . $dir;
@@ -42,7 +42,7 @@ if ( ! function_exists('wprs_data_templates')) {
 
         $result = [];
         foreach ($templates as $key => $name) {
-            $result[ $key ] = $name[ 'name' ];
+            $result[$key] = $name['name'];
         }
 
         ksort($result);
