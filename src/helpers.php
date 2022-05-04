@@ -82,7 +82,7 @@ if ( ! function_exists('wprs_assets')) {
      *
      * @return string 文件路径
      */
-    function wprs_asset($filename)
+    function wprs_assets($filename)
     {
         $dist_path = get_theme_file_path('/front/dist/');
         $dist_uri  = get_theme_file_uri('/front/dist/');
