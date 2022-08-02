@@ -370,23 +370,32 @@ if ( ! function_exists('wprs_get_domain')) {
      */
     function wprs_get_domain($url)
     {
-        $host = @parse_url($url, PHP_URL_HOST);
+        $urlData = parse_url($url);
+        $urlHost = isset($urlData[ 'host' ]) ? $urlData[ 'host' ] : '';
+        $isIP    = (bool)ip2long($urlHost);
+        if ($isIP) {
+            /** To check if it's ip then return same ip */
+            return $urlHost;
+        }
+        /** Add/Edit you TLDs here */
+        $urlMap = ['com', 'com.pk', 'co.uk', '.com.cn', '.cn'];
 
-        if ( ! $host) {
-            $host = $url;
+        $host     = '';
+        $hostData = explode('.', $urlHost);
+        if (isset($hostData[ 1 ])) {
+            /** To check "localhost" because it'll be without any TLDs */
+            $hostData = array_reverse($hostData);
+
+            if (in_array($hostData[ 1 ] . '.' . $hostData[ 0 ], $urlMap)) {
+                $host = $hostData[ 2 ] . '.' . $hostData[ 1 ] . '.' . $hostData[ 0 ];
+            } elseif (in_array($hostData[ 0 ], $urlMap)) {
+                $host = $hostData[ 1 ] . '.' . $hostData[ 0 ];
+            }
+
+            return $host;
         }
 
-        if (strpos($host, 'www.') === 0) {
-            $host = substr($host, 4);
-        }
-
-        if (strlen($host) > 50) {
-            $host = substr($host, 0, 47) . '...';
-        }
-
-        $host = explode('/', $host)[ 0 ];
-
-        return $host;
+        return ((isset($hostData[ 0 ]) && $hostData[ 0 ] != '') ? $hostData[ 0 ] : 'error no domain'); /* You can change this error in future */
     }
 }
 
