@@ -211,11 +211,9 @@ if ( ! function_exists('wprs_data_posts')) {
             'posts_per_page' => '-1',
         ];
 
-        $loop = new \WP_Query($args);
+        $posts = get_posts($args);
 
-        $output = wp_list_pluck($loop->posts, 'post_title', 'ID');
-
-        wp_reset_postdata();
+        $output = wp_list_pluck($posts, 'post_title', 'ID');
 
         $empty = [
             '' => sprintf('%s', __('Select Content', 'wprs')),
