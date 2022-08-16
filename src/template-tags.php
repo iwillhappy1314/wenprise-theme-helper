@@ -555,11 +555,11 @@ function wprs_the_taxonomy_filter($taxonomy, $post_type=null){
     ?>
 
     <ul class='wprs-tax-filter'>
-        <?php if($post_type); ?>
-
-        <li class="<?= is_post_type_archive($post_type) ? 'active' : ''; ?>">
-            <a href="<?= get_post_type_archive_link($post_type); ?>">All</a>
-        </li>
+        
+        <?php if($post_type): ?>
+            <li class="<?= is_post_type_archive($post_type) ? 'active' : ''; ?>">
+                <a href="<?= get_post_type_archive_link($post_type); ?>">All</a>
+            </li>
         <?php endif; ?>
 
         <?php foreach ($terms as $term): ?>
@@ -567,6 +567,7 @@ function wprs_the_taxonomy_filter($taxonomy, $post_type=null){
                 <a href="<?= get_term_link($term); ?>"><?= $term->name; ?></a>
             </li>
         <?php endforeach; ?>
+        
     </ul>
 
 <?php }
