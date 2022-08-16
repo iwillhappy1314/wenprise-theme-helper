@@ -534,3 +534,39 @@ add_filter('carbon_breadcrumbs_item_output', function ($item_output, $item, $tra
 
     return $item_output;
 }, 10, 5);
+
+
+
+/**
+ * 显示文章类型、分类方法过滤链接
+ *
+ * @param string      $taxonomy
+ * @param string|null $size
+ *
+ * @return string
+ */
+function wprs_the_taxonomy_filter($taxonomy, $post_type=null){
+    
+    $terms = get_terms([
+        'taxonomy'   => 'career_cat',
+        'hide_empty' => false,
+    ]);
+    
+    ?>
+
+    <ul class='wprs-tax-filter'>
+        <?php if($post_type); ?>
+
+        <li class="<?= is_post_type_archive($post_type) ? 'active' : ''; ?>">
+            <a href="<?= get_post_type_archive_link($post_type); ?>">All</a>
+        </li>
+        <?php endif; ?>
+
+        <?php foreach ($terms as $term): ?>
+            <li class="<?= get_queried_object_id() === $term->term_id ? 'active' : ''; ?>">
+                <a href="<?= get_term_link($term); ?>"><?= $term->name; ?></a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+
+<?php }
