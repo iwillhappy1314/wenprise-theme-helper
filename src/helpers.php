@@ -370,32 +370,14 @@ if ( ! function_exists('wprs_get_domain')) {
      */
     function wprs_get_domain($url)
     {
-        $urlData = parse_url($url);
-        $urlHost = isset($urlData[ 'host' ]) ? $urlData[ 'host' ] : '';
-        $isIP    = (bool)ip2long($urlHost);
-        if ($isIP) {
-            /** To check if it's ip then return same ip */
-            return $urlHost;
-        }
-        /** Add/Edit you TLDs here */
-        $urlMap = ['com', 'com.pk', 'co.uk', '.com.cn', '.cn'];
+        $pieces = parse_url($url);
+        $domain = $pieces[ 'host' ] ?? '';
 
-        $host     = '';
-        $hostData = explode('.', $urlHost);
-        if (isset($hostData[ 1 ])) {
-            /** To check "localhost" because it'll be without any TLDs */
-            $hostData = array_reverse($hostData);
-
-            if (in_array($hostData[ 1 ] . '.' . $hostData[ 0 ], $urlMap)) {
-                $host = $hostData[ 2 ] . '.' . $hostData[ 1 ] . '.' . $hostData[ 0 ];
-            } elseif (in_array($hostData[ 0 ], $urlMap)) {
-                $host = $hostData[ 1 ] . '.' . $hostData[ 0 ];
-            }
-
-            return $host;
+        if (preg_match('/(?P<domain>[a-z0-9][a-z0-9\-]{1,63}\.[a-z\.]{2,6})$/i', $domain, $regs)) {
+            return $regs[ 'domain' ];
         }
 
-        return ((isset($hostData[ 0 ]) && $hostData[ 0 ] != '') ? $hostData[ 0 ] : 'error no domain'); /* You can change this error in future */
+        return false;
     }
 }
 
@@ -825,12 +807,12 @@ if ( ! function_exists('wprs_get_templates_in_path')) {
 
             foreach ($finder as $key => $file) {
 
-                $filename        = $file->getFilename();
+                $filename  = $file->getFilename();
                 $file_info = get_file_data($key, $headers);
 
                 // 获取模板名称
-                if (isset($file_info['name']) && $file_info['name'] !== '') {
-                    $templates[$filename] = $file_info;
+                if (isset($file_info[ 'name' ]) && $file_info[ 'name' ] !== '') {
+                    $templates[ $filename ] = $file_info;
                 }
             }
         }
