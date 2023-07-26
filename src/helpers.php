@@ -637,15 +637,14 @@ if ( ! function_exists('add_filters')) {
      */
     function add_filters($filters, $callback, $priority = 10, $arguments = 1)
     {
-        collect($filters)->each(function ($filter, $index) use ($callback, $priority, $arguments)
-        {
+        foreach ($filters as $index => $filter) {
             add_filter(
                 $filter,
                 $callback,
                 (int)is_array($priority) ? $priority[ $index ] : $priority,
                 (int)is_array($arguments) ? $arguments[ $index ] : $arguments
             );
-        });
+        }
 
         return true;
     }
