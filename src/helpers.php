@@ -918,3 +918,17 @@ if ( ! function_exists('wprs_data_get')) {
         return $array;
     }
 }
+
+
+if ( ! function_exists('wprs_input_get')) {
+    /**
+     * @param $key
+     * @param $default
+     *
+     * @return array|mixed
+     */
+    function wprs_input_get($key, $default = null)
+    {
+        return wprs_data_get($_REQUEST, $key, $default);
+    }
+}
