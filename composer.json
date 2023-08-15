@@ -2,9 +2,9 @@
   "name": "wenprise/theme-helper",
   "description": "Most used helper functions to develop WordPress theme.",
   "require": {
-    "php": ">=5.6",
-    "nette/finder": "^2.4",
-    "nette/utils": "^2.4"
+    "php": ">=7.2",
+    "nette/finder": "^2.6",
+    "nette/utils": "^3.2"
   },
   "autoload": {
     "psr-4": {
