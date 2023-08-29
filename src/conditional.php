@@ -73,7 +73,7 @@ if ( ! function_exists('wprs_is_active')) {
      */
     function wprs_is_active($name, $val)
     {
-        $value = isset($_GET[ $name ]) ? (string)$_GET[ $name ] : '';
+        $value = (string)wprs_input_get($name);
 
         if (in_array($val, [$value])) {
             return 'active';
