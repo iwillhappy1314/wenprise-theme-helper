@@ -801,10 +801,9 @@ if ( ! function_exists('wprs_get_templates_in_path')) {
         $templates = [];
 
         if (is_dir($path)) {
-            $finder = Finder::findFiles('*.php')
-                            ->in($path);
+            $files = glob($path . '/*.php');
 
-            foreach ($finder as $key => $file) {
+            foreach ($files as $key => $file) {
 
                 $filename  = $file->getFilename();
                 $file_info = get_file_data($key, $headers);

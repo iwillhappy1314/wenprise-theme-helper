@@ -10,7 +10,7 @@ License:            MIT License
 License URI:        http://opensource.org/licenses/MIT
 */
 
-if (version_compare(phpversion(), '5.6.0', '<')) {
+if (version_compare(phpversion(), '7.4.0', '<')) {
 
     // 显示警告信息
     if (is_admin()) {
@@ -18,7 +18,7 @@ if (version_compare(phpversion(), '5.6.0', '<')) {
         {
             printf('<div class="error"><p>' . __('Wenprise Pinyin Slug 需要 PHP %1$s 以上版本才能运行，您当前的 PHP 版本为 %2$s， 请升级到 PHP 到 %1$s 或更新的版本， 否则插件没有任何作用。',
                     'wprs') . '</p></div>',
-                '7.1.3', phpversion());
+                '7.4.0', phpversion());
         });
     }
 
