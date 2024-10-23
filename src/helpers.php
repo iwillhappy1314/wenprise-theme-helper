@@ -1,7 +1,5 @@
 <?php
 
-use Nette\Utils\Finder;
-
 if ( ! function_exists('wprs_get_ip')) {
     /**
      * 获取用户的真实 IP
